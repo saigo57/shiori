@@ -1,0 +1,49 @@
+
+<nav>
+  <div class="nav-wrapper">
+    <a href="#" data-target="sidenav-menu" class="left sidenav-trigger show-on-large"><i class="material-icons">menu</i></a>
+    <ul id="nav-mobile" class="right hide-on-med-and-down">
+      <% if user_signed_in? %>
+        <li><%= link_to "新規プレイリスト", '#' %></li>
+        <li><%= link_to "ログアウト", destroy_user_session_path, method: :delete %></li>
+      <% else %>
+        <li><%= link_to "ログイン", new_user_session_path %></li>
+        <li><%= link_to "新規登録", new_user_registration_path, class: 'post' %></li>
+      <% end %>
+    </ul>
+    <%= link_to "Shiori", root_path, {class: "brand-logo"} %>
+  </div>
+</nav>
+
+<ul class="sidenav" id="sidenav-menu">
+  <% if user_signed_in? %>
+    <li>
+      <%= link_to edit_user_registration_path do %>
+        <i class="material-icons">person</i>ユーザー設定
+      <% end %>
+    </li>
+    <li>
+      <%= link_to '#' do %>
+        <i class="material-icons">playlist_play</i>プレイリスト１
+      <% end %>
+    </li>
+    <li>
+      <%= link_to '#' do %>
+        <i class="material-icons">playlist_add</i>新規プレイリスト
+      <% end %>
+    </li>
+    <li>
+      <%= link_to destroy_user_session_path, method: :delete do %>
+        <i class="material-icons">exit_to_app</i>ログアウト
+      <% end %>
+    </li>
+  <% else %>
+    <li>
+      <%= link_to new_user_session_path do %>
+        <i class="material-icons">login</i>ログイン
+      <% end %>
+    </li>
+
+    <li><%= link_to "新規登録", new_user_registration_path, class: 'post' %></li>
+  <% end %>
+</ul>

@@ -1,0 +1,21 @@
+<% if user_signed_in? %>
+  <li>
+    <%= link_to '#' do %>
+      <i class="material-icons">playlist_add</i>新規プレイリスト
+    <% end %>
+  </li>
+  <li>
+    <%= link_to destroy_user_session_path, method: :delete do %>
+      <i class="material-icons">exit_to_app</i>ログアウト
+    <% end %>
+  </li>
+
+<% else %>
+  <li>
+    <%= link_to new_user_session_path do %>
+      <i class="material-icons">login</i>ログイン
+    <% end %>
+  </li>
+
+  <li><%= link_to "新規登録", new_user_registration_path, class: 'post' %></li>
+<% end %>
