@@ -1,5 +1,6 @@
-Rails.application.configure do
+# frozen_string_literal: true
 
+Rails.application.configure do
   # 他のデバイスからアクセスできるように
   config.hosts.clear
 
@@ -41,7 +42,8 @@ Rails.application.configure do
   config.action_mailer.perform_caching = false
 
   config.action_mailer.default_url_options = {
-    host: 'localhost', port: 3000 }
+    host: 'localhost', port: 3000
+  }
 
   # Print deprecation notices to the Rails logger.
   config.active_support.deprecation = :log
