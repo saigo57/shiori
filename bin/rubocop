@@ -1,0 +1,14 @@
+#!/bin/sh
+
+CMD_ARGS=""
+for arg in $@
+do
+if [ -f "$arg" ]
+then
+  CMD_ARGS="$CMD_ARGS ${arg#$PWD/}"
+else
+  CMD_ARGS="$CMD_ARGS $arg"
+fi
+done
+
+docker exec -i shiori-app rubocop $CMD_ARGS

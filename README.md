@@ -22,3 +22,9 @@ Things you may want to cover:
 * Deployment instructions
 
 * ...
+
+# VSCodeでrubocopを使用する場合
+* `ruby-rubocop`をinstallする
+* `Settings`から`Ruby-Rubocop configuration`を開く
+* `Execute Path`を`./bin/`にする
+* `On Save`を`チェック`する

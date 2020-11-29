@@ -1,0 +1,124 @@
+# frozen_string_literal: true
+
+require:
+  - rubocop-rails
+
+AllCops:
+  NewCops: disable
+  TargetRubyVersion: 2.6.6
+  Exclude:
+    - '**/tmp/**/*'
+    - '**/templates/**/*'
+    - '**/vendor/**/*'
+    - 'actionpack/lib/action_dispatch/journey/parser.rb'
+    - 'railties/test/fixtures/tmp/**/*'
+    - 'actionmailbox/test/dummy/**/*'
+    - 'actiontext/test/dummy/**/*'
+    - '**/node_modules/**/*'
+    - 'bin/*'
+    - 'config/environments/*'
+    - 'db/schema.rb'
+    - 'Guardfile'
+
+Rails:
+  Enabled: true
+
+Rails/FilePath:
+  Enabled: false
+
+Rails/DynamicFindBy:
+  Enabled: false      # capybaraのfind_by_idをご検知するため
+
+Style/Documentation:
+  Enabled: false
+
+Layout/EmptyLinesAroundAttributeAccessor:
+  Enabled: true
+
+Layout/SpaceAroundMethodCallOperator:
+  Enabled: true
+
+Layout/LineLength:
+  Exclude:
+    - 'config/initializers/devise.rb'
+
+Lint/DeprecatedOpenSSLConstant:
+  Enabled: true
+
+Lint/MixedRegexpCaptureTypes:
+  Enabled: true
+
+Lint/RaiseException:
+  Enabled: true
+  
+Lint/StructNewOverride:
+  Enabled: true
+
+Lint/DuplicateElsifCondition:
+  Enabled: true
+  
+Style/ExponentialNotation:
+  Enabled: true
+  
+Style/HashEachMethods:
+  Enabled: true
+  
+Style/HashTransformKeys:
+  Enabled: true
+  
+Style/HashTransformValues:
+  Enabled: true
+  
+Style/RedundantRegexpCharacterClass:
+  Enabled: true
+  
+Style/RedundantRegexpEscape:
+  Enabled: true
+  
+Style/SlicingWithRange:
+  Enabled: true
+
+Style/AccessorGrouping:
+  Enabled: true
+
+Style/ArrayCoercion:
+  Enabled: true
+
+Style/BisectedAttrAccessor:
+  Enabled: true
+
+Style/CaseLikeIf:
+  Enabled: true
+
+Style/HashAsLastArrayItem:
+  Enabled: true
+
+Style/HashLikeCase:
+  Enabled: true
+
+Style/RedundantAssignment:
+  Enabled: true
+
+Style/RedundantFetchBlock:
+  Enabled: true
+
+Style/RedundantFileExtensionInRequire:
+  Enabled: true
+
+Style/SymbolArray:
+  Enabled: false
+
+Metrics/MethodLength:
+  Exclude:
+    - 'db/migrate/*'
+
+Metrics/AbcSize:
+  Exclude:
+    - 'db/migrate/*'
+
+Metrics/BlockLength:
+  Exclude:
+    - 'spec/**/*'
+
+Style/AsciiComments:
+  Enabled: false
