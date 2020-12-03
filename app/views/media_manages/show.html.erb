@@ -1,4 +1,9 @@
 
 <%= link_to "一覧に戻る", media_manages_path %></br>
 <%= link_to "編集", edit_media_manage_path(@media_manage) %></br>
+
+<%= thumbnail_tag(@media_manage) %>
+</br>
 <%= @media_manage.title %>
+</br>
+<%= @media_manage.media_url %>

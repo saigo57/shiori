@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 class MediaManagesController < ApplicationController
+  include MediaManagesHelper
   before_action :check_signed_in
   before_action :media_manage, only: [:edit, :show, :update, :destroy]
 
@@ -43,7 +44,7 @@ class MediaManagesController < ApplicationController
   end
 
   def media_manage_params
-    params.require(:media_manage).permit(:title)
+    params.require(:media_manage).permit(:title, :thumbnail, :media_url)
   end
 
   def media_manage

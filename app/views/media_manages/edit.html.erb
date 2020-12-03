@@ -4,8 +4,16 @@
 </h1>
 
 <%= form_for @media_manage, url: {action: "update"} do |f| %>
+  <%= f.label :thumbnail %>
+  </br>
+  <%= f.file_field :thumbnail, accept: 'image/jpeg,image/gif,image/png' %>
+  <p>※画像は320x180にリサイズされます</p>
+  </br>
+
   <%= f.label :title %>
   <%= f.text_field :title %>
+  <%= f.label :media_url %>
+  <%= f.text_field :media_url %>
   <%= f.submit "更新", class: "btn" %>
 <% end %>
 

@@ -1,0 +1,34 @@
+
+.media-manage-card {
+  & > .card-stacked {
+    & > .card-action {
+      padding-top: 2px;
+      padding-bottom: 2px;
+      padding-right: 6px;
+      padding-left: 6px;
+      & > a {
+        font-size: 1.2em;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;  
+        overflow: hidden;
+        @media (max-width:600px) {
+          font-size: 1em;
+          -webkit-line-clamp: 3;
+        }
+      }
+    }
+
+    & > .card-content {
+      padding-top: 2px;
+      padding-bottom: 2px;
+      padding-right: 6px;
+      padding-left: 6px;
+      & > a {
+        @media (max-width:600px) {
+          font-size: 0.8em;
+        }
+      }
+    }
+  }
+}

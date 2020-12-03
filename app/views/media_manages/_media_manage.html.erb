@@ -1,2 +1,17 @@
 
-<%= link_to media_manage.title, media_manage_path(media_manage) %></br>
+<% thumbnail_tag(media_manage, '160x90') %>
+<% link_to media_manage.title, media_manage_path(media_manage) %>
+
+<div class="card horizontal media-manage-card">
+  <div class="card-image">
+    <%= thumbnail_tag(media_manage, '160x90') %>
+  </div>
+  <div class="card-stacked">
+    <div class="card-action">
+      <%= link_to media_manage.title, media_manage_path(media_manage), class: 'black-text' %>
+    </div>
+    <div class="card-content grey-text text-darken-1">
+      <p>視聴中・のこり01:39:06</p>
+    </div>
+  </div>
+</div>
