@@ -2,8 +2,32 @@
 <%= link_to "一覧に戻る", media_manages_path %></br>
 <%= link_to "編集", edit_media_manage_path(@media_manage) %></br>
 
-<%= thumbnail_tag(@media_manage) %>
-</br>
-<%= @media_manage.title %>
-</br>
-<%= @media_manage.media_url %>
+<%= link_to @media_manage.media_url do %>
+  <%= thumbnail_tag(@media_manage, '240x135') %>
+<% end %>
+
+<div class="show-media-manag-title">
+  <%= @media_manage.title %>
+</div>
+
+<button data-target="media_manages_input_time_modal" class="btn modal-trigger red accent-4">
+  ＋時間
+</button>
+
+<ul class="collection">
+  <% @time_spans.each do |ts| %>
+    <li class="collection-item">
+      <div class="time-span-block">
+        <div class="time-span-item time-span-timestamp"><%= ts.begin_time_str %></div>
+        <div class="time-span-item">〜</div>
+        <div class="time-span-item time-span-timestamp"><%= ts.end_time_str %></div>
+        <div class="time-span-item time-span-jumpto">
+          <a href="<%= @media_manage.media_url %>"><i class="material-icons">live_tv</i></a>
+        </div>
+      </div>
+    </li>
+  <% end %>
+</ul>
+
+<%= render partial: "input_timespan_modal", locals: { media_namage: @media_manage } %>
+

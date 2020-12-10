@@ -18,7 +18,9 @@ class MediaManagesController < ApplicationController
 
   def edit; end
 
-  def show; end
+  def show
+    @time_spans = @media_manage.media_time_span.order('begin_sec').order('end_sec')
+  end
 
   def update
     if @media_manage.update(media_manage_params)

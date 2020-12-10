@@ -2,6 +2,7 @@
 
 class MediaManage < ApplicationRecord
   belongs_to :user
+  has_many :media_time_span, dependent: :destroy
   mount_uploader :thumbnail, ThumbnailUploader
 
   def youtube_thumbnail_url
