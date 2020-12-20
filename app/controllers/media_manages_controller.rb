@@ -3,7 +3,8 @@
 class MediaManagesController < ApplicationController
   include MediaManagesHelper
   before_action :check_signed_in
-  before_action :media_manage, only: [:edit, :show, :update, :destroy]
+  before_action :media_manage, only: [:edit, :show, :update, :destroy, :restore]
+  before_action :check_can_restore, only: [:restore]
 
   def index
     @media_manages = current_user.media_manage
@@ -37,12 +38,31 @@ class MediaManagesController < ApplicationController
     redirect_to media_manages_url
   end
 
+  def restore
+    MediaTimeSpan.transaction do
+      curr_seq_id = @media_manage.curr_seq_id
+      prev_seq_id = @media_manage.curr_seq_id - 1
+      @media_manage.update(curr_seq_id: prev_seq_id)
+      @media_manage.media_time_span.where(seq_id: curr_seq_id).destroy_all
+    end
+
+    flash[:success] = '元に戻しました'
+    redirect_to @media_manage
+  end
+
   private
 
   def check_signed_in
     return if user_signed_in?
 
     redirect_to new_user_session_url
+  end
+
+  def check_can_restore
+    return if @media_manage.can_restore
+
+    flash[:error] = '戻すバージョンがありません'
+    redirect_to @media_manage
   end
 
   def media_manage_params

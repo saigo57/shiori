@@ -14,6 +14,12 @@
   ＋時間
 </button>
 
+<% if @media_manage.can_restore %>
+  <button data-target="media_manages_restore_modal" class="btn modal-trigger red accent-4">
+    元に戻す
+  </button>
+<% end %>
+
 <ul class="collection">
   <% @time_spans.each do |ts| %>
     <li class="collection-item">
@@ -39,3 +45,14 @@
 
 <%= render partial: "input_timespan_modal", locals: { media_namage: @media_manage } %>
 
+<div id="media_manages_restore_modal" class="modal">
+  <div class="modal-content">
+    <h4>確認</h4>
+    <p>時間を一つ前の状態に戻します。</p>
+    <p>よろしいですか？</p>
+  </div>
+  <div class="modal-footer">
+    <a href="#!" class="modal-close waves-effect waves-green btn">キャンセル</a>
+    <%= link_to '戻す', restore_media_manage_path(@media_manage), method: :patch, class: "waves-effect waves-red btn red" %>
+  </div>
+</div>

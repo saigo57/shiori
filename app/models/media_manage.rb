@@ -6,7 +6,11 @@ class MediaManage < ApplicationRecord
   mount_uploader :thumbnail, ThumbnailUploader
 
   def time_spans
-    media_time_span.current(curr_seq_id).sorted
+    media_time_span.where(seq_id: curr_seq_id).sorted
+  end
+
+  def can_restore
+    media_time_span.where(seq_id: curr_seq_id - 1).count.positive?
   end
 
   def youtube_thumbnail_url
