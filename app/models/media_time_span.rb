@@ -2,6 +2,8 @@
 
 class MediaTimeSpan < ApplicationRecord
   belongs_to :media_manage
+  scope :sorted, -> { order('begin_sec').order('end_sec') }
+  scope :current, ->(seq_id) { where(seq_id: seq_id) }
 
   def begin_time_str
     sec_to_str(begin_sec)

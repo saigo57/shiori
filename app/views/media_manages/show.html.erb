@@ -21,8 +21,16 @@
         <div class="time-span-item time-span-timestamp"><%= ts.begin_time_str %></div>
         <div class="time-span-item">〜</div>
         <div class="time-span-item time-span-timestamp"><%= ts.end_time_str %></div>
-        <div class="time-span-item time-span-jumpto">
-          <a href="<%= @media_manage.media_url %>"><i class="material-icons">live_tv</i></a>
+        <div class="time-span-item time-span-icons">
+          <a href="<%= @media_manage.media_url %>" class="tooltipped"
+            data-position="right" data-tooltip="続きから開きます">
+            <i class="material-icons">live_tv</i>
+          </a>
+        </div>
+        <div class="time-span-item time-span-icons">
+          <a href=<%= media_time_span_path(ts) %> data-method="delete">
+            <i class="material-icons">delete</i>
+          </a>
         </div>
       </div>
     </li>

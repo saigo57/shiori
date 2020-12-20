@@ -5,6 +5,10 @@ class MediaManage < ApplicationRecord
   has_many :media_time_span, dependent: :destroy
   mount_uploader :thumbnail, ThumbnailUploader
 
+  def time_spans
+    media_time_span.current(curr_seq_id).sorted
+  end
+
   def youtube_thumbnail_url
     return if media_url.nil?
 
