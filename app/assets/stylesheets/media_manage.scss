@@ -97,3 +97,9 @@
     margin-left: 10px;
   }
 }
+
+#media_time_image_form_id {
+  > input {
+    display: none;
+  }
+}

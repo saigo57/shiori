@@ -21,6 +21,7 @@ class MediaManagesController < ApplicationController
 
   def show
     @time_spans = @media_manage.time_spans
+    @media_time_image = MediaTimeImage.new
   end
 
   def update

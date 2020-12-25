@@ -3,6 +3,7 @@
 class MediaManage < ApplicationRecord
   belongs_to :user
   has_many :media_time_span, dependent: :destroy
+  has_many :media_time_image, dependent: :destroy
   mount_uploader :thumbnail, ThumbnailUploader
 
   def time_spans

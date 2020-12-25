@@ -13,12 +13,31 @@
 <button data-target="media_manages_input_time_modal" class="btn modal-trigger red accent-4">
   ＋時間
 </button>
+<button id="media_time_image_btn_id" class="btn modal-trigger red accent-4">
+  ＋SS
+</button>
 
 <% if @media_manage.can_restore %>
   <button data-target="media_manages_restore_modal" class="btn modal-trigger red accent-4">
     元に戻す
   </button>
 <% end %>
+
+<%= form_for @media_time_image, html: {id: 'media_time_image_form_id'} do |f| %>
+  <%= f.hidden_field :media_manage_id, value: @media_manage.id %>
+  <%= f.file_field :image, accept: 'image/jpeg,image/gif,image/png' %>
+<% end %>
+<script type="text/javascript">
+  $(function(){
+    $('#media_time_image_btn_id').click(function(){
+      $('#media_time_image_form_id').children('input').click();
+    })
+
+    $('#media_time_image_form_id').children('input').change(function(){
+      $('#media_time_image_form_id').submit();
+    });
+  })
+</script>
 
 <ul class="collection">
   <% @time_spans.each do |ts| %>
@@ -40,6 +59,37 @@
         </div>
       </div>
     </li>
+  <% end %>
+</ul>
+
+<ul class="collection">
+  <% @media_manage.media_time_image.each_with_index do |time_image, i| %>
+    <li class="collection-item">
+      <div class="time-span-block">
+        <%= link_to time_image.image.url, target: :_blank do %>
+          <%= image_tag time_image.image.thumb.url %>
+        <% end %>
+        <div>
+          <button data-target="media_manages_time_image_delete_modal_<%= i %>" class="btn modal-trigger red accent-4">
+            削除
+          </button>
+        </div>
+      </div>
+    </li>
+
+    <div id="media_manages_time_image_delete_modal_<%= i %>" class="modal">
+      <div class="modal-content">
+        <h4>確認</h4>
+        <p>画像を削除します。</p>
+        <p>この操作は取り消せません。よろしいですか？</p>
+      </div>
+      <div class="modal-footer">
+        <a href="#!" class="modal-close waves-effect waves-green btn">キャンセル</a>
+        <%= link_to '削除', media_time_image_path(time_image, media_time_image: 
+          { media_manage_id: @media_manage.id }), method: :delete, 
+          class: "waves-effect waves-red btn red" %>
+      </div>
+    </div>
   <% end %>
 </ul>
 

@@ -7,4 +7,5 @@ Rails.application.routes.draw do
     patch 'restore', on: :member
   end
   resources :media_time_span
+  resources :media_time_images, only: [:create, :destroy]
 end
