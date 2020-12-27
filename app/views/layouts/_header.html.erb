@@ -9,7 +9,7 @@
         <li><%= link_to "ログアウト", destroy_user_session_path, method: :delete %></li>
       <% else %>
         <li><%= link_to "ログイン", new_user_session_path %></li>
-        <li><%= link_to "新規登録", new_user_registration_path, class: 'post' %></li>
+        <li><%= link_to "サインアップ", new_user_registration_path, class: 'post' %></li>
       <% end %>
     </ul>
     <%= link_to "Shiori", root_path, {class: "brand-logo"} %>
@@ -55,6 +55,6 @@
       <% end %>
     </li>
 
-    <li><%= link_to "新規登録", new_user_registration_path, class: 'post' %></li>
+    <li><%= link_to "サインアップ", new_user_registration_path, class: 'post' %></li>
   <% end %>
 </ul>

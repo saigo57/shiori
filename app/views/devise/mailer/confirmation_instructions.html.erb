@@ -1,5 +1,8 @@
-<p>Welcome <%= @email %>!</p>
+<p>ようこそ <%= @email %> さん!</p>
 
-<p>You can confirm your account email through the link below:</p>
+<p>まだ、アカウント登録は完了していません。</p>
+<p>以下のアカウント認証リンクから登録を完了してください。</p>
 
-<p><%= link_to 'Confirm my account', confirmation_url(@resource, confirmation_token: @token) %></p>
+<p><%= link_to 'アカウント認証', confirmation_url(@resource, confirmation_token: @token) %></p>
+
+<p>Shiori</p>
