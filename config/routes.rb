@@ -8,4 +8,6 @@ Rails.application.routes.draw do
   end
   resources :media_time_span
   resources :media_time_images, only: [:create, :destroy]
+
+  mount LetterOpenerWeb::Engine, at: '/lo' if Rails.env.development?
 end
