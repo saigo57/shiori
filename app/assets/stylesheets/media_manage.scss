@@ -1,0 +1,105 @@
+@import "const";
+
+.media-manage-card {
+  & > .card-stacked {
+    & > .card-action {
+      padding-top: 2px;
+      padding-bottom: 2px;
+      padding-right: 6px;
+      padding-left: 6px;
+      & > a {
+        font-size: 1.2em;
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;  
+        overflow: hidden;
+        @media (max-width: $mobile-brakepoint) {
+          font-size: 1em;
+          -webkit-line-clamp: 3;
+        }
+      }
+    }
+
+    & > .card-content {
+      padding-top: 2px;
+      padding-bottom: 2px;
+      padding-right: 6px;
+      padding-left: 6px;
+      & > a {
+        @media (max-width: $mobile-brakepoint) {
+          font-size: 0.8em;
+        }
+      }
+    }
+  }
+}
+
+.show-media-manag-title {
+  font-size: 1.5em;
+}
+
+#media_manages_input_time_modal {
+  & > .modal-content {
+    & > input {
+      display: inline-block;
+      //width: 95px;
+      width: 120px;
+    }
+    & > p {
+      display: inline-block;
+    }
+  }
+}
+
+.time-input-parts {
+  display: inline-block;
+  margin: 0;
+  padding: 0;
+}
+
+.input-separate {
+  display: inline-block;
+  margin-left: 2px;
+  margin-right: 0;
+  padding: 0;
+  width: 12px;
+  height: 2em;
+}
+
+.time-input-text {
+  display: inline-block;
+  width: 50px;
+  height: 30px;
+}
+
+.time-span {
+  &-block {
+    display: flex;
+    font-size: 18px;
+    font-size: 18px;
+  }
+
+  &-item {
+    display: block;
+    font-family: 'Noto Sans', sans-serif;
+
+    @media (max-width: $mobile-brakepoint) {
+      font-size: 25px;
+    }
+  }
+
+  &-timestamp {
+    padding-right: 1px;
+    padding-left: 1px;
+  }
+
+  &-jumpto {
+    margin-left: 10px;
+  }
+}
+
+#media_time_image_form_id {
+  > input {
+    display: none;
+  }
+}

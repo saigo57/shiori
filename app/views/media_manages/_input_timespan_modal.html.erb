@@ -1,0 +1,60 @@
+
+<div id="media_manages_input_time_modal" class="modal">
+  <div class="modal-content">
+    <h5>
+      視聴時間入力
+    </h5>
+    <%= render "input_time", {prefix: "begin"} %>
+    <div>〜</div>
+    <%= render "input_time", {prefix: "end"} %>
+    <div>（時：分：秒）</div>
+  </div>
+  <div class="modal-footer">
+    <a href="#!" class="modal-close waves-effect waves-green btn">キャンセル</a>
+    <% link_to '登録', "#", class: "waves-effect waves-red btn red" %>
+    <button type="button" id="timespan_submit_id" class="waves-effect waves-red btn red">登録</button>
+
+    <form id="timespan_form_id" method="GET" action="<%= new_media_time_span_path %>">
+      <input type="hidden" name="media_manage_id" value="<%= media_namage.id %>">
+      <input type="hidden" name="begin_sec" value="123">
+      <input type="hidden" name="end_sec" value="456">
+    </form>
+  </div>
+</div>
+
+<script type="text/javascript">
+
+const isNumber = function(value) {
+  return ((typeof value === 'number') && (isFinite(value)));
+};
+
+  $(function(){
+    $('#timespan_submit_id').click(function(){
+      //
+      // バリデーションチェックや、データの加工を行う。
+      //
+      $('#timespan_form_id').children('input[name="begin_sec"]').val(435)
+
+      begin_hour = $('input[name="begin-time-input-hour"]').val() - 0
+      begin_min  = $('input[name="begin-time-input-min"]').val() - 0
+      begin_sec  = $('input[name="begin-time-input-sec"]').val() - 0
+      if ( !isNumber(begin_hour) ) begin_hour = 0;
+      if ( !isNumber(begin_min) ) begin_min = 0;
+      if ( !isNumber(begin_sec) ) begin_sec = 0;
+
+      end_hour = $('input[name="end-time-input-hour"]').val() - 0
+      end_min  = $('input[name="end-time-input-min"]').val() - 0
+      end_sec  = $('input[name="end-time-input-sec"]').val() - 0
+      if ( !isNumber(end_hour) ) end_hour = 0;
+      if ( !isNumber(end_min) ) end_min = 0;
+      if ( !isNumber(end_sec) ) end_sec = 0;
+
+      begin_sec_calc = begin_hour * 3600 + begin_min * 60 + begin_sec;
+      end_sec_calc = end_hour * 3600 + end_min * 60 + end_sec;
+      $('#timespan_form_id').children('input[name="begin_sec"]').val(begin_sec_calc)
+      $('#timespan_form_id').children('input[name="end_sec"]').val(end_sec_calc)
+
+      $('#timespan_form_id').submit();
+    });
+  })
+</script>

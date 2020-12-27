@@ -4,6 +4,7 @@
     <a href="#" data-target="sidenav-menu" class="left sidenav-trigger show-on-large"><i class="material-icons">menu</i></a>
     <ul id="nav-mobile" class="right hide-on-med-and-down">
       <% if user_signed_in? %>
+        <li><%= link_to "新規動画", new_media_manage_path %></li>
         <li><%= link_to "新規プレイリスト", '#' %></li>
         <li><%= link_to "ログアウト", destroy_user_session_path, method: :delete %></li>
       <% else %>
@@ -20,6 +21,16 @@
     <li>
       <%= link_to edit_user_registration_path do %>
         <i class="material-icons">person</i>ユーザー設定
+      <% end %>
+    </li>
+    <li>
+      <%= link_to media_manages_path do %>
+        <i class="material-icons">list</i>動画一覧
+      <% end %>
+    </li>
+    <li>
+      <%= link_to new_media_manage_path do %>
+        <i class="material-icons">add</i>新規動画
       <% end %>
     </li>
     <li>

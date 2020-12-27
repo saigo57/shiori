@@ -1,0 +1,108 @@
+
+<%= link_to "一覧に戻る", media_manages_path %></br>
+<%= link_to "編集", edit_media_manage_path(@media_manage) %></br>
+
+<%= link_to @media_manage.media_url do %>
+  <%= thumbnail_tag(@media_manage, '240x135') %>
+<% end %>
+
+<div class="show-media-manag-title">
+  <%= @media_manage.title %>
+</div>
+
+<button data-target="media_manages_input_time_modal" class="btn modal-trigger red accent-4">
+  ＋時間
+</button>
+<button id="media_time_image_btn_id" class="btn modal-trigger red accent-4">
+  ＋SS
+</button>
+
+<% if @media_manage.can_restore %>
+  <button data-target="media_manages_restore_modal" class="btn modal-trigger red accent-4">
+    元に戻す
+  </button>
+<% end %>
+
+<%= form_for @media_time_image, html: {id: 'media_time_image_form_id'} do |f| %>
+  <%= f.hidden_field :media_manage_id, value: @media_manage.id %>
+  <%= f.file_field :image, accept: 'image/jpeg,image/gif,image/png' %>
+<% end %>
+<script type="text/javascript">
+  $(function(){
+    $('#media_time_image_btn_id').click(function(){
+      $('#media_time_image_form_id').children('input').click();
+    })
+
+    $('#media_time_image_form_id').children('input').change(function(){
+      $('#media_time_image_form_id').submit();
+    });
+  })
+</script>
+
+<ul class="collection">
+  <% @time_spans.each do |ts| %>
+    <li class="collection-item">
+      <div class="time-span-block">
+        <div class="time-span-item time-span-timestamp"><%= ts.begin_time_str %></div>
+        <div class="time-span-item">〜</div>
+        <div class="time-span-item time-span-timestamp"><%= ts.end_time_str %></div>
+        <div class="time-span-item time-span-icons">
+          <a href="<%= @media_manage.media_url %>" class="tooltipped"
+            data-position="right" data-tooltip="続きから開きます">
+            <i class="material-icons">live_tv</i>
+          </a>
+        </div>
+        <div class="time-span-item time-span-icons">
+          <a href=<%= media_time_span_path(ts) %> data-method="delete">
+            <i class="material-icons">delete</i>
+          </a>
+        </div>
+      </div>
+    </li>
+  <% end %>
+</ul>
+
+<ul class="collection">
+  <% @media_manage.media_time_image.each_with_index do |time_image, i| %>
+    <li class="collection-item">
+      <div class="time-span-block">
+        <%= link_to time_image.image.url, target: :_blank do %>
+          <%= image_tag time_image.image.thumb.url %>
+        <% end %>
+        <div>
+          <button data-target="media_manages_time_image_delete_modal_<%= i %>" class="btn modal-trigger red accent-4">
+            削除
+          </button>
+        </div>
+      </div>
+    </li>
+
+    <div id="media_manages_time_image_delete_modal_<%= i %>" class="modal">
+      <div class="modal-content">
+        <h4>確認</h4>
+        <p>画像を削除します。</p>
+        <p>この操作は取り消せません。よろしいですか？</p>
+      </div>
+      <div class="modal-footer">
+        <a href="#!" class="modal-close waves-effect waves-green btn">キャンセル</a>
+        <%= link_to '削除', media_time_image_path(time_image, media_time_image: 
+          { media_manage_id: @media_manage.id }), method: :delete, 
+          class: "waves-effect waves-red btn red" %>
+      </div>
+    </div>
+  <% end %>
+</ul>
+
+<%= render partial: "input_timespan_modal", locals: { media_namage: @media_manage } %>
+
+<div id="media_manages_restore_modal" class="modal">
+  <div class="modal-content">
+    <h4>確認</h4>
+    <p>時間を一つ前の状態に戻します。</p>
+    <p>よろしいですか？</p>
+  </div>
+  <div class="modal-footer">
+    <a href="#!" class="modal-close waves-effect waves-green btn">キャンセル</a>
+    <%= link_to '戻す', restore_media_manage_path(@media_manage), method: :patch, class: "waves-effect waves-red btn red" %>
+  </div>
+</div>

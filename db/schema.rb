@@ -10,7 +10,36 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2020_11_25_154222) do
+ActiveRecord::Schema.define(version: 2020_12_20_152209) do
+
+  create_table "media_manages", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.string "title"
+    t.bigint "user_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.string "thumbnail"
+    t.string "media_url"
+    t.integer "curr_seq_id", default: 1, null: false
+    t.index ["user_id"], name: "index_media_manages_on_user_id"
+  end
+
+  create_table "media_time_images", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.string "image"
+    t.bigint "media_manage_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.index ["media_manage_id"], name: "index_media_time_images_on_media_manage_id"
+  end
+
+  create_table "media_time_spans", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci", force: :cascade do |t|
+    t.integer "begin_sec"
+    t.integer "end_sec"
+    t.bigint "media_manage_id"
+    t.datetime "created_at", precision: 6, null: false
+    t.datetime "updated_at", precision: 6, null: false
+    t.integer "seq_id", default: 1, null: false
+    t.index ["media_manage_id"], name: "index_media_time_spans_on_media_manage_id"
+  end
 
   create_table "users", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "email", default: "", null: false
