@@ -18,7 +18,11 @@ ja:
               invalid: "は有効でありません。"
               confirmation: "が内容とあっていません。"
             password_confirmation:
-              confirmation: "一致していません"
+              confirmation: "が一致していません"
+            confirmation_token:
+              invalid: "が不正です"
+            current_password:
+              blank: "が空欄です"
     attributes:
       user:
         current_password: "現在のパスワード"

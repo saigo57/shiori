@@ -1,4 +1,4 @@
-<h2>Log in</h2>
+<h2>ログイン</h2>
 
 <%= form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
   <div class="field">
@@ -13,13 +13,15 @@
 
   <% if devise_mapping.rememberable? %>
     <div class="field">
-      <%= f.check_box :remember_me %>
-      <%= f.label :remember_me %>
+      <label>
+        <%= f.check_box :remember_me %>
+        <span><%= t("activerecord.attributes.user.remember_me") %></span>
+      </label>
     </div>
   <% end %>
 
   <div class="actions">
-    <%= f.submit "Log in" %>
+    <%= f.submit "ログイン", class: "waves-light btn" %>
   </div>
 <% end %>
 
