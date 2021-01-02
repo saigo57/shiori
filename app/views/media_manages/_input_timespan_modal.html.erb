@@ -14,11 +14,11 @@
     <% link_to '登録', "#", class: "waves-effect waves-red btn red" %>
     <button type="button" id="timespan_submit_id" class="waves-effect waves-red btn red">登録</button>
 
-    <form id="timespan_form_id" method="GET" action="<%= new_media_time_span_path %>">
+    <%= form_with id: 'timespan_form_id', url: media_time_span_index_path do |f| %>
       <input type="hidden" name="media_manage_id" value="<%= media_namage.id %>">
       <input type="hidden" name="begin_sec" value="123">
       <input type="hidden" name="end_sec" value="456">
-    </form>
+    <% end %>
   </div>
 </div>
 

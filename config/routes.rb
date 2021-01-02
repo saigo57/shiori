@@ -6,7 +6,7 @@ Rails.application.routes.draw do
   resources :media_manages do
     patch 'restore', on: :member
   end
-  resources :media_time_span
+  resources :media_time_span, only: [:create, :destroy]
   resources :media_time_images, only: [:create, :destroy]
 
   mount LetterOpenerWeb::Engine, at: '/lo' if Rails.env.development?
