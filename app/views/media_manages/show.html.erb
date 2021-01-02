@@ -40,9 +40,9 @@
 </script>
 
 <ul class="collection">
-  <% @time_spans.each do |ts| %>
+  <% @time_spans.each_with_index do |ts, i| %>
     <li class="collection-item">
-      <div class="time-span-block">
+      <div class="time-span-block" id="time-span-block-<%= i %>">
         <div class="time-span-item time-span-timestamp"><%= ts.begin_time_str %></div>
         <div class="time-span-item">〜</div>
         <div class="time-span-item time-span-timestamp"><%= ts.end_time_str %></div>
@@ -52,7 +52,7 @@
             <i class="material-icons">live_tv</i>
           </a>
         </div>
-        <div class="time-span-item time-span-icons">
+        <div class="time-span-item time-span-icons time-span-delete">
           <a href=<%= media_time_span_path(ts) %> data-method="delete">
             <i class="material-icons">delete</i>
           </a>

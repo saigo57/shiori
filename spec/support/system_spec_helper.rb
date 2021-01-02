@@ -16,4 +16,10 @@ module SystemSpecHelper
   def toggle_side_nav
     find('nav').first('a').click
   end
+
+  def fill_in_time(which, hour: nil, min: nil, sec: nil)
+    fill_in "#{which}-time-input-hour", with: hour unless hour.nil?
+    fill_in "#{which}-time-input-min",  with: min  unless min.nil?
+    fill_in "#{which}-time-input-sec",  with: sec  unless sec.nil?
+  end
 end
