@@ -3,6 +3,7 @@
 class MediaTimeSpan < ApplicationRecord
   belongs_to :media_manage
   scope :sorted, -> { order('begin_sec').order('end_sec') }
+  validates :end_sec, numericality: { greater_than: :begin_sec }
 
   def begin_time_str
     sec_to_str(begin_sec)

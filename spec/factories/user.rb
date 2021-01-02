@@ -3,7 +3,12 @@
 FactoryBot.define do
   factory :user do
     email { 'user@example.com' }
-    username { 'Example_user' }
+    password { 'foobar' }
+    password_confirmation { 'foobar' }
+  end
+
+  factory :user2, class: User do
+    email { 'user2@example.com' }
     password { 'foobar' }
     password_confirmation { 'foobar' }
   end
@@ -12,6 +17,7 @@ FactoryBot.define do
     email { 'alice@example.com' }
     password { 'alicepassword' }
     password_confirmation { 'alicepassword' }
+    confirmed_at { DateTime.now }
   end
 
   factory :bob, class: User do

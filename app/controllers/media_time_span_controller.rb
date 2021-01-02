@@ -2,10 +2,11 @@
 
 class MediaTimeSpanController < ApplicationController
   before_action :check_signed_in
-  before_action :find_media_manage, only: :new
-  before_action :validate_span_param, only: :new
+  before_action :find_media_manage, only: :create
+  before_action :find_media_time_span, only: :destroy
+  before_action :validate_span_param, only: :create
 
-  def new
+  def create
     curr_spans = current_spans
     curr_spans << param_span_hash
 
@@ -16,13 +17,9 @@ class MediaTimeSpanController < ApplicationController
   end
 
   def destroy
-    media_time_span = MediaTimeSpan.find(params[:id])
-    media_manage = media_time_span.media_manage
-    media_time_span.destroy
-
+    @media_time_span.destroy
     flash[:success] = '時間を削除しました'
-
-    redirect_to media_manage_url(media_manage)
+    redirect_to media_manage_url(@media_manage)
   end
 
   private
@@ -37,6 +34,16 @@ class MediaTimeSpanController < ApplicationController
   # paramsをもとにmedia_manageを取得
   def find_media_manage
     @media_manage = current_user.media_manage.find(params[:media_manage_id])
+  rescue ActiveRecord::RecordNotFound
+    redirect_to root_url
+  end
+
+  # paramsをもとにmedia_time_span, media_manageを取得
+  # media_manageがログインユーザーのものでない場合はroot_urlに飛ばす
+  def find_media_time_span
+    @media_time_span = MediaTimeSpan.find(params[:id])
+    @media_manage = @media_time_span.media_manage
+    redirect_to root_url unless @media_manage.user_id == current_user.id
   end
 
   # paramsのbegin_secとend_secのvalidation

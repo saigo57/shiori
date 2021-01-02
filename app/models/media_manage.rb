@@ -21,6 +21,6 @@ class MediaManage < ApplicationRecord
     return nil if reg.nil?
 
     # 320x180
-    "http://img.youtube.com/vi/#{reg[:id]}/mqdefault.jpg"
+    "https://img.youtube.com/vi/#{reg[:id]}/mqdefault.jpg"
   end
 end
