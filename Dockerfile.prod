@@ -14,5 +14,5 @@ ADD . /shiori
 RUN bundle install
 ENV RAILS_ENV production
 ARG ARG_RAILS_MASTER_KEY
-RUN bundle exec rake webpacker:compile
+RUN RAILS_ENV=production RAILS_MASTER_KEY=$ARG_RAILS_MASTER_KEY bundle exec rake assets:precompile
 CMD bundle exec puma
