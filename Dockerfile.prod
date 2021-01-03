@@ -14,5 +14,6 @@ ADD . /shiori
 RUN bundle install
 ENV RAILS_ENV production
 ARG ARG_RAILS_MASTER_KEY
-RUN RAILS_ENV=production RAILS_MASTER_KEY=$ARG_RAILS_MASTER_KEY bundle exec rake webpacker:compile
+ARG ARG_MYSQL_PASSWORD
+RUN RAILS_ENV=production RAILS_MASTER_KEY=$ARG_RAILS_MASTER_KEY MYSQL_PASSWORD=$ARG_MYSQL_PASSWORD bundle exec rake webpacker:compile
 CMD bundle exec puma
