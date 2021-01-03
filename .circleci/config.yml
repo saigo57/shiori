@@ -1,0 +1,121 @@
+version: 2.1
+orbs:
+  aws-ecr: circleci/aws-ecr@6.7.0
+  aws-ecs: circleci/aws-ecs@1.0.4
+jobs:
+  test:
+    docker:
+      - image: circleci/ruby:2.6.6-node-browsers
+        environment:
+          RAILS_ENV: test
+          MYSQL_HOST: 127.0.0.1
+          MYSQL_USERNAME: 'root'
+          MYSQL_PASSWORD: ''
+          MYSQL_PORT: 3306
+      - image: circleci/mysql:8.0.18-ram
+        command: |
+          mysqld --default-authentication-plugin=mysql_native_password
+        environment:
+          MYSQL_DATABASE: shiori_test
+          MYSQL_ALLOW_EMPTY_PASSWORD: true
+          MYSQL_ROOT_HOST: '%'
+    working_directory: ~/shiori
+    steps:
+      - checkout
+      # bundle
+      - restore_cache:
+          keys:
+            - v2-bundle-{{ checksum "Gemfile.lock" }}
+            - v2-bundle-
+      - run:
+          name: bundle install
+          command: |
+            bundle install --jobs=4 --retry=3 --path vendor/bundle
+      - save_cache:
+          paths:
+            - ./vendor/bundle
+          key: v2-bundle-{{ checksum "Gemfile.lock" }}
+      # yarn
+      - restore_cache:
+          keys:
+            - v2-yarn-{{ checksum "yarn.lock" }}
+            - v2-yarn-
+      - run:
+          name: yarn install
+          command: yarn install
+      - save_cache:
+          paths:
+            - ./node_modules
+          key: v2-yarn-{{ checksum "yarn.lock" }}
+      # Database setup
+      - run: rm ./config/database.yml
+      - run: mv ./config/database.yml.ci ./config/database.yml
+      - run:
+          name: Prepare db
+          command: |
+            bundle exec rake db:create db:schema:load --trace
+      - run:
+          name: Compile webpacker assets
+          command: RAILS_MASTER_KEY=${RAILS_MASTER_KEY} bundle exec rake webpacker:compile
+      # Rubocop
+      - run:
+          name: Rubocop
+          command: bundle exec rubocop
+      # run tests!
+      - run:
+          name: Run rspec
+          command: |
+            mkdir /tmp/test-results
+            TEST_FILES="$(circleci tests glob "spec/**/*_spec.rb" | circleci tests split --split-by=timings)"
+            bundle exec rspec --format progress --color --format documentation
+      # collect reports
+      - store_test_results:
+          path: /tmp/test-results
+      - store_artifacts:
+          path: /tmp/test-results
+          destination: test-results
+
+workflows:
+  test:
+    jobs:
+      - test:
+          filters:
+            branches:
+              ignore: main
+
+  build_and_push_image:
+    jobs:
+      - test:
+          filters:
+            branches:
+              only: main
+
+      - aws-ecr/build-and-push-image:
+          name: aws-ecr-build-and-push-image-app
+          requires:
+            - test
+          repo: "${AWS_RESOURCE_NAME_PREFIX}/app"
+          dockerfile: 'Dockerfile.prod'
+          extra-build-args: "--build-arg ARG_RAILS_MASTER_KEY=${RAILS_MASTER_KEY}"
+          path: '.'
+          tag: 'latest,${CIRCLE_SHA1}'
+
+      - aws-ecr/build-and-push-image:
+          name: aws-ecr-build-and-push-image-web
+          requires:
+            - test
+          repo: "${AWS_RESOURCE_NAME_PREFIX}/web"
+          dockerfile: 'Dockerfile'
+          path: './containers/nginx'
+          tag: 'latest,${CIRCLE_SHA1}'
+
+      # - aws-ecs/deploy-service-update:
+      #     requires:
+      #       - aws-ecr-build-and-push-image-app
+      #       - aws-ecr-build-and-push-image-web
+      #     family: 'shiori'
+      #     cluster-name: 'shiori-cluster'
+      #     service-name: 'shiori-service'
+      #     container-image-name-updates: >
+      #       container=shiori-app,image-and-tag=${AWS_ECR_ACCOUNT_URL}/shiori-product/app:${CIRCLE_SHA1},
+      #       container=shiori-web,image-and-tag=${AWS_ECR_ACCOUNT_URL}/shiori-product/web:${CIRCLE_SHA1}

@@ -51,4 +51,4 @@ production:
   <<: *default
   database: shiori_production
   username: shiori
-  password: <%= ENV['SHIORI_DATABASE_PASSWORD'] %>
+  host: <%= ENV['DATABASE_HOST'] %>
