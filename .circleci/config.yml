@@ -76,9 +76,15 @@ jobs:
           destination: test-results
 
 workflows:
+  test:
+    jobs:
+      - test:
+          filters:
+            branches:
+              ignore: main
   build_and_push_image:
     jobs:
       - test:
           filters:
             branches:
-              only: first-deploy
+              only: main
