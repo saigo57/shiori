@@ -55,8 +55,8 @@ jobs:
           command: |
             bundle exec rake db:create db:schema:load --trace
       - run:
-          name: Compile webpack
-          command: yarn webpack
+          name: Compile webpacker assets
+          command: RAILS_MASTER_KEY=$ARG_RAILS_MASTER_KEY bundle exec rake webpacker:compile
       # run tests!
       - run:
           name: Run rspec
