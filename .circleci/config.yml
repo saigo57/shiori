@@ -22,29 +22,31 @@ jobs:
     working_directory: ~/shiori
     steps:
       - checkout
+      # bundle
       - restore_cache:
           keys:
-            - v1-dependencies-{{ checksum "Gemfile.lock" }}
-            - v1-dependencies-
+            - v2-bundle-{{ checksum "Gemfile.lock" }}
+            - v2-bundle-
       - run:
-          name: install dependencies
+          name: bundle install
           command: |
             bundle install --jobs=4 --retry=3 --path vendor/bundle
       - save_cache:
           paths:
             - ./vendor/bundle
-          key: v1-yarn-{{ checksum "Gemfile.lock" }}
+          key: v2-bundle-{{ checksum "Gemfile.lock" }}
+      # yarn
       - restore_cache:
           keys:
-            - v1-yarn-{{ checksum "yarn.lock" }}
-            - v1-yarn-
+            - v2-yarn-{{ checksum "yarn.lock" }}
+            - v2-yarn-
       - run:
           name: yarn install
           command: yarn install
       - save_cache:
           paths:
             - ./node_modules
-          key: v1-yarn-{{ checksum "yarn.lock" }}
+          key: v2-yarn-{{ checksum "yarn.lock" }}
       # Database setup
       - run: rm ./config/database.yml
       - run: mv ./config/database.yml.ci ./config/database.yml
