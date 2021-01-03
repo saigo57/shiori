@@ -82,9 +82,40 @@ workflows:
           filters:
             branches:
               ignore: main
+
   build_and_push_image:
     jobs:
       - test:
           filters:
             branches:
               only: main
+
+      - aws-ecr/build-and-push-image:
+          name: aws-ecr-build-and-push-image-app
+          requires:
+            - test
+          repo: "${AWS_RESOURCE_NAME_PREFIX}/app"
+          dockerfile: 'Dockerfile.prod'
+          extra-build-args: "--build-arg ARG_RAILS_MASTER_KEY=${RAILS_MASTER_KEY}"
+          path: '.'
+          tag: 'latest,${CIRCLE_SHA1}'
+
+      - aws-ecr/build-and-push-image:
+          name: aws-ecr-build-and-push-image-web
+          requires:
+            - test
+          repo: "${AWS_RESOURCE_NAME_PREFIX}/web"
+          dockerfile: 'Dockerfile'
+          path: './containers/nginx'
+          tag: 'latest,${CIRCLE_SHA1}'
+
+      # - aws-ecs/deploy-service-update:
+      #     requires:
+      #       - aws-ecr-build-and-push-image-app
+      #       - aws-ecr-build-and-push-image-web
+      #     family: 'shiori'
+      #     cluster-name: 'shiori-cluster'
+      #     service-name: 'shiori-service'
+      #     container-image-name-updates: >
+      #       container=shiori-app,image-and-tag=${AWS_ECR_ACCOUNT_URL}/shiori-product/app:${CIRCLE_SHA1},
+      #       container=shiori-web,image-and-tag=${AWS_ECR_ACCOUNT_URL}/shiori-product/web:${CIRCLE_SHA1}
