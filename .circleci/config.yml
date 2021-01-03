@@ -22,31 +22,31 @@ jobs:
     working_directory: ~/shiori
     steps:
       - checkout
-      - restore_cache:
-          keys:
-          - v1-dependencies-{{ checksum "Gemfile.lock" }}
-          # fallback to using the latest cache if no exact match is found
-          - v1-dependencies-
-      - run:
-          name: install dependencies
-          command: |
-            bundle install --jobs=4 --retry=3 --path vendor/bundle
-      - save_cache:
-          paths:
-            - ./vendor/bundle
-          key: v1-yarn-{{ checksum "Gemfile.lock" }}
-      - restore_cache:
-          keys:
-          - v1-yarn-{{ checksum "yarn.lock" }}
-          # fallback to using the latest cache if no exact match is found
-          - v1-yarn-
-      - run:
-          name: yarn install
-          command: yarn install
-      - save_cache:
-          paths:
-            - .yarn-cache
-          key: v1-yarn-{{ checksum "yarn.lock" }}
+      # - restore_cache:
+      #     keys:
+      #     - v1-dependencies-{{ checksum "Gemfile.lock" }}
+      #     # fallback to using the latest cache if no exact match is found
+      #     - v1-dependencies-
+      # - run:
+      #     name: install dependencies
+      #     command: |
+      #       bundle install --jobs=4 --retry=3 --path vendor/bundle
+      # - save_cache:
+      #     paths:
+      #       - ./vendor/bundle
+      #     key: v1-yarn-{{ checksum "Gemfile.lock" }}
+      # - restore_cache:
+      #     keys:
+      #     - v1-yarn-{{ checksum "yarn.lock" }}
+      #     # fallback to using the latest cache if no exact match is found
+      #     - v1-yarn-
+      # - run:
+      #     name: yarn install
+      #     command: yarn install
+      # - save_cache:
+      #     paths:
+      #       - .yarn-cache
+      #     key: v1-yarn-{{ checksum "yarn.lock" }}
       # Database setup
       - run: rm ./config/database.yml
       - run: mv ./config/database.yml.ci ./config/database.yml
