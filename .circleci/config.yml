@@ -43,7 +43,7 @@ jobs:
           command: yarn install
       - save_cache:
           paths:
-            - .yarn-cache
+            - ./node_modules
           key: v1-yarn-{{ checksum "yarn.lock" }}
       # Database setup
       - run: rm ./config/database.yml
