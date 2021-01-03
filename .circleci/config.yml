@@ -1,0 +1,80 @@
+version: 2.1
+orbs:
+  aws-ecr: circleci/aws-ecr@6.7.0
+  aws-ecs: circleci/aws-ecs@1.0.4
+jobs:
+  test:
+    docker:
+      - image: circleci/ruby:2.6.6-node-browsers
+        environment:
+          RAILS_ENV: test
+          MYSQL_HOST: 127.0.0.1
+          MYSQL_USERNAME: 'root'
+          MYSQL_PASSWORD: ''
+          MYSQL_PORT: 3306
+      - image: circleci/mysql:8.0.18-ram
+        command: |
+          mysqld --default-authentication-plugin=mysql_native_password
+        environment:
+          MYSQL_DATABASE: shiori_test
+          MYSQL_ALLOW_EMPTY_PASSWORD: true
+          MYSQL_ROOT_HOST: '%'
+    working_directory: ~/shiori
+    steps:
+      - checkout
+      - restore_cache:
+          keys:
+          - v1-dependencies-{{ checksum "Gemfile.lock" }}
+          # fallback to using the latest cache if no exact match is found
+          - v1-dependencies-
+      - run:
+          name: install dependencies
+          command: |
+            bundle install --jobs=4 --retry=3 --path vendor/bundle
+      - save_cache:
+          paths:
+            - ./vendor/bundle
+          key: v1-yarn-{{ checksum "Gemfile.lock" }}
+      - restore_cache:
+          keys:
+          - v1-yarn-{{ checksum "yarn.lock" }}
+          # fallback to using the latest cache if no exact match is found
+          - v1-yarn-
+      - run:
+          name: yarn install
+          command: yarn install
+      - save_cache:
+          paths:
+            - .yarn-cache
+          key: v1-yarn-{{ checksum "yarn.lock" }}
+      # Database setup
+      - run: rm ./config/database.yml
+      - run: mv ./config/database.yml.ci ./config/database.yml
+      - run:
+          name: Prepare db
+          command: |
+            bundle exec rake db:create db:schema:load --trace
+      - run:
+          name: Compile webpack
+          command: yarn webpack
+      # run tests!
+      - run:
+          name: Run rspec
+          command: |
+            mkdir /tmp/test-results
+            TEST_FILES="$(circleci tests glob "spec/**/*_spec.rb" | circleci tests split --split-by=timings)"
+            bundle exec rspec --format progress --color --format documentation
+      # collect reports
+      - store_test_results:
+          path: /tmp/test-results
+      - store_artifacts:
+          path: /tmp/test-results
+          destination: test-results
+
+workflows:
+  build_and_push_image:
+    jobs:
+      - test:
+          filters:
+            branches:
+              only: first-deploy
