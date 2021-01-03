@@ -96,7 +96,9 @@ workflows:
             - test
           repo: "${AWS_RESOURCE_NAME_PREFIX}/app"
           dockerfile: 'Dockerfile.prod'
-          extra-build-args: "--build-arg ARG_RAILS_MASTER_KEY=${RAILS_MASTER_KEY} --build-arg ARG_MYSQL_PASSWORD=${MY_MYSQL_PASSWORD}"
+          extra-build-args: >-
+            --build-arg ARG_RAILS_MASTER_KEY=${RAILS_MASTER_KEY}
+            --build-arg ARG_MYSQL_PASSWORD=${MY_MYSQL_PASSWORD}
           path: '.'
           tag: 'latest,${CIRCLE_SHA1}'
 
