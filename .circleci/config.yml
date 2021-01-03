@@ -24,9 +24,8 @@ jobs:
       - checkout
       - restore_cache:
           keys:
-          - v1-dependencies-{{ checksum "Gemfile.lock" }}
-          # fallback to using the latest cache if no exact match is found
-          - v1-dependencies-
+            - v1-dependencies-{{ checksum "Gemfile.lock" }}
+            - v1-dependencies-
       - run:
           name: install dependencies
           command: |
@@ -37,9 +36,8 @@ jobs:
           key: v1-yarn-{{ checksum "Gemfile.lock" }}
       - restore_cache:
           keys:
-          - v1-yarn-{{ checksum "yarn.lock" }}
-          # fallback to using the latest cache if no exact match is found
-          - v1-yarn-
+            - v1-yarn-{{ checksum "yarn.lock" }}
+            - v1-yarn-
       - run:
           name: yarn install
           command: yarn install
