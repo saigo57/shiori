@@ -46,5 +46,4 @@ RUN RAILS_ENV=production \
     RAILS_MASTER_KEY=$ARG_RAILS_MASTER_KEY \
     MYSQL_PASSWORD=$ARG_MYSQL_PASSWORD \
     bundle exec rake assets:precompile
-RUN chmod +x start.sh
-CMD ./start.sh
+CMD sh start.sh
