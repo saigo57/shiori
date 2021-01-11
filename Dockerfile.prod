@@ -10,6 +10,7 @@ WORKDIR /shiori
 ADD Gemfile /shiori/Gemfile
 ADD Gemfile.lock /shiori/Gemfile.lock
 ADD . /shiori
+RUN mkdir -p tmp/sockets
 
 RUN bundle install
 ENV RAILS_ENV production
