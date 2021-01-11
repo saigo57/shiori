@@ -7,4 +7,6 @@ if [ "$SSM_ACTIVATE" = "true" ]; then
   nohup amazon-ssm-agent > /dev/null &
 fi
 
+echo "echo test"
+
 bundle exec puma
