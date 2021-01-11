@@ -5,6 +5,32 @@ RUN curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add - \
     && apt-get update -qq \
     && apt-get install -y nodejs yarn
 
+# Python Install
+RUN apt install -y \
+    zlib1g-dev \
+    libssl-dev \
+    libreadline-dev \
+    libsqlite3-dev \
+    libbz2-dev \
+    libncurses5-dev \
+    libgdbm-dev \
+    liblzma-dev \
+    tk-dev zlibc \
+    libffi-dev \
+    zip \
+    unzip \
+ && apt-get clean \
+ && curl https://www.python.org/ftp/python/3.7.5/Python-3.7.5.tgz | tar zx -C /usr/local/src/ \
+ && cd /usr/local/src/Python-3.7.5 \
+ && ./configure \
+ && make && make install \
+ && ln -s /usr/local/bin/python3 /usr/local/bin/python
+
+# SSM Install
+RUN curl https://s3.ap-northeast-1.amazonaws.com/amazon-ssm-ap-northeast-1/latest/debian_amd64/amazon-ssm-agent.deb -o /tmp/amazon-ssm-agent.deb \
+    && dpkg -i /tmp/amazon-ssm-agent.deb \
+    && cp /etc/amazon/ssm/seelog.xml.template /etc/amazon/ssm/seelog.xml
+
 RUN mkdir /shiori
 WORKDIR /shiori
 ADD Gemfile /shiori/Gemfile
@@ -20,4 +46,5 @@ RUN RAILS_ENV=production \
     RAILS_MASTER_KEY=$ARG_RAILS_MASTER_KEY \
     MYSQL_PASSWORD=$ARG_MYSQL_PASSWORD \
     bundle exec rake assets:precompile
-CMD bundle exec puma
+RUN chmod +x start.sh
+CMD ./start.sh
