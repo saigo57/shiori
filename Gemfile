@@ -38,6 +38,7 @@ gem 'rmagick'
 gem 'bootsnap', '>= 1.4.2', require: false
 
 group :production do
+  gem 'aws-sdk-rails'
   gem 'fog-aws'
 end
 
