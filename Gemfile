@@ -28,6 +28,7 @@ gem 'jbuilder', '~> 2.7'
 # gem 'image_processing', '~> 1.2'
 
 gem 'activerecord-import'
+gem 'aws-ses', '~> 0.6'
 gem 'carrierwave'
 gem 'devise'
 gem 'devise-i18n'
@@ -38,7 +39,6 @@ gem 'rmagick'
 gem 'bootsnap', '>= 1.4.2', require: false
 
 group :production do
-  gem 'aws-sdk-rails'
   gem 'fog-aws'
 end
 
