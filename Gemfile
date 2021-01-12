@@ -28,6 +28,7 @@ gem 'jbuilder', '~> 2.7'
 # gem 'image_processing', '~> 1.2'
 
 gem 'activerecord-import'
+gem 'aws-ses', '~> 0.6'
 gem 'carrierwave'
 gem 'devise'
 gem 'devise-i18n'
