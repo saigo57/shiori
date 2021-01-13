@@ -115,7 +115,7 @@ workflows:
           requires:
             - aws-ecr-build-and-push-image-app
             - aws-ecr-build-and-push-image-web
-          family: 'shiori'
+          family: 'shiori-staging-task'
           cluster-name: 'shiori-staging-cluster'
           service-name: 'shiori-staging-service'
           container-image-name-updates: >
