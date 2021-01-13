@@ -119,5 +119,5 @@ workflows:
           cluster-name: 'shiori-staging-cluster'
           service-name: 'shiori-staging-service'
           container-image-name-updates: >
-            container=shiori-app,image-and-tag=${AWS_ECR_ACCOUNT_URL}/shiori-product/app:${CIRCLE_SHA1},
-            container=shiori-web,image-and-tag=${AWS_ECR_ACCOUNT_URL}/shiori-product/web:${CIRCLE_SHA1}
+            container=shiori-app,image-and-tag=${AWS_ECR_ACCOUNT_URL}/shiori-staging/app:${CIRCLE_SHA1},
+            container=shiori-web,image-and-tag=${AWS_ECR_ACCOUNT_URL}/shiori-staging/web:${CIRCLE_SHA1}
