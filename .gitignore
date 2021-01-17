@@ -28,6 +28,11 @@
 # Ignore master key for decrypting credentials and more.
 /config/master.key
 
+# terraform
+infra/.terraform/*
+infra/.terraform.lock.hcl
+infra/terraform.tfvars
+
 /public/packs
 /public/packs-test
 /node_modules
