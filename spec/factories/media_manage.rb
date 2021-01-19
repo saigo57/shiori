@@ -4,6 +4,7 @@ FactoryBot.define do
   factory :media_manage do
     association :user
     title { 'media_manageタイトル' }
+    media_sec { 3723 }
   end
 
   factory :media_manage2, class: MediaManage do
@@ -15,5 +16,6 @@ FactoryBot.define do
     association :user, factory: :alice
     title { '【公式】Railsチュートリアルの歩き方【解説動画】' }
     media_url { 'https://www.youtube.com/watch?v=spbKJhPBGok' }
+    media_sec { 3723 }
   end
 end

@@ -105,7 +105,8 @@ RSpec.describe 'media_manage', type: :request do
         id: media_manage.id,
         media_manage: {
           title: 'newタイトル',
-          media_url: 'url'
+          media_url: 'url',
+          media_sec: 1000
         }
       }
     end

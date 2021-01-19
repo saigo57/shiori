@@ -14,6 +14,11 @@
   <%= f.text_field :title %>
   <%= f.label :media_url %>
   <%= f.text_field :media_url %>
+  <%= f.label "動画時間(時：分：秒)" %>
+  <%= f.hidden_field :media_sec %>
+  <div>
+    <%= render "input_time", {prefix: "length", value: @media_manage.media_sec} %>
+  </div>
   <%= f.submit "更新", class: "btn" %>
 <% end %>
 

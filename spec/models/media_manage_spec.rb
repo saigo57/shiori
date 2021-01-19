@@ -64,6 +64,17 @@ RSpec.describe MediaManage, type: :model do
     end
   end
 
+  context 'media_sec_str' do
+    it '文字列に変換できること' do
+      expect(media_manage.media_sec_str).to eq '01:02:03'
+    end
+
+    it 'media_secがnilのとき0秒として扱うこと' do
+      media_manage.media_sec = nil
+      expect(media_manage.media_sec_str).to eq '00:00:00'
+    end
+  end
+
   context 'youtube_thumbnail_url' do
     subject { media_manage.youtube_thumbnail_url }
 

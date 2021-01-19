@@ -67,7 +67,7 @@ class MediaManagesController < ApplicationController
   end
 
   def media_manage_params
-    params.require(:media_manage).permit(:title, :thumbnail, :media_url)
+    params.require(:media_manage).permit(:title, :thumbnail, :media_url, :media_sec)
   end
 
   def media_manage
