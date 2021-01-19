@@ -1,6 +1,39 @@
 @import "const";
 
+.media-length {
+  background-color: rgba(0, 0, 0, 0.7 );
+  color: white;
+  border-radius: 6px;
+  font-size: 20px;
+}
+
+.media-manage-show-thumbnail {
+  display: block;
+  position: relative;
+  width: 240px;
+  & > .media-length {
+    display: block;
+    position: absolute;
+    right: 0;
+    left: auto;
+    bottom: 5px;
+    padding: 0;
+    margin-right: 2px;
+    margin-bottom: 2px;
+  }
+}
+
 .media-manage-card {
+  & > .card-image {
+    & > .card-title {
+      right: 0;
+      left: auto;
+      padding: 0;
+      margin-right: 2px;
+      margin-bottom: 2px;
+      font-size: 12px;
+    }
+  }
   & > .card-stacked {
     & > .card-action {
       padding-top: 2px;

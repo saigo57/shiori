@@ -1,16 +1,25 @@
 
 <div class="time-input-parts">
-  <input type="tel" name="<%= prefix %>-time-input-hour" maxlength="2" class="time-input-text browser-default">
+  <input type="tel" name="<%= prefix %>-time-input-hour" maxlength="2"
+   class="time-input-text browser-default" value="<%= value / 3600 unless value.nil? %>">
 </div>
+
+<% sec = value % 3600 unless value.nil? %>
+
 <div class="input-separate">
   ：
 </div>
 <div class="time-input-parts">
-  <input type="tel" name="<%= prefix %>-time-input-min" maxlength="2" class="time-input-text browser-default">
+  <input type="tel" name="<%= prefix %>-time-input-min" maxlength="2"
+   class="time-input-text browser-default" value="<%= sec / 60 unless value.nil? %>">
 </div>
+
+<% sec = value % 60 unless value.nil? %>
+
 <div class="input-separate">
   ：
 </div>
 <div class="time-input-parts">
-  <input type="tel" name="<%= prefix %>-time-input-sec" maxlength="2" class="time-input-text browser-default">
+  <input type="tel" name="<%= prefix %>-time-input-sec" maxlength="2"
+   class="time-input-text browser-default" value="<%= sec unless value.nil? %>">
 </div>

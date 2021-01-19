@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 class MediaManage < ApplicationRecord
+  include CommonModule
   belongs_to :user
   has_many :media_time_span, dependent: :destroy
   has_many :media_time_image, dependent: :destroy
@@ -12,6 +13,10 @@ class MediaManage < ApplicationRecord
 
   def can_restore
     media_time_span.where(seq_id: curr_seq_id - 1).count.positive?
+  end
+
+  def media_sec_str
+    sec_to_str(media_sec || 0)
   end
 
   def youtube_thumbnail_url

@@ -2,9 +2,12 @@
 <%= link_to "一覧に戻る", media_manages_path %></br>
 <%= link_to "編集", edit_media_manage_path(@media_manage) %></br>
 
-<%= link_to @media_manage.media_url do %>
-  <%= thumbnail_tag(@media_manage, '240x135') %>
-<% end %>
+<div class="media-manage-show-thumbnail">
+  <%= link_to @media_manage.media_url do %>
+    <%= thumbnail_tag(@media_manage, '240x135') %>
+  <% end %>
+  <span class="media-length"><%= @media_manage.media_sec_str %></span>
+</div>
 
 <div class="show-media-manag-title">
   <%= @media_manage.title %>
@@ -39,7 +42,7 @@
   })
 </script>
 
-<ul class="collection">
+<ul class="collection time-span-collection">
   <% @time_spans.each_with_index do |ts, i| %>
     <li class="collection-item">
       <div class="time-span-block" id="time-span-block-<%= i %>">
