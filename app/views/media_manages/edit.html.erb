@@ -10,10 +10,11 @@
   <p>※画像は320x180にリサイズされます</p>
   </br>
 
+  <%= f.label :media_url %>
+  <%= f.text_field :media_url, placeholder: 'https://www.youtube.com/watch?v=xxxxxx, https://youtu.be/xxxxxx, ...' %>
+  <p>※youtubeの場合、これより下は自動取得されます</p>
   <%= f.label :title %>
   <%= f.text_field :title %>
-  <%= f.label :media_url %>
-  <%= f.text_field :media_url %>
   <%= f.label "動画時間(時：分：秒)" %>
   <%= f.hidden_field :media_sec %>
   <div>

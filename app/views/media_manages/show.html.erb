@@ -26,6 +26,8 @@
   </button>
 <% end %>
 
+<%= link_to '情報更新', fetch_media_manage_path(@media_manage), method: :patch, class: "waves-effect waves-red btn red" %>
+
 <%= form_for @media_time_image, html: {id: 'media_time_image_form_id'} do |f| %>
   <%= f.hidden_field :media_manage_id, value: @media_manage.id %>
   <%= f.file_field :image, accept: 'image/jpeg,image/gif,image/png' %>

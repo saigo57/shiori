@@ -5,6 +5,7 @@ Rails.application.routes.draw do
   root to: 'home#index'
   resources :media_manages do
     patch 'restore', on: :member
+    patch 'fetch', on: :member
   end
   resources :media_time_span, only: [:create, :destroy]
   resources :media_time_images, only: [:create, :destroy]

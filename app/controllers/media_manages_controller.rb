@@ -2,8 +2,9 @@
 
 class MediaManagesController < ApplicationController
   include MediaManagesHelper
+  include YoutubeUtils
   before_action :check_signed_in
-  before_action :media_manage, only: [:edit, :show, :update, :destroy, :restore]
+  before_action :media_manage, only: [:edit, :show, :update, :destroy, :restore, :fetch]
   before_action :check_can_restore, only: [:restore]
 
   def index
@@ -27,6 +28,7 @@ class MediaManagesController < ApplicationController
   def update
     if @media_manage.update(media_manage_params)
       flash[:success] = '動画情報を更新しました'
+      try_update_youtube
       redirect_to @media_manage
     else
       render 'edit'
@@ -48,6 +50,11 @@ class MediaManagesController < ApplicationController
     end
 
     flash[:success] = '元に戻しました'
+    redirect_to @media_manage
+  end
+
+  def fetch
+    try_update_youtube
     redirect_to @media_manage
   end
 
@@ -77,5 +84,27 @@ class MediaManagesController < ApplicationController
 
     flash[:error] = 'このURLは存在しません'
     redirect_to root_url
+  end
+
+  # youtubeのmediaであれば、youtubeから情報を取得する
+  def try_update_youtube
+    return unless @media_manage.youtube_video?
+
+    info = fetch_youtube_video_info(@media_manage.youtube_video_id)
+    logger.info("youtube info[#{info}]")
+
+    update_youtube(info)
+  rescue YoutubeFetchError => e
+    logger.error("youtube fetch error. #{e}")
+    flash[:warn] = 'youtubeからの取得に失敗しました。'
+  end
+
+  # youtubeから取得した情報でUPDATEする
+  def update_youtube(info)
+    if @media_manage.update(info)
+      flash[:info] = 'youtubeからの取得に成功しました。'
+    else
+      flash[:warn] = 'youtube情報の保存に失敗しました。'
+    end
   end
 end
