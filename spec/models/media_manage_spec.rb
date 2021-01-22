@@ -75,6 +75,30 @@ RSpec.describe MediaManage, type: :model do
     end
   end
 
+  context 'youtube_video?' do
+    subject { media_manage.youtube_video? }
+
+    it 'urlがないときfalseを返すこと' do
+      expect(media_manage.media_url).to be_nil
+      is_expected.to be_falsey
+    end
+
+    it 'urlがyoutubeにマッチしないときfalseを返すこと' do
+      media_manage.update(media_url: 'https://www.test.com/foo/bar')
+      is_expected.to be_falsey
+    end
+
+    it 'urlがwww.youtube.comにマッチしたときtrueを返すこと' do
+      media_manage.update(media_url: 'https://www.youtube.com/watch?v=abcdefg12345')
+      is_expected.to be_truthy
+    end
+
+    it 'urlがyoutu.beにマッチしたときtrueを返すこと' do
+      media_manage.update(media_url: 'https://youtu.be/abcdefg12345')
+      is_expected.to be_truthy
+    end
+  end
+
   context 'youtube_thumbnail_url' do
     subject { media_manage.youtube_thumbnail_url }
 
@@ -88,8 +112,13 @@ RSpec.describe MediaManage, type: :model do
       is_expected.to be_nil
     end
 
-    it 'urlがyoutubeにマッチしたときサムネイルのurlを返すこと' do
+    it 'urlがwww.youtube.comにマッチしたときサムネイルのurlを返すこと' do
       media_manage.update(media_url: 'https://www.youtube.com/watch?v=abcdefg12345')
+      is_expected.to eq 'https://img.youtube.com/vi/abcdefg12345/mqdefault.jpg'
+    end
+
+    it 'urlがyoutu.beにマッチしたときサムネイルのurlを返すこと' do
+      media_manage.update(media_url: 'https://youtu.be/abcdefg12345')
       is_expected.to eq 'https://img.youtube.com/vi/abcdefg12345/mqdefault.jpg'
     end
   end

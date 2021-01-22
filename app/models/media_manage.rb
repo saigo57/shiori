@@ -19,13 +19,28 @@ class MediaManage < ApplicationRecord
     sec_to_str(media_sec || 0)
   end
 
-  def youtube_thumbnail_url
+  def youtube_video_id
     return if media_url.nil?
 
     reg = media_url.match(%r{https://www\.youtube\.com/watch\?v=(?<id>.+?)\z})
-    return nil if reg.nil?
+    return reg[:id] unless reg.nil?
+
+    reg = media_url.match(%r{https://youtu\.be/(?<id>.+?)\z})
+    return reg[:id] unless reg.nil?
+
+    nil
+  end
+
+  def youtube_video?
+    !!youtube_video_id
+  end
+
+  def youtube_thumbnail_url
+    id = youtube_video_id
+
+    return nil if id.nil?
 
     # 320x180
-    "https://img.youtube.com/vi/#{reg[:id]}/mqdefault.jpg"
+    "https://img.youtube.com/vi/#{id}/mqdefault.jpg"
   end
 end

@@ -4,7 +4,7 @@ require 'rails_helper'
 
 RSpec.describe 'media_manage_span', type: :system, js: true do
   let(:alice) { create(:alice) }
-  let!(:media_manage_rails) { create(:media_manage_rails, user_id: alice.id) }
+  let!(:media_manage_other_site) { create(:media_manage_other_site, user_id: alice.id) }
 
   before do
     visit root_path
@@ -15,9 +15,9 @@ RSpec.describe 'media_manage_span', type: :system, js: true do
     before do
       toggle_side_nav
       within('#sidenav-menu') { click_link '動画一覧' }
-      expect(page).to have_content(media_manage_rails.title)
+      expect(page).to have_content(media_manage_other_site.title)
 
-      click_link media_manage_rails.title
+      click_link media_manage_other_site.title
     end
 
     # --A--  --B--

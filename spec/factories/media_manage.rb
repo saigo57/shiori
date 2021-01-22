@@ -12,10 +12,10 @@ FactoryBot.define do
     title { 'media_manage_title' }
   end
 
-  factory :media_manage_rails, class: MediaManage do
+  factory :media_manage_other_site, class: MediaManage do
     association :user, factory: :alice
-    title { '【公式】Railsチュートリアルの歩き方【解説動画】' }
-    media_url { 'https://www.youtube.com/watch?v=spbKJhPBGok' }
+    title { 'その他の動画' }
+    media_url { 'https://www.example.com/watch?v=abcdefg' }
     media_sec { 3723 }
   end
 end
