@@ -8,7 +8,7 @@ class MediaManagesController < ApplicationController
   before_action :check_can_restore, only: [:restore]
 
   def index
-    @media_manages = current_user.media_manage
+    @media_manages = current_user.media_manage.list
   end
 
   def new

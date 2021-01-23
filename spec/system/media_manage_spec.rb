@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require 'rails_helper'
+require 'google/apis/youtube_v3'
 
 class YoutubeVideosInfo
   def initialize(title:, hour: 0, min: 0, sec: 0, item_count: 1)
@@ -69,7 +70,8 @@ RSpec.describe 'media_manage', type: :system, js: true do
     toggle_side_nav
     within('#sidenav-menu') { click_link '動画一覧' }
     expect(page).to have_content(title)
-    expect(page).to have_content('01:02:03')
+    expect(page).to have_content('01:02:03') # 動画時間
+    expect(page).to have_content('未視聴')
   end
 
   describe 'youtube' do
@@ -180,6 +182,31 @@ RSpec.describe 'media_manage', type: :system, js: true do
       within('.time-span-collection') do
         expect(page).to have_content('01:02:03')
         expect(page).to have_content('04:05:06')
+      end
+    end
+
+    scenario '視聴ステータス' do
+      # 途中までの時間で入力
+      click_on '＋時間'
+      fill_in_time('begin', hour: 0, min: 0, sec: 0)
+      fill_in_time('end', hour: 0, min: 1, sec: 2)
+      click_on '登録'
+
+      click_link '一覧に戻る'
+      within('.card-content') do
+        expect(page).to have_content('視聴中・のこり01:01:01')
+      end
+
+      # 動画が見終わるように入力
+      click_link media_manage_other_site.title
+      click_on '＋時間'
+      fill_in_time('begin', hour: 0, min: 0, sec: 0)
+      fill_in_time('end', hour: 1, min: 2, sec: 3)
+      click_on '登録'
+
+      click_link '一覧に戻る'
+      within('.card-content') do
+        expect(page).to have_content('視聴済み')
       end
     end
 

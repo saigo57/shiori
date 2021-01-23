@@ -12,7 +12,12 @@
       <%= link_to media_manage.title, media_manage_path(media_manage), class: 'black-text' %>
     </div>
     <div class="card-content grey-text text-darken-1">
-      <p>視聴中・のこり01:39:06</p>
+      <p>
+        <%= media_manage.media_status %>
+        <% if media_manage.media_time_image.any? %>
+          <i class="material-icons">image</i>
+        <% end %>
+      </p>
     </div>
   </div>
 </div>

@@ -123,6 +123,99 @@ RSpec.describe MediaManage, type: :model do
     end
   end
 
+  context 'remaining_seconds' do
+    subject { media_manage.remaining_seconds }
+
+    before do
+      media_manage.media_sec = 3600
+    end
+
+    it 'media_secがnilのときnilを返すこと' do
+      media_manage.media_sec = nil
+      is_expected.to be_nil
+    end
+
+    it '視聴時間から動画の残り視聴時間を返すこと' do
+      add_spans({ seq_id: 1, begin_sec: 0, end_sec: 200 })
+      is_expected.to eq 3400
+    end
+
+    it '視聴時間が複数でも正常に計算されること' do
+      add_spans({ seq_id: 1, begin_sec: 100, end_sec: 300 })
+      add_spans({ seq_id: 1, begin_sec: 1000, end_sec: 2000 })
+      is_expected.to eq 2400
+    end
+
+    it '動画時間を超えている分は計算に入れないこと' do
+      add_spans({ seq_id: 1, begin_sec: 100, end_sec: media_manage.media_sec + 100 })
+      add_spans({ seq_id: 1, begin_sec: media_manage.media_sec + 200, end_sec: media_manage.media_sec + 300 })
+      is_expected.to eq 100
+    end
+
+    it '現在のseqのみ計算に含めること' do
+      add_spans({ seq_id: 1, begin_sec: 0, end_sec: 500 })
+      add_spans({ seq_id: 2, begin_sec: 2000, end_sec: 3000 })
+      media_manage.update(curr_seq_id: 2)
+      is_expected.to eq 2600
+    end
+  end
+
+  context 'media_status' do
+    subject { media_manage.media_status }
+
+    before do
+      media_manage.media_sec = 3600
+    end
+
+    it 'media_secがnilのとき、専用の文字列を返すこと' do
+      media_manage.media_sec = nil
+      is_expected.to eq '動画時間が登録されていません'
+    end
+
+    it 'media_sec = spansで、視聴済みを返すこと' do
+      add_spans({ seq_id: 1, begin_sec: 0, end_sec: 3600 })
+      is_expected.to eq '視聴済み'
+    end
+
+    it 'media_sec < spansで、視聴済みを返すこと' do
+      add_spans({ seq_id: 1, begin_sec: 0, end_sec: 4000 })
+      is_expected.to eq '視聴済み'
+    end
+
+    it 'media_sec > spansで、視聴中と残り時間を返すこと' do
+      add_spans({ seq_id: 1, begin_sec: 0, end_sec: 900 })
+      is_expected.to eq '視聴中・のこり00:45:00'
+    end
+
+    it 'spanが途中〜途中の場合も、視聴中と残り時間を返すこと' do
+      add_spans({ seq_id: 1, begin_sec: 1000, end_sec: 1900 })
+      is_expected.to eq '視聴中・のこり00:45:00'
+    end
+
+    it 'spanが途中〜最後の場合も、視聴中と残り時間を返すこと' do
+      add_spans({ seq_id: 1, begin_sec: 2700, end_sec: 3600 })
+      is_expected.to eq '視聴中・のこり00:45:00'
+    end
+
+    it 'spanが複数の場合も、視聴中と残り時間を返すこと' do
+      add_spans({ seq_id: 1, begin_sec: 0, end_sec: 300 })
+      add_spans({ seq_id: 1, begin_sec: 1000, end_sec: 1300 })
+      add_spans({ seq_id: 1, begin_sec: 2000, end_sec: 2300 })
+      is_expected.to eq '視聴中・のこり00:45:00'
+    end
+
+    it 'spanのendが動画時間を超えていた場合、超えた分を差し引いてのこり時間を返すこと' do
+      add_spans({ seq_id: 1, begin_sec: 2700, end_sec: media_manage.media_sec + 1000 })
+      is_expected.to eq '視聴中・のこり00:45:00'
+    end
+
+    it 'spanのbegin,endが共に動画時間を超えていた場合、超えた分を差し引いてのこり時間を返すこと' do
+      add_spans({ seq_id: 1, begin_sec: 0, end_sec: 900 })
+      add_spans({ seq_id: 1, begin_sec: media_manage.media_sec + 1000, end_sec: media_manage.media_sec + 1100 })
+      is_expected.to eq '視聴中・のこり00:45:00'
+    end
+  end
+
   context 'cascade' do
     it 'ユーザー削除時に削除されること' do
       expect(MediaManage.count(:id)).to be 1
