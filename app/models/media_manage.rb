@@ -6,6 +6,11 @@ class MediaManage < ApplicationRecord
   has_many :media_time_span, dependent: :destroy
   has_many :media_time_image, dependent: :destroy
   mount_uploader :thumbnail, ThumbnailUploader
+  scope :join_curr_spans, lambda {
+    eager_load(:media_time_span)
+      .joins('AND media_time_spans.seq_id = media_manages.curr_seq_id')
+  }
+  scope :list, -> { join_curr_spans.preload(:media_time_image) }
 
   def time_spans
     media_time_span.where(seq_id: curr_seq_id).sorted
@@ -42,5 +47,29 @@ class MediaManage < ApplicationRecord
 
     # 320x180
     "https://img.youtube.com/vi/#{id}/mqdefault.jpg"
+  end
+
+  def remaining_seconds
+    return nil if media_sec.nil?
+
+    sec_watched = 0
+    media_time_span.each do |s|
+      sec_watched += [s.end_sec, media_sec].min - [s.begin_sec, media_sec].min if s.seq_id == curr_seq_id
+    end
+
+    media_sec - sec_watched
+  end
+
+  def media_status
+    sec_remaining = remaining_seconds
+    return '動画時間が登録されていません' if sec_remaining.nil?
+
+    if media_time_span.any? && sec_remaining.positive?
+      "視聴中・のこり#{sec_to_str(sec_remaining)}"
+    elsif media_time_span.any? && sec_remaining <= 0
+      '視聴済み'
+    else
+      '未視聴'
+    end
   end
 end

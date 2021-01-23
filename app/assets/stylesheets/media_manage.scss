@@ -59,10 +59,9 @@
       padding-bottom: 2px;
       padding-right: 6px;
       padding-left: 6px;
-      & > a {
-        @media (max-width: $mobile-brakepoint) {
-          font-size: 0.8em;
-        }
+      & > p .material-icons {
+        vertical-align: middle;
+        font-size: 1.2em;
       }
     }
   }
