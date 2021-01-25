@@ -5,7 +5,7 @@
     <ul id="nav-mobile" class="right hide-on-med-and-down">
       <% if user_signed_in? %>
         <li><%= link_to "新規動画", new_media_manage_path %></li>
-        <li><%= link_to "新規プレイリスト", '#' %></li>
+        <li><%= link_to "新規プレイリスト", new_playlist_path %></li>
         <li><%= link_to "ログアウト", destroy_user_session_path, method: :delete %></li>
       <% else %>
         <li><%= link_to "ログイン", new_user_session_path %></li>
@@ -33,13 +33,17 @@
         <i class="material-icons">add</i>新規動画
       <% end %>
     </li>
+
+    <% @playlists.each do |playlist| %>
+      <li>
+        <%= link_to playlist_path(playlist) do %>
+          <i class="material-icons">playlist_play</i><%= playlist.name %>
+        <% end %>
+      </li>
+    <% end %>
+
     <li>
-      <%= link_to '#' do %>
-        <i class="material-icons">playlist_play</i>プレイリスト１
-      <% end %>
-    </li>
-    <li>
-      <%= link_to '#' do %>
+      <%= link_to new_playlist_path do %>
         <i class="material-icons">playlist_add</i>新規プレイリスト
       <% end %>
     </li>

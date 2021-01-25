@@ -1,0 +1,41 @@
+<div class="playlist-title active">
+  <span><%= @playlist.name %></span>
+  <a href="#" data-position="right">
+    <i class="material-icons">create</i>
+  </a>
+</div>
+
+<%= form_for @playlist do |f| %>
+  <%= f.text_field :name %>
+  <a href="#">キャンセル</a>
+  <%= f.submit "更新", class: "waves-light btn" %>
+<% end %>
+
+<a class='dropdown-trigger' href='#' data-target='playlist-show-dropdown'>
+  <i class="material-icons">more_vert</i>
+</a>
+
+<ul id='playlist-show-dropdown' class='dropdown-content'>
+  <li>
+    <a href="#!" data-target="playlist_delete_modal" class="modal-trigger">
+      <i class="material-icons">delete</i>プレイリスト削除
+    </a>
+  </li>
+</ul>
+
+<div id="playlist_delete_modal" class="modal">
+  <div class="modal-content">
+    <h4>確認</h4>
+    <p><%= @playlist.name %>を削除します。</p>
+    <p>よろしいですか？</p>
+    <p>※この操作は取り消せません</p>
+  </div>
+  <div class="modal-footer">
+    <a href="#!" class="modal-close waves-effect waves-green btn">キャンセル</a>
+    <%= link_to '削除', playlist_path(@playlist), method: :delete, class: "waves-effect waves-red btn red" %>
+  </div>
+</div>
+
+<% if @media_manages.any? %>
+  <%= render partial: "media_manages/media_manage", collection: @media_manages %>
+<% end %>

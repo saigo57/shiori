@@ -23,6 +23,14 @@ class MediaManagesController < ApplicationController
   def show
     @time_spans = @media_manage.time_spans
     @media_time_image = MediaTimeImage.new
+    @pm_hash = {}
+    @playlists.each do |p|
+      @pm_hash[p.id] = PlaylistMediaManage.new
+    end
+
+    @media_manage.playlist_media_manages.each do |r|
+      @pm_hash[r.playlist_id] = r
+    end
   end
 
   def update

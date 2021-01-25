@@ -1,0 +1,67 @@
+// Place all the styles related to the playlist controller here.
+// They will automatically be included in application.css.
+// You can use Sass (SCSS) here: https://sass-lang.com/
+
+.playlist-form {
+  & > .playlist-submit {
+    display: none;
+
+  }
+
+  & > p > label {
+    & > span:after {
+      margin-top: 2px;
+    }
+
+    & > span {
+      display: inline-block;
+      color: black;
+      vertical-align: top;
+    }
+  }
+}
+
+.playlist-title {
+  &:not(.active) {
+    display: none;
+  }
+
+  & > span {
+    display: inline-block;
+    width: 80%;
+    font-size: 2em;
+    margin-top: 10px;
+  }
+
+  & > a {
+    display: inline-block;
+    vertical-align: middle;
+    margin-bottom: 10px;
+    color: gray;
+  }
+}
+
+.edit_playlist {
+  text-align: right;
+
+  &:not(.active) {
+    display: none;
+  }
+
+  & > a {
+    margin-right: 20px;
+    vertical-align: middle;
+  }
+
+  & > input[type="submit"] {
+    margin-right: 20px;
+  }
+}
+
+#playlist-show-dropdown {
+  width: 220px;
+}
+
+.dropdown-trigger[data-target="playlist-show-dropdown"] {
+  color: gray;
+}

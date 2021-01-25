@@ -6,4 +6,5 @@ class User < ApplicationRecord
   devise :database_authenticatable, :registerable,
          :recoverable, :rememberable, :validatable, :confirmable
   has_many :media_manage, dependent: :destroy
+  has_many :playlist, dependent: :destroy
 end

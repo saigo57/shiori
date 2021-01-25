@@ -1,0 +1,15 @@
+<div id="playlist-form-<%= playlist.id %>" >
+  <% if media_manage.added_playlist?(playlist) %>
+    <%= render partial: 'playlists/remove_media', locals: {
+      playlist: playlist,
+      media_manage: media_manage,
+      playlist_media_manage: playlist_media_manage
+    } %>
+  <% else %>
+    <%= render partial: 'playlists/add_media', locals: {
+      playlist: playlist,
+      media_manage: media_manage,
+      playlist_media_manage: playlist_media_manage
+    } %>
+  <% end %>
+</div>

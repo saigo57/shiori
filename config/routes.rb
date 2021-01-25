@@ -7,6 +7,8 @@ Rails.application.routes.draw do
     patch 'restore', on: :member
     patch 'fetch', on: :member
   end
+  resources :playlists
+  resources :playlist_media_manages, only: [:create, :destroy]
   resources :media_time_span, only: [:create, :destroy]
   resources :media_time_images, only: [:create, :destroy]
 

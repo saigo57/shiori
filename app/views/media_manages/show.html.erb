@@ -20,6 +20,10 @@
   ＋SS
 </button>
 
+<button data-target="media_manages_playlist_modal" class="btn modal-trigger red accent-4">
+  プレイリスト
+</button>
+
 <% if @media_manage.can_restore %>
   <button data-target="media_manages_restore_modal" class="btn modal-trigger red accent-4">
     元に戻す
@@ -109,5 +113,20 @@
   <div class="modal-footer">
     <a href="#!" class="modal-close waves-effect waves-green btn">キャンセル</a>
     <%= link_to '戻す', restore_media_manage_path(@media_manage), method: :patch, class: "waves-effect waves-red btn red" %>
+  </div>
+</div>
+
+<div id="media_manages_playlist_modal" class="modal">
+  <div class="modal-content">
+    <h4>プレイリスト</h4>
+    <% @playlists.each do |p| %>
+      <%= render partial: "playlist_form", locals: {
+        playlist: p,
+        playlist_media_manage: @pm_hash[p.id],
+        media_manage: @media_manage } %>
+    <% end %>
+  </div>
+  <div class="modal-footer">
+    <a href="#!" class="modal-close waves-effect waves-green btn">閉じる</a>
   </div>
 </div>
