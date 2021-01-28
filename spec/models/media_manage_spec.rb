@@ -217,10 +217,22 @@ RSpec.describe MediaManage, type: :model do
   end
 
   context 'cascade' do
+    let!(:user) { media_manage.user }
+    let!(:playlist) { create(:playlist, user: user) }
+    let!(:playlist_media_manage) do
+      create(:playlist_media_manage, playlist: playlist, media_manage: media_manage)
+    end
+
     it 'ユーザー削除時に削除されること' do
       expect(MediaManage.count(:id)).to be 1
       media_manage.user.destroy
       expect(MediaManage.count(:id)).to be 0
+    end
+
+    it 'playlist_media_manage削除時に削除されないこと' do
+      expect(MediaManage.count(:id)).to be 1
+      playlist_media_manage.destroy
+      expect(MediaManage.count(:id)).to be 1
     end
   end
 end

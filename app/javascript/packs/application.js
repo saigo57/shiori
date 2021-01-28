@@ -16,3 +16,9 @@ require("playlist")
 //
 // const images = require.context('../images', true)
 // const imagePath = (name) => images(name, true)
+
+$(function() {
+  document.body.addEventListener('ajax:error', function(event) {
+    M.toast({html: 'サーバーとの通信に失敗しました'});
+  })
+});

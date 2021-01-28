@@ -2,6 +2,12 @@
 
 FactoryBot.define do
   factory :playlist do
-    name { 'MyString' }
+    association :user
+    name { 'テストプレイリスト' }
+  end
+
+  factory :playlist2, class: Playlist do
+    association :user, factory: :user2
+    name { 'テストプレイリスト2' }
   end
 end
