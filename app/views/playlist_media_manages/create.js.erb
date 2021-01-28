@@ -1,0 +1,11 @@
+$('#playlist-form-<%= @playlist.id %>').html(
+  "<%= escape_javascript(
+    render(partial: 'playlists/remove_media', locals: {
+      playlist: @playlist,
+      media_manage: @media_manage,
+      playlist_media_manage: @playlist_media_manage
+    }))
+  %>"
+);
+
+M.toast({html: 'プレイリストに追加しました'});

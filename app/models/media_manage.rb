@@ -5,6 +5,8 @@ class MediaManage < ApplicationRecord
   belongs_to :user
   has_many :media_time_span, dependent: :destroy
   has_many :media_time_image, dependent: :destroy
+  has_many :playlists, through: :playlist_media_manages
+  has_many :playlist_media_manages, dependent: :destroy
   mount_uploader :thumbnail, ThumbnailUploader
   scope :join_curr_spans, lambda {
     eager_load(:media_time_span)
@@ -71,5 +73,10 @@ class MediaManage < ApplicationRecord
     else
       '未視聴'
     end
+  end
+
+  def added_playlist?(playlist)
+    @added_playlists ||= playlist_media_manages.pluck(:playlist_id)
+    @added_playlists.include?(playlist.id)
   end
 end

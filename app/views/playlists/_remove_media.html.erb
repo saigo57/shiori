@@ -1,0 +1,13 @@
+<%= form_with model: playlist_media_manage,
+  class: "playlist-form", method: :delete, local: false do |f| %>
+  <p>
+    <label>
+      <%= f.check_box :check, { id: "playlist-checkbox-#{playlist.id}",
+        class: "playlist-checkbox filled-in", checked: true } %>
+      <span><%= playlist.name %></span>
+    </label>
+  </p>
+  <%= f.hidden_field :media_manage_id, value: media_manage.id %>
+  <%= f.hidden_field :playlist_id, value: playlist.id %>
+  <%= f.submit "", id: "playlist-submit-#{playlist.id}", class: 'playlist-submit' %>
+<% end %>

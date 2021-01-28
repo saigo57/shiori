@@ -12,6 +12,11 @@ FactoryBot.define do
     title { 'media_manage_title' }
   end
 
+  factory :alices_media_manage, class: MediaManage do
+    association :user, factory: :alice
+    title { 'media_manage_title' }
+  end
+
   factory :media_manage_other_site, class: MediaManage do
     association :user, factory: :alice
     title { 'その他の動画' }
