@@ -82,4 +82,30 @@ RSpec.describe 'playlist', type: :system, js: true do
     expect(page).to have_content('media_2')
     expect(page).to_not have_content('media_3')
   end
+
+  scenario 'プレイリスト1を削除(キャンセル)' do
+    toggle_side_nav
+    click_link 'プレイリスト1'
+    find('.dropdown-trigger').click
+    click_link 'プレイリスト削除'
+    click_on 'キャンセル'
+
+    # 削除されていないことを確認
+    visit root_path
+    toggle_side_nav
+    expect(page).to have_content('プレイリスト1')
+  end
+
+  scenario 'プレイリスト1を削除(実行)' do
+    toggle_side_nav
+    click_link 'プレイリスト1'
+    find('.dropdown-trigger').click
+    click_link 'プレイリスト削除'
+    click_on '削除'
+
+    # 削除されていることを確認
+    visit root_path
+    toggle_side_nav
+    expect(page).to_not have_content('プレイリスト1')
+  end
 end
