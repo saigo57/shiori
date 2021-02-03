@@ -31,8 +31,7 @@
       </div>
     </div>
     <div class="sort-form">
-      <i class="material-icons dropdown-trigger search-icon-frame" data-target='sort-select-dropdown'>sort</i>
-      <span><%= @sort_items[@sort_target.to_sym] %></span>
+      <%= f.select :sort_target, @sort_items, { selected:  @sort_target }, { class: "browser-default" } %>
       <i class="material-icons search-sort-order search-icon-frame">
         <% if @sort_order == 0 %>
           arrow_upward
@@ -42,12 +41,6 @@
       </i>
     </div>
   </div>
-  <%= f.hidden_field :sort_target, value: @sort_target %>
   <%= f.hidden_field :sort_order, value: @sort_order %>
 <% end %>
 
-<ul id='sort-select-dropdown' class='dropdown-content'>
-  <% @sort_items.each do |k, v| %>
-    <li><a href="#!" id="sort-select-item-<%= k %>" class="sort-select-item"><%= v %></a></li>
-  <% end %>
-</ul>

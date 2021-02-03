@@ -15,7 +15,7 @@ class MediaManagesController < ApplicationController
                      else
                        current_user.media_manage.search(@search_flags, @sort_target, @sort_order)
                      end
-    @sort_items = { media_time: '動画時間', remaining_time: '残り動画時間' }
+    @sort_items = { '動画時間': 'media_time', '残り動画時間': 'remaining_time' }
   end
 
   def new

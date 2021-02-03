@@ -1,14 +1,5 @@
 $(function() {
-  $('.sort-select-item').click(function(){
-    prefix = 'sort-select-item-';
-    attr_id = $(this).attr('id');
-    if ( attr_id.indexOf(prefix) !== 0 ) {
-      alert("[bug] playlist-checkbox prefix error");
-    }
-
-    var selected_id = attr_id.substr(prefix.length);
-    $('#search-form-id').children('input[name="sort_target"]').val(selected_id)
-
+  $('#sort_target').change(function(){
     $(`#search-form-id`).submit();
   });
 
