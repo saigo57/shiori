@@ -123,8 +123,8 @@ RSpec.describe MediaManage, type: :model do
     end
   end
 
-  context 'remaining_seconds' do
-    subject { media_manage.remaining_seconds }
+  context 'watched_seconds' do
+    subject { media_manage.watched_seconds }
 
     before do
       media_manage.media_sec = 3600
@@ -135,28 +135,34 @@ RSpec.describe MediaManage, type: :model do
       is_expected.to be_nil
     end
 
-    it '視聴時間から動画の残り視聴時間を返すこと' do
+    it '視聴時間を返すこと' do
       add_spans({ seq_id: 1, begin_sec: 0, end_sec: 200 })
-      is_expected.to eq 3400
+      is_expected.to eq 200
     end
 
     it '視聴時間が複数でも正常に計算されること' do
-      add_spans({ seq_id: 1, begin_sec: 100, end_sec: 300 })
-      add_spans({ seq_id: 1, begin_sec: 1000, end_sec: 2000 })
-      is_expected.to eq 2400
+      MediaTimeSpan.transaction do
+        add_spans({ seq_id: 1, begin_sec: 100, end_sec: 300 })
+        add_spans({ seq_id: 1, begin_sec: 1000, end_sec: 2000 })
+      end
+      is_expected.to eq 1200
     end
 
     it '動画時間を超えている分は計算に入れないこと' do
-      add_spans({ seq_id: 1, begin_sec: 100, end_sec: media_manage.media_sec + 100 })
-      add_spans({ seq_id: 1, begin_sec: media_manage.media_sec + 200, end_sec: media_manage.media_sec + 300 })
-      is_expected.to eq 100
+      MediaTimeSpan.transaction do
+        add_spans({ seq_id: 1, begin_sec: 100, end_sec: media_manage.media_sec + 100 })
+        add_spans({ seq_id: 1, begin_sec: media_manage.media_sec + 200, end_sec: media_manage.media_sec + 300 })
+      end
+      is_expected.to eq 3500
     end
 
     it '現在のseqのみ計算に含めること' do
-      add_spans({ seq_id: 1, begin_sec: 0, end_sec: 500 })
-      add_spans({ seq_id: 2, begin_sec: 2000, end_sec: 3000 })
-      media_manage.update(curr_seq_id: 2)
-      is_expected.to eq 2600
+      MediaTimeSpan.transaction do
+        add_spans({ seq_id: 1, begin_sec: 0, end_sec: 500 })
+        add_spans({ seq_id: 2, begin_sec: 2000, end_sec: 3000 })
+        media_manage.update(curr_seq_id: 2)
+      end
+      is_expected.to eq 1000
     end
   end
 
@@ -198,9 +204,11 @@ RSpec.describe MediaManage, type: :model do
     end
 
     it 'spanが複数の場合も、視聴中と残り時間を返すこと' do
-      add_spans({ seq_id: 1, begin_sec: 0, end_sec: 300 })
-      add_spans({ seq_id: 1, begin_sec: 1000, end_sec: 1300 })
-      add_spans({ seq_id: 1, begin_sec: 2000, end_sec: 2300 })
+      MediaTimeSpan.transaction do
+        add_spans({ seq_id: 1, begin_sec: 0, end_sec: 300 })
+        add_spans({ seq_id: 1, begin_sec: 1000, end_sec: 1300 })
+        add_spans({ seq_id: 1, begin_sec: 2000, end_sec: 2300 })
+      end
       is_expected.to eq '視聴中・のこり00:45:00'
     end
 

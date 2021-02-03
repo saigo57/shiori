@@ -205,6 +205,8 @@ RSpec.describe 'media_manage', type: :system, js: true do
       click_on '登録'
 
       click_link '一覧に戻る'
+      find('label', text: '視聴済み').click
+      click_on '検索'
       within('.card-content') do
         expect(page).to have_content('視聴済み')
       end

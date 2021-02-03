@@ -1,0 +1,53 @@
+<%= form_with url: media_manages_path, method: :get, local: true, id: 'search-form-id' do |f| %>
+  <div class="search-bar">
+    <%= f.text_field :keywords, value: @keywords_text, placeholder: '空白で区切ってAND検索' %>
+    <%= f.submit "検索", class: "waves-light btn" %>
+  </div>
+  <div class="search-options">
+    <div class="search-checkbox-list">
+      <div class="search-checkbox">
+        <label>
+          <%= f.check_box :nowatch, { checked: @search_flags[:nowatch], class: "filled-in" } %>
+          <span>未視聴</span>
+        </label>
+      </div>
+      <div class="search-checkbox">
+        <label>
+          <%= f.check_box :watching, { checked: @search_flags[:watching], class: "filled-in" } %>
+          <span>視聴中</span>
+        </label>
+      </div>
+      <div class="search-checkbox">
+        <label>
+          <%= f.check_box :watched, { checked: @search_flags[:watched], class: "filled-in" } %>
+          <span>視聴済み</span>
+        </label>
+      </div>
+      <div class="search-checkbox">
+        <label>
+          <%= f.check_box :unknown, { checked: @search_flags[:unknown], class: "filled-in" } %>
+          <span>不明</span>
+        </label>
+      </div>
+    </div>
+    <div class="sort-form">
+      <i class="material-icons dropdown-trigger search-icon-frame" data-target='sort-select-dropdown'>sort</i>
+      <span><%= @sort_items[@sort_target.to_sym] %></span>
+      <i class="material-icons search-sort-order search-icon-frame">
+        <% if @sort_order == 0 %>
+          arrow_upward
+        <% else %>
+          arrow_downward
+        <% end %>
+      </i>
+    </div>
+  </div>
+  <%= f.hidden_field :sort_target, value: @sort_target %>
+  <%= f.hidden_field :sort_order, value: @sort_order %>
+<% end %>
+
+<ul id='sort-select-dropdown' class='dropdown-content'>
+  <% @sort_items.each do |k, v| %>
+    <li><a href="#!" id="sort-select-item-<%= k %>" class="sort-select-item"><%= v %></a></li>
+  <% end %>
+</ul>

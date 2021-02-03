@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_01_26_165222) do
+ActiveRecord::Schema.define(version: 2021_01_31_150438) do
 
   create_table "media_manages", options: "ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "title"
@@ -21,6 +21,8 @@ ActiveRecord::Schema.define(version: 2021_01_26_165222) do
     t.string "media_url"
     t.integer "curr_seq_id", default: 1, null: false
     t.integer "media_sec"
+    t.integer "status", default: 0
+    t.integer "remaining_sec"
     t.index ["user_id"], name: "index_media_manages_on_user_id"
   end
 

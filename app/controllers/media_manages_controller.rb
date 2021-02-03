@@ -4,11 +4,18 @@ class MediaManagesController < ApplicationController
   include MediaManagesHelper
   include YoutubeUtils
   before_action :check_signed_in
+  before_action :load_keywords, only: [:index]
+  before_action :load_flags, only: [:index]
   before_action :media_manage, only: [:edit, :show, :update, :destroy, :restore, :fetch]
   before_action :check_can_restore, only: [:restore]
 
   def index
-    @media_manages = current_user.media_manage.list
+    @media_manages = if @keywords.any?
+                       current_user.media_manage.search(@search_flags, @sort_target, @sort_order, @keywords)
+                     else
+                       current_user.media_manage.search(@search_flags, @sort_target, @sort_order)
+                     end
+    @sort_items = { media_time: '動画時間', remaining_time: '残り動画時間' }
   end
 
   def new
@@ -79,6 +86,46 @@ class MediaManagesController < ApplicationController
 
     flash[:error] = '戻すバージョンがありません'
     redirect_to @media_manage
+  end
+
+  def load_keywords
+    if params.include?('keywords')
+      @keywords_text = params['keywords']
+      @keywords = params['keywords'].split(/[[:blank:]]/)
+    else
+      @keywords_text = ''
+      @keywords = []
+    end
+
+    if params.include?('sort_target') && !params['sort_target'].empty?
+      @sort_target = params['sort_target']
+    else
+      @sort_target = 'media_time'
+    end
+
+    if params.include?('sort_order') && !params['sort_order'].empty?
+      @sort_order = params['sort_order'].to_i
+    else
+      @sort_order = 0
+    end
+  end
+
+  def load_flags
+    @search_flags = if params.include?(:unknown)
+                      {
+                        unknown: params[:unknown] == '1',
+                        watching: params[:watching] == '1',
+                        watched: params[:watched] == '1',
+                        nowatch: params[:nowatch] == '1'
+                      }
+                    else
+                      {
+                        unknown: true,
+                        watching: true,
+                        watched: false,
+                        nowatch: true
+                      }
+                    end
   end
 
   def media_manage_params
