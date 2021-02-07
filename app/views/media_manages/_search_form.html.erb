@@ -33,7 +33,7 @@
     <div class="sort-form">
       <%= f.select :sort_target, @sort_items, { selected:  @sort_target }, { class: "browser-default" } %>
       <i class="material-icons search-sort-order search-icon-frame">
-        <% if @sort_order == 0 %>
+        <% if @sort_order == :asc %>
           arrow_upward
         <% else %>
           arrow_downward

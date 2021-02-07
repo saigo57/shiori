@@ -14,46 +14,7 @@ class MediaManage < ApplicationRecord
       .joins('AND media_time_spans.seq_id = media_manages.curr_seq_id')
   }
   scope :list, -> { join_curr_spans.preload(:media_time_image) }
-  scope :search_text, lambda { |keywords|
-    pattern = ''
-    keywords.each do |keyword|
-      pattern += "(?=.*#{keyword})"
-    end
-    pattern += '.*'
-
-    l = list
-    l.where('media_manages.title REGEXP ?', pattern)
-     .or(l.where('media_manages.media_url REGEXP ?', pattern))
-  }
-  scope :search2, lambda { |flags, keywords = nil|
-    base_list = if keywords.nil?
-                  list
-                else
-                  search_text(keywords)
-                end
-
-    status_list = []
-    [:nowatch, :watching, :watched, :unknown].each do |item|
-      status_list.append(statuses[item]) if flags[item]
-    end
-
-    base_list.where(status: status_list)
-  }
-  scope :search, lambda { |flags, sort_target, sort_order, keywords = nil|
-    base_scope = search2(flags, keywords)
-    order = if sort_order == 0
-              :asc
-            else
-              :desc
-            end
-    if sort_target == 'media_time'
-      base_scope.order(media_sec: order)
-    elsif sort_target == 'remaining_time'
-      base_scope.order(remaining_sec: order, media_sec: order)
-    else
-      base_scope
-    end
-  }
+  scope :search, SearchMediaManageQuery
 
   before_update :denormalize_mark
   before_create :denormalize_mark
@@ -115,6 +76,18 @@ class MediaManage < ApplicationRecord
     @sec_watched
   end
 
+  def choice_status
+    # 動画時間がない場合は計算できないのでunknown
+    return :unknown if media_sec.nil? || media_sec.zero?
+    # 視聴時間0のときは未視聴
+    return :nowatch if watched_seconds.zero?
+    # のこり時間が1以上のときは視聴中
+    return :watching if remaining_sec.positive?
+
+    # 視聴済み
+    :watched
+  end
+
   def media_status
     case status
     when 'watching'
@@ -142,20 +115,10 @@ class MediaManage < ApplicationRecord
   # 非正規化したカラムを更新する
   def update_denormalized
     return if destroyed?
-    return unless (@denormalize || span_changed)
+    return unless @denormalize || span_changed
 
     self.remaining_sec = media_sec - watched_seconds unless media_sec.nil?
-    has_watched = watched_seconds&.positive?
-
-    self.status = if media_sec.nil? || media_sec.zero?
-                    :unknown
-                  elsif has_watched && remaining_sec.positive?
-                    :watching
-                  elsif has_watched && remaining_sec <= 0
-                    :watched
-                  else
-                    :nowatch
-                  end
+    self.status = choice_status
     self.span_changed = false
     @denormalize = false
     save!

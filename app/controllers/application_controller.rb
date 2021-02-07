@@ -3,6 +3,12 @@
 class ApplicationController < ActionController::Base
   before_action :load_playlists
 
+  def check_signed_in
+    return if user_signed_in?
+
+    redirect_to new_user_session_url
+  end
+
   private
 
   def load_playlists

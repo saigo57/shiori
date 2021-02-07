@@ -36,12 +36,6 @@ class PlaylistsController < ApplicationController
 
   private
 
-  def check_signed_in
-    return if user_signed_in?
-
-    redirect_to new_user_session_url
-  end
-
   def playlist_params
     params.require(:playlist).permit(:name)
   end

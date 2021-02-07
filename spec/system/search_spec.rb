@@ -10,27 +10,28 @@ RSpec.describe 'search', type: :system, js: true do
     within('#sidenav-menu') { click_link '新規動画' }
 
     fill_in 'media_manage[title]', with: params[:title]
+    fill_in 'media_manage[media_url]', with: params[:media_url] if params.include?(:media_url)
 
-    if params.include?(:media_url)
-      fill_in 'media_manage[media_url]', with: params[:media_url]
-    end
-
-    if params.include?(:media_len)
-      media_len = params[:media_len].split(':')
-      fill_in 'length-time-input-hour', with: media_len[0]
-      fill_in 'length-time-input-min', with: media_len[1]
-      fill_in 'length-time-input-sec', with: media_len[2]
-    end
+    fill_in_media_len(params[:media_len]) if params.include?(:media_len)
     click_on '更新'
 
-    if params.include?(:watch_begin)
-      click_on '＋時間'
-      watch_begin = params[:watch_begin].split(':')
-      watch_end = params[:watch_end].split(':')
-      fill_in_time('begin', hour: watch_begin[0], min: watch_begin[1], sec: watch_begin[2])
-      fill_in_time('end', hour: watch_end[0], min: watch_end[1], sec: watch_end[2])
-      click_on '登録'
-    end
+    input_span(params[:watch_begin], params[:watch_end]) if params.include?(:watch_begin)
+  end
+
+  def fill_in_media_len(media_len)
+    len = media_len.split(':')
+    fill_in 'length-time-input-hour', with: len[0]
+    fill_in 'length-time-input-min', with: len[1]
+    fill_in 'length-time-input-sec', with: len[2]
+  end
+
+  def input_span(watch_begin, watch_end)
+    click_on '＋時間'
+    begin_list = watch_begin.split(':')
+    end_list = watch_end.split(':')
+    fill_in_time('begin', hour: begin_list[0], min: begin_list[1], sec: begin_list[2])
+    fill_in_time('end', hour: end_list[0], min: end_list[1], sec: end_list[2])
+    click_on '登録'
   end
 
   # 非正規化を行っている関係で、factory_botを使用すると整合性が取れない可能性があるため、
