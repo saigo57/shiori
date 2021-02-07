@@ -13,6 +13,7 @@ class PlaylistsController < ApplicationController
   def show
     @media_manages = current_user.media_manage.eager_load(:playlist_media_manages)
                                  .where(playlist_media_manages: { playlist_id: @playlist.id })
+                                 .page(params[:page]).per(20)
   end
 
   def update

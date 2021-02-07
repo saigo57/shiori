@@ -36,6 +36,4 @@
   </div>
 </div>
 
-<% if @media_manages.any? %>
-  <%= render partial: "media_manages/media_manage", collection: @media_manages %>
-<% end %>
+<%= render partial: 'shared/media_manages', locals: { media_manages: @media_manages } %>
