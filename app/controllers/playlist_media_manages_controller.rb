@@ -25,12 +25,6 @@ class PlaylistMediaManagesController < ApplicationController
 
   private
 
-  def check_signed_in
-    return if user_signed_in?
-
-    redirect_to new_user_session_url
-  end
-
   def load_params
     @param_playlist_id = params[:playlist_media_manage][:playlist_id].to_i
     @param_media_manage_id = params[:playlist_media_manage][:media_manage_id].to_i

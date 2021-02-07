@@ -136,3 +136,76 @@
     display: none;
   }
 }
+
+.search-bar {
+  display: flex;
+  & > input[name="keywords"] {
+    display: inline-block;
+    width: 80%;
+  }
+  & > input[name="commit"] {
+    display: inline-block;
+    width: 50px;
+    margin: 10px;
+    padding: 0;
+  }
+}
+
+.search-options {
+  display: flex;
+  @media (max-width: $mobile-brakepoint) {
+    flex-direction: column;
+  }
+}
+
+.search-checkbox-list {
+  display: flex;
+}
+
+.search-checkbox {
+  margin-right: 10px;
+
+  @media (max-width: $mobile-brakepoint) {
+    margin-top: 8px;
+    margin-bottom: 8px;
+  }
+
+  & > label > span {
+    padding-left: 25px !important;
+  }
+}
+
+.sort-form {
+  display: flex;
+
+  @media (max-width: $mobile-brakepoint) {
+    margin-top: 8px;
+    margin-bottom: 8px;
+  }
+
+  & > i {
+    display: inline-block;
+    font-size: 25px;
+  }
+  & > span {
+    display: inline-block;
+    margin-left: 5px;
+    color: gray;
+  }
+}
+
+#sort_target {
+  height: 25px;
+  padding: 0;
+}
+
+.search-sort-order {
+  cursor: pointer;
+  margin-left: 10px;
+}
+
+.search-icon-frame {
+  border: solid 1px;
+  border-color: rgb(179, 179, 179);
+  border-radius: 4px;
+}

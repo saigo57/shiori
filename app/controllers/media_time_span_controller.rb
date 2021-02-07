@@ -24,13 +24,6 @@ class MediaTimeSpanController < ApplicationController
 
   private
 
-  # サインインしているか確認
-  def check_signed_in
-    return if user_signed_in?
-
-    redirect_to new_user_session_url
-  end
-
   # paramsをもとにmedia_manageを取得
   def find_media_manage
     @media_manage = current_user.media_manage.find(params[:media_manage_id])
