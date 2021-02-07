@@ -49,12 +49,14 @@ class MediaManage < ApplicationRecord
     if sort_target == 'media_time'
       base_scope.order(media_sec: order)
     elsif sort_target == 'remaining_time'
-      base_scope.order(remaining_sec: order)
+      base_scope.order(remaining_sec: order, media_sec: order)
     else
       base_scope
     end
   }
 
+  before_update :denormalize_mark
+  before_create :denormalize_mark
   before_commit :update_denormalized
   attr_accessor :span_changed
 
@@ -105,7 +107,6 @@ class MediaManage < ApplicationRecord
 
   def watched_seconds
     return nil if media_sec.nil?
-    return @sec_watched unless @sec_watched.nil?
 
     @sec_watched = 0
     curr_media_time_spans.each do |s|
@@ -115,8 +116,6 @@ class MediaManage < ApplicationRecord
   end
 
   def media_status
-    return '動画時間が登録されていません' if remaining_sec.nil?
-
     case status
     when 'watching'
       "視聴中・のこり#{sec_to_str(remaining_sec)}"
@@ -136,15 +135,19 @@ class MediaManage < ApplicationRecord
     @added_playlists.include?(playlist.id)
   end
 
+  def denormalize_mark
+    @denormalize = true
+  end
+
   # 非正規化したカラムを更新する
   def update_denormalized
     return if destroyed?
-    return unless span_changed
+    return unless (@denormalize || span_changed)
 
     self.remaining_sec = media_sec - watched_seconds unless media_sec.nil?
     has_watched = watched_seconds&.positive?
 
-    self.status = if remaining_sec.nil?
+    self.status = if media_sec.nil? || media_sec.zero?
                     :unknown
                   elsif has_watched && remaining_sec.positive?
                     :watching
@@ -153,8 +156,8 @@ class MediaManage < ApplicationRecord
                   else
                     :nowatch
                   end
-
     self.span_changed = false
+    @denormalize = false
     save!
   end
 end

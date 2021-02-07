@@ -7,6 +7,7 @@ RSpec.describe MediaManage, type: :model do
 
   def add_spans(hash)
     media_manage.media_time_span.create(hash)
+    media_manage.update_denormalized
   end
 
   context 'time_spans' do
@@ -175,6 +176,7 @@ RSpec.describe MediaManage, type: :model do
 
     it 'media_secがnilのとき、専用の文字列を返すこと' do
       media_manage.media_sec = nil
+      media_manage.update_denormalized
       is_expected.to eq '動画時間が登録されていません'
     end
 
