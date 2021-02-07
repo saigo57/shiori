@@ -16,7 +16,7 @@ class MediaManagesController < ApplicationController
   def index
     @media_manages = current_user.media_manage.search(
       @search_flags, @sort_target, @sort_order, @keywords_text
-    )
+    ).page(params[:page]).per(20)
     @sort_items = SORT_ITEMS
   end
 

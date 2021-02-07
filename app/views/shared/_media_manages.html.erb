@@ -1,0 +1,7 @@
+<div class="media_manage_list jscroll">
+  <% if media_manages.any? %>
+    <%= render partial: "media_manages/media_manage", collection: media_manages %>
+  <% end %>
+
+  <%= paginate media_manages %>
+</div>
