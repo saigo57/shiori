@@ -1,4 +1,7 @@
-<%= render 'search_form' %>
+<%= render partial: 'search_form', locals: {
+  keywords_text: @keywords_text, search_flags: @search_flags,
+  sort_items: @sort_items, sort_order: @sort_order, sort_target: @sort_target } %>
+
 <% if @media_manages.any? %>
   <%= render partial: "media_manage", collection: @media_manages %>
 <% end %>
