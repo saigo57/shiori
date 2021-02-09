@@ -1,1 +1,22 @@
-<%= link_to 'ゲストログイン（閲覧用）', users_guest_sign_in_path, method: :post %>
+
+<div class="landing">
+  <div class="landing-content">
+    <div class="copy-text">
+      もう、続きを探す</br>
+      必要はありません
+    </div>
+
+    <div class="landing-buttons">
+      <%= link_to "ログイン", new_user_session_path, class: "waves-effect btn" %>
+      <%= link_to "サインアップ", new_user_registration_path, class: "waves-effect btn red" %>
+      <%= link_to 'ゲストログイン', users_guest_sign_in_path, method: :post, class: "waves-effect btn orange" %>
+    </div>
+
+    <div class="landing-seekbar">
+      <div class="landing-seekbar-base"></div>
+      <div class="landing-seekbar-seek"></div>
+      <div class="landing-seekbar-shiori"></div>
+      <%= image_tag 'shiori', class: 'landing-seekbar-shiori' %>
+    </div>
+  </div>
+</div>
