@@ -23,6 +23,9 @@
         <i class="material-icons">person</i>ユーザー設定
       <% end %>
     </li>
+
+    <li><div class="divider"></div></li>
+
     <li>
       <%= link_to media_manages_path do %>
         <i class="material-icons">list</i>動画一覧
@@ -33,6 +36,8 @@
         <i class="material-icons">add</i>新規動画
       <% end %>
     </li>
+
+    <li><div class="divider"></div></li>
 
     <% @playlists.each do |playlist| %>
       <li>
@@ -47,6 +52,9 @@
         <i class="material-icons">playlist_add</i>新規プレイリスト
       <% end %>
     </li>
+
+    <li><div class="divider"></div></li>
+
     <li>
       <%= link_to destroy_user_session_path, method: :delete do %>
         <i class="material-icons">exit_to_app</i>ログアウト
