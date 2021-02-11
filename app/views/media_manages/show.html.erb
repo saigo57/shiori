@@ -74,8 +74,7 @@
             <div class="time-span-item">〜</div>
             <div class="time-span-item time-span-timestamp"><%= ts.end_time_str %></div>
             <div class="time-span-item time-span-icons">
-              <a href="<%= @media_manage.media_url %>" class="tooltipped"
-                data-position="right" data-tooltip="続きから開きます">
+              <a href="<%= @media_manage.media_url_with_sec(ts.end_sec) %>">
                 <i class="material-icons">live_tv</i>
               </a>
             </div>

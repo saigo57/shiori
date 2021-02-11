@@ -25,6 +25,14 @@ class MediaManage < ApplicationRecord
     self.span_changed = false
   end
 
+  def media_url=(val)
+    if (youtube_id = extract_youtube_id(val))
+      val = build_youtube_url(youtube_id)
+    end
+
+    self[:media_url] = val
+  end
+
   def time_spans
     media_time_span.where(seq_id: curr_seq_id).sorted
   end
@@ -40,17 +48,17 @@ class MediaManage < ApplicationRecord
   def youtube_video_id
     return if media_url.nil?
 
-    reg = media_url.match(%r{https://www\.youtube\.com/watch\?v=(?<id>.+?)\z})
-    return reg[:id] unless reg.nil?
-
-    reg = media_url.match(%r{https://youtu\.be/(?<id>.+?)\z})
-    return reg[:id] unless reg.nil?
-
-    nil
+    extract_youtube_id(media_url)
   end
 
   def youtube_video?
     !!youtube_video_id
+  end
+
+  def media_url_with_sec(sec)
+    media_url unless youtube_video?
+
+    build_youtube_url(youtube_video_id, sec)
   end
 
   def youtube_thumbnail_url
