@@ -123,6 +123,18 @@ RSpec.describe 'media_manage', type: :system, js: true do
       click_on '更新'
       expect(page).to have_content('youtubeからの取得に失敗しました。')
     end
+
+    scenario 'spanの動画のリンクが続きからになっているか' do
+      allow(@youtube_service_moc).to receive(:list_videos).and_return(
+        YoutubeVideosInfo.new(title: @title, hour: 4, min: 5, sec: 6, item_count: 2)
+      )
+      click_on '更新'
+      click_on '＋時間'
+      fill_in_time('begin', hour: 0, min: 0, sec: 0)
+      fill_in_time('end', hour: 1, min: 0, sec: 0)
+      click_on '登録'
+      expect(find_all('#time-span-block-0 a')[0][:href]).to eq 'https://www.youtube.com/watch?v=123456&t=3600'
+    end
   end
 
   context '変更系' do
