@@ -2,7 +2,7 @@
 <%= link_to "一覧に戻る", media_manages_path %>
 
 <div class="media-manage-show-thumbnail">
-  <%= link_to @media_manage.media_url do %>
+  <%= link_to @media_manage.media_url, target: :_blank do %>
     <%= thumbnail_tag(@media_manage, '240x135') %>
   <% end %>
   <span class="media-length"><%= @media_manage.media_sec_str %></span>
@@ -74,7 +74,7 @@
             <div class="time-span-item">〜</div>
             <div class="time-span-item time-span-timestamp"><%= ts.end_time_str %></div>
             <div class="time-span-item time-span-icons">
-              <a href="<%= @media_manage.media_url_with_sec(ts.end_sec) %>">
+              <a href="<%= @media_manage.media_url_with_sec(ts.end_sec) %>" target="_blank">
                 <i class="material-icons">live_tv</i>
               </a>
             </div>
