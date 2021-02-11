@@ -17,7 +17,7 @@
 </ul>
 
 <%= form_for @playlist do |f| %>
-  <%= f.text_field :name %>
+  <%= f.text_field :name, autocomplete: 'off' %>
   <a href="#" class="playlist-title-edit-cancel">キャンセル</a>
   <%= f.submit "更新", class: "waves-light btn" %>
 <% end %>
