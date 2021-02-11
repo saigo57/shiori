@@ -15,14 +15,14 @@ const calcTimeInput = function(prefix) {
 $(function() {
   $('.edit_media_manage').submit(function() {
     sec_calc = calcTimeInput('length');
-    $('.edit_media_manage').children('input[name="media_manage[media_sec]"]').val(sec_calc);
+    $('.edit_media_manage').find('input[name="media_manage[media_sec]"]').val(sec_calc);
   });
 
   $('#timespan_submit_id').click(function(){
     begin_sec_calc = calcTimeInput('begin');
     end_sec_calc = calcTimeInput('end');
-    $('#timespan_form_id').children('input[name="begin_sec"]').val(begin_sec_calc)
-    $('#timespan_form_id').children('input[name="end_sec"]').val(end_sec_calc)
+    $('#timespan_form_id').find('input[name="begin_sec"]').val(begin_sec_calc)
+    $('#timespan_form_id').find('input[name="end_sec"]').val(end_sec_calc)
 
     $('#timespan_form_id').submit();
   });

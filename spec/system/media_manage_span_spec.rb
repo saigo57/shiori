@@ -33,7 +33,7 @@ RSpec.describe 'media_manage_span', type: :system, js: true do
       fill_in_time('end', hour: 3)
       click_on '登録'
 
-      within('.time-span-collection') do
+      within('.waching-data-section') do
         expect(page).to have_content('00:00:00')
         expect(page).to have_content('01:00:00')
         expect(page).to have_content('02:00:00')
@@ -55,7 +55,7 @@ RSpec.describe 'media_manage_span', type: :system, js: true do
       fill_in_time('end', hour: 3)
       click_on '登録'
 
-      within('.time-span-collection') do
+      within('.waching-data-section') do
         expect(page).to have_content('00:00:00')
         expect(page).to have_content('03:00:00')
         expect(page).to_not have_content('01:00:00')
@@ -77,7 +77,7 @@ RSpec.describe 'media_manage_span', type: :system, js: true do
       fill_in_time('end', hour: 1, min: 30)
       click_on '登録'
 
-      within('.time-span-collection') do
+      within('.waching-data-section') do
         expect(page).to have_content('00:00:00')
         expect(page).to have_content('02:00:00')
         expect(page).to_not have_content('01:00:00')
@@ -99,7 +99,7 @@ RSpec.describe 'media_manage_span', type: :system, js: true do
       fill_in_time('end', hour: 2)
       click_on '登録'
 
-      within('.time-span-collection') do
+      within('.waching-data-section') do
         expect(page).to have_content('00:00:00')
         expect(page).to have_content('02:00:00')
         expect(page).to_not have_content('01:00:00')
@@ -127,7 +127,7 @@ RSpec.describe 'media_manage_span', type: :system, js: true do
       fill_in_time('end', hour: 2, min: 30)
       click_on '登録'
 
-      within('.time-span-collection') do
+      within('.waching-data-section') do
         expect(page).to have_content('00:00:00')
         expect(page).to have_content('03:00:00')
         expect(page).to_not have_content('00:30:00')
@@ -155,7 +155,7 @@ RSpec.describe 'media_manage_span', type: :system, js: true do
       fill_in_time('end', hour: 4)
       click_on '登録'
 
-      within('.time-span-collection') do
+      within('.waching-data-section') do
         expect(page).to have_content('00:00:00')
         expect(page).to have_content('04:00:00')
         expect(page).to_not have_content('00:30:00')
@@ -185,7 +185,7 @@ RSpec.describe 'media_manage_span', type: :system, js: true do
       fill_in_time('end', hour: 5)
       click_on '登録'
 
-      within('.time-span-collection') do
+      within('.waching-data-section') do
         expect(page).to have_content('00:00:00')
         expect(page).to have_content('05:00:00')
         expect(page).to_not have_content('01:00:00')
@@ -227,7 +227,7 @@ RSpec.describe 'media_manage_span', type: :system, js: true do
       fill_in_time('end', hour: 9)
       click_on '登録'
 
-      within('.time-span-collection') do
+      within('.waching-data-section') do
         expect(page).to have_content('00:00:00')
         expect(page).to have_content('09:00:00')
         expect(page).to_not have_content('01:00:00')

@@ -9,6 +9,7 @@ RSpec.describe 'search', type: :system, js: true do
     toggle_side_nav
     within('#sidenav-menu') { click_link '新規動画' }
 
+    find('.media_manage-edit-details').click
     fill_in 'media_manage[title]', with: params[:title]
     fill_in 'media_manage[media_url]', with: params[:media_url] if params.include?(:media_url)
 

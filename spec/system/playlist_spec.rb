@@ -23,7 +23,8 @@ RSpec.describe 'playlist', type: :system, js: true do
     expect(page).to have_content('新規プレイリスト')
 
     # プレイリスト名変更
-    find('div.playlist-title a').click
+    find('.dropdown-trigger').click
+    find('.playlist-title-edit').click
     fill_in 'playlist[name]', with: 'newプレイリスト'
     click_on '更新'
     expect(page).to have_content('プレイリスト情報を更新しました')

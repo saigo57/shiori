@@ -1,6 +1,6 @@
 <%= form_with url: media_manages_path, method: :get, local: true, id: 'search-form-id' do |f| %>
   <div class="search-bar">
-    <%= f.text_field :keywords, value: keywords_text, placeholder: '空白で区切ってAND検索' %>
+    <%= f.text_field :keywords, value: keywords_text, placeholder: '空白で区切ってAND検索', autocomplete: 'off' %>
     <%= f.submit "検索", class: "waves-light btn" %>
   </div>
   <div class="search-options">
