@@ -1,6 +1,5 @@
 
-<%= link_to "一覧に戻る", media_manages_path %></br>
-<%= link_to "編集", edit_media_manage_path(@media_manage) %></br>
+<%= link_to "一覧に戻る", media_manages_path %>
 
 <div class="media-manage-show-thumbnail">
   <%= link_to @media_manage.media_url do %>
@@ -13,24 +12,41 @@
   <%= @media_manage.title %>
 </div>
 
-<button data-target="media_manages_input_time_modal" class="btn modal-trigger red accent-4">
+<div>
+  <a class='show-media-manage-menu dropdown-trigger' href='#' data-target='playlist-show-dropdown'>
+    <i class="material-icons">more_vert</i>
+  </a>
+</div>
+
+<ul id='playlist-show-dropdown' class='dropdown-content'>
+  <li>
+    <a href="<%= edit_media_manage_path(@media_manage) %>">
+      動画情報編集
+    </a>
+  </li>
+
+  <li>
+    <%= link_to '動画情報更新', fetch_media_manage_path(@media_manage), method: :patch %>
+  </li>
+</ul>
+
+<button data-target="media_manages_input_time_modal" class="btn modal-trigger amber darken-3">
   ＋時間
 </button>
-<button id="media_time_image_btn_id" class="btn modal-trigger red accent-4">
+<button id="media_time_image_btn_id" class="btn modal-trigger amber darken-3">
   ＋SS
 </button>
 
-<button data-target="media_manages_playlist_modal" class="btn modal-trigger red accent-4">
+<button data-target="media_manages_playlist_modal" class="btn modal-trigger cyan accent-4">
   プレイリスト
 </button>
 
 <% if @media_manage.can_restore %>
-  <button data-target="media_manages_restore_modal" class="btn modal-trigger red accent-4">
+  <button data-target="media_manages_restore_modal" class="btn modal-trigger yellow darken-3">
     元に戻す
   </button>
 <% end %>
 
-<%= link_to '情報更新', fetch_media_manage_path(@media_manage), method: :patch, class: "waves-effect waves-red btn red" %>
 
 <%= form_for @media_time_image, html: {id: 'media_time_image_form_id'} do |f| %>
   <%= f.hidden_field :media_manage_id, value: @media_manage.id %>
@@ -48,59 +64,65 @@
   })
 </script>
 
-<ul class="collection time-span-collection">
-  <% @time_spans.each_with_index do |ts, i| %>
-    <li class="collection-item">
-      <div class="time-span-block" id="time-span-block-<%= i %>">
-        <div class="time-span-item time-span-timestamp"><%= ts.begin_time_str %></div>
-        <div class="time-span-item">〜</div>
-        <div class="time-span-item time-span-timestamp"><%= ts.end_time_str %></div>
-        <div class="time-span-item time-span-icons">
-          <a href="<%= @media_manage.media_url %>" class="tooltipped"
-            data-position="right" data-tooltip="続きから開きます">
-            <i class="material-icons">live_tv</i>
-          </a>
-        </div>
-        <div class="time-span-item time-span-icons time-span-delete">
-          <a href=<%= media_time_span_path(ts) %> data-method="delete">
-            <i class="material-icons">delete</i>
-          </a>
-        </div>
-      </div>
-    </li>
+<div class="waching-data-section">
+  <% if @time_spans.any? %>
+    <ul class="collection time-span-collection">
+      <% @time_spans.each_with_index do |ts, i| %>
+        <li class="collection-item">
+          <div class="time-span-block" id="time-span-block-<%= i %>">
+            <div class="time-span-item time-span-timestamp"><%= ts.begin_time_str %></div>
+            <div class="time-span-item">〜</div>
+            <div class="time-span-item time-span-timestamp"><%= ts.end_time_str %></div>
+            <div class="time-span-item time-span-icons">
+              <a href="<%= @media_manage.media_url %>" class="tooltipped"
+                data-position="right" data-tooltip="続きから開きます">
+                <i class="material-icons">live_tv</i>
+              </a>
+            </div>
+            <div class="time-span-item time-span-icons time-span-delete">
+              <a href=<%= media_time_span_path(ts) %> data-method="delete">
+                <i class="material-icons">delete</i>
+              </a>
+            </div>
+          </div>
+        </li>
+      <% end %>
+    </ul>
   <% end %>
-</ul>
 
-<ul class="collection">
-  <% @media_manage.media_time_image.each_with_index do |time_image, i| %>
-    <li class="collection-item">
-      <div class="time-span-block">
-        <%= link_to time_image.image.url, target: :_blank do %>
-          <%= image_tag time_image.image.thumb.url %>
-        <% end %>
-        <div>
-          <button data-target="media_manages_time_image_delete_modal_<%= i %>" class="btn modal-trigger red accent-4">
-            削除
-          </button>
+  <% if @media_manage.media_time_image.any? %>
+    <ul class="collection">
+      <% @media_manage.media_time_image.each_with_index do |time_image, i| %>
+        <li class="collection-item">
+          <div class="time-span-block">
+            <%= link_to time_image.image.url, target: :_blank do %>
+              <%= image_tag time_image.image.thumb.url %>
+            <% end %>
+            <div>
+              <button data-target="media_manages_time_image_delete_modal_<%= i %>" class="btn modal-trigger red accent-4">
+                削除
+              </button>
+            </div>
+          </div>
+        </li>
+
+        <div id="media_manages_time_image_delete_modal_<%= i %>" class="modal">
+          <div class="modal-content">
+            <h4>確認</h4>
+            <p>画像を削除します。</p>
+            <p>この操作は取り消せません。よろしいですか？</p>
+          </div>
+          <div class="modal-footer">
+            <a href="#!" class="modal-close waves-effect btn yellow darken-3">キャンセル</a>
+            <%= link_to '削除', media_time_image_path(time_image, media_time_image: 
+              { media_manage_id: @media_manage.id }), method: :delete, 
+              class: "waves-effect waves-red btn red" %>
+          </div>
         </div>
-      </div>
-    </li>
-
-    <div id="media_manages_time_image_delete_modal_<%= i %>" class="modal">
-      <div class="modal-content">
-        <h4>確認</h4>
-        <p>画像を削除します。</p>
-        <p>この操作は取り消せません。よろしいですか？</p>
-      </div>
-      <div class="modal-footer">
-        <a href="#!" class="modal-close waves-effect waves-green btn">キャンセル</a>
-        <%= link_to '削除', media_time_image_path(time_image, media_time_image: 
-          { media_manage_id: @media_manage.id }), method: :delete, 
-          class: "waves-effect waves-red btn red" %>
-      </div>
-    </div>
+      <% end %>
+    </ul>
   <% end %>
-</ul>
+</div>
 
 <%= render partial: "input_timespan_modal", locals: { media_namage: @media_manage } %>
 
@@ -111,7 +133,7 @@
     <p>よろしいですか？</p>
   </div>
   <div class="modal-footer">
-    <a href="#!" class="modal-close waves-effect waves-green btn">キャンセル</a>
+    <a href="#!" class="modal-close waves-effect btn yellow darken-3">キャンセル</a>
     <%= link_to '戻す', restore_media_manage_path(@media_manage), method: :patch, class: "waves-effect waves-red btn red" %>
   </div>
 </div>

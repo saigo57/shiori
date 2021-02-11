@@ -174,7 +174,7 @@ RSpec.describe 'user_registration', type: :system, js: true do
       fill_in 'user[password_confirmation]', with: 'a' * 6
       fill_in 'user[current_password]', with: bob.password
       click_on '更新'
-      expect(page).to have_content '確認用パスワード が一致していません'
+      expect(page).to have_content 'パスワード(再入力) が一致していません'
 
       # 正しいパスワード
       fill_in 'user[password]', with: new_password

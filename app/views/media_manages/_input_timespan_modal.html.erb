@@ -10,9 +10,8 @@
     <div>（時：分：秒）</div>
   </div>
   <div class="modal-footer">
-    <a href="#!" class="modal-close waves-effect waves-green btn">キャンセル</a>
-    <% link_to '登録', "#", class: "waves-effect waves-red btn red" %>
-    <button type="button" id="timespan_submit_id" class="waves-effect waves-red btn red">登録</button>
+    <a href="#!" class="modal-close waves-effect waves btn yellow darken-3">キャンセル</a>
+    <button type="button" id="timespan_submit_id" class="waves-effect waves-lite btn">登録</button>
 
     <%= form_with id: 'timespan_form_id', url: media_time_span_index_path do |f| %>
       <input type="hidden" name="media_manage_id" value="<%= media_namage.id %>">

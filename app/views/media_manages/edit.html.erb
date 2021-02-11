@@ -4,30 +4,34 @@
 </h1>
 
 <%= form_for @media_manage, url: {action: "update"} do |f| %>
-  <%= f.label :thumbnail %>
-  </br>
-  <%= f.file_field :thumbnail, accept: 'image/jpeg,image/gif,image/png' %>
-  <p>※画像は320x180にリサイズされます</p>
-  </br>
 
   <%= f.label :media_url %>
   <%= f.text_field :media_url, placeholder: 'https://www.youtube.com/watch?v=xxxxxx, https://youtu.be/xxxxxx, ...' %>
-  <p>※youtubeの場合、これより下は自動取得されます</p>
-  <%= f.label :title %>
-  <%= f.text_field :title %>
-  <%= f.label "動画時間(時：分：秒)" %>
-  <%= f.hidden_field :media_sec %>
-  <div>
-    <%= render "input_time", {prefix: "length", value: @media_manage.media_sec} %>
+
+  <details class="media_manage-edit-details">
+    <summary>手動設定項目</summary>
+    <p>youtubeのURLを指定している場合、これらの項目は自動取得されます。</p>
+    <p>サムネイルは画像をクリックすると変更できます(選択するとすぐに更新されます)</p>
+    <%= thumbnail_tag(@media_manage, '240x135', 'media_manage-edit-thumbnail') %>
+    <%= f.file_field :thumbnail, accept: 'image/jpeg,image/gif,image/png', class: "media_manage-edit-thumbnail-field" %><br/>
+    <%= f.label :title %>
+    <%= f.text_field :title %>
+    <%= f.label "動画時間(時：分：秒)" %>
+    <%= f.hidden_field :media_sec %>
+    <div>
+      <%= render "input_time", {prefix: "length", value: @media_manage.media_sec} %>
+    </div>
+  </details>
+
+  <div class="media_manage-edit-form-btns">
+    <%= link_to "キャンセル", media_manage_path(@media_manage),
+      class: "btn yellow darken-3" %>
+    <%= f.submit "更新", class: "btn" %>
   </div>
-  <%= f.submit "更新", class: "btn" %>
 <% end %>
 
-</br>
-<%= link_to "キャンセル", media_manage_path(@media_manage), class: "btn yellow darken-3" %>
-</br>
-</br>
-</br>
+
+<h3>動画情報を削除</h3>
 <button data-target="media_manages_delete_modal" class="btn modal-trigger red accent-4">
   delete
 </button>
@@ -39,7 +43,7 @@
     <p>本当に削除してよろしいですか？</p>
   </div>
   <div class="modal-footer">
-    <a href="#!" class="modal-close waves-effect waves-green btn">キャンセル</a>
+    <a href="#!" class="modal-close waves-effect btn yellow darken-3">キャンセル</a>
     <%= link_to '削除する', media_manage_path(@media_manage), method: :delete, class: "waves-effect waves-red btn red" %>
   </div>
 </div>

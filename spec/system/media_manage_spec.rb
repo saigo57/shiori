@@ -55,6 +55,7 @@ RSpec.describe 'media_manage', type: :system, js: true do
     expect(page).to have_content('動画情報編集')
 
     # 情報を入力
+    find('.media_manage-edit-details').click
     title = '【テスト】動画タイトル'
     fill_in 'media_manage[title]', with: title
     fill_in 'media_manage[media_url]', with: 'https://www.example.com/watch?v=123456'
@@ -100,7 +101,8 @@ RSpec.describe 'media_manage', type: :system, js: true do
       allow(@youtube_service_moc).to receive(:list_videos).and_return(
         YoutubeVideosInfo.new(title: 'newタイトル', hour: 3, min: 2, sec: 1)
       )
-      click_on '情報更新'
+      find('.show-media-manage-menu').click
+      click_link '動画情報更新'
       expect(page).to have_content('youtubeからの取得に成功しました。')
       expect(page).to have_content('newタイトル')
       within('.media-manage-show-thumbnail') { expect(page).to have_content('03:02:01') }
@@ -132,7 +134,9 @@ RSpec.describe 'media_manage', type: :system, js: true do
     end
 
     scenario 'タイトル変更' do
+      find('.show-media-manage-menu').click
       click_link '編集'
+      find('.media_manage-edit-details').click
       new_title = 'newタイトル'
       fill_in 'media_manage[title]', with: new_title
       fill_in 'length-time-input-hour', with: 12
@@ -145,7 +149,9 @@ RSpec.describe 'media_manage', type: :system, js: true do
     end
 
     scenario '編集-キャンセル' do
+      find('.show-media-manage-menu').click
       click_link '編集'
+      find('.media_manage-edit-details').click
       new_title = 'newタイトル'
       fill_in 'media_manage[title]', with: new_title
       fill_in 'length-time-input-hour', with: 12
@@ -157,6 +163,7 @@ RSpec.describe 'media_manage', type: :system, js: true do
     end
 
     scenario '削除' do
+      find('.show-media-manage-menu').click
       click_link '編集'
       click_on 'delete' # 表示はDELETE
       expect(page).to have_content('確認')
@@ -166,6 +173,7 @@ RSpec.describe 'media_manage', type: :system, js: true do
     end
 
     scenario '削除-キャンセル' do
+      find('.show-media-manage-menu').click
       click_link '編集'
       click_on 'delete' # 表示はDELETE
       expect(page).to have_content('確認')
@@ -179,7 +187,7 @@ RSpec.describe 'media_manage', type: :system, js: true do
       fill_in_time('end', hour: 4, min: 5, sec: 6)
       click_on '登録'
 
-      within('.time-span-collection') do
+      within('.waching-data-section') do
         expect(page).to have_content('01:02:03')
         expect(page).to have_content('04:05:06')
       end
@@ -214,12 +222,12 @@ RSpec.describe 'media_manage', type: :system, js: true do
 
     scenario '視聴時間入力(キャンセル)' do
       click_on '＋時間'
-      fill_in_time('begin', hour: 1, min: 2, sec: 3)
+      fill_in_time('begin', hour: 3, min: 2, sec: 1)
       fill_in_time('end', hour: 4, min: 5, sec: 6)
       click_on 'キャンセル'
 
-      within('.time-span-collection') do
-        expect(page).to_not have_content('01:02:03')
+      within('.waching-data-section') do
+        expect(page).to_not have_content('03:02:01')
         expect(page).to_not have_content('04:05:06')
       end
     end
@@ -229,7 +237,7 @@ RSpec.describe 'media_manage', type: :system, js: true do
       fill_in_time('end', sec: 1)
       click_on '登録'
 
-      within('.time-span-collection') do
+      within('.waching-data-section') do
         expect(page).to have_content('00:00:00')
         expect(page).to have_content('00:00:01')
       end
@@ -245,7 +253,7 @@ RSpec.describe 'media_manage', type: :system, js: true do
       fill_in_time('end', hour: 3)
       click_on '登録'
 
-      within('.time-span-collection') do
+      within('.waching-data-section') do
         expect(page).to have_content('00:00:00')
         expect(page).to have_content('01:00:00')
         expect(page).to have_content('02:00:00')
@@ -254,7 +262,7 @@ RSpec.describe 'media_manage', type: :system, js: true do
 
       find('#time-span-block-0').find('.time-span-delete').click
 
-      within('.time-span-collection') do
+      within('.waching-data-section') do
         expect(page).to_not have_content('00:00:00')
         expect(page).to_not have_content('01:00:00')
         expect(page).to have_content('02:00:00')
@@ -278,7 +286,7 @@ RSpec.describe 'media_manage', type: :system, js: true do
       click_on '登録'
 
       # マージされていることを確認
-      within('.time-span-collection') do
+      within('.waching-data-section') do
         expect(page).to have_content('00:00:00')
         expect(page).to have_content('03:00:00')
       end
@@ -293,7 +301,7 @@ RSpec.describe 'media_manage', type: :system, js: true do
 
       expect(page).to have_content('元に戻しました')
 
-      within('.time-span-collection') do
+      within('.waching-data-section') do
         expect(page).to have_content('00:00:00')
         expect(page).to have_content('02:00:00')
         expect(page).to_not have_content('03:00:00')

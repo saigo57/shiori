@@ -16,6 +16,6 @@ $(function() {
     $('.edit_playlist').toggleClass("active");
   }
 
-  $('.playlist-title').on('click', 'a', togglePlaylistTitle);
-  $('.edit_playlist').on('click', 'a', togglePlaylistTitle);
+  $('.playlist-title').on('click', '.playlist-title-edit', togglePlaylistTitle);
+  $('.edit_playlist').on('click', '.playlist-title-edit-cancel', togglePlaylistTitle);
 });

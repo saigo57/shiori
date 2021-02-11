@@ -10,4 +10,13 @@ $(function() {
     padding: 20,
     loadingHtml: LOADING_HTML
   });
+
+  $('.media_manage-edit-thumbnail').click(function(){
+    $('.media_manage-edit-thumbnail-field').click();
+  });
+
+  $('.media_manage-edit-thumbnail-field').change(function(){
+    console.log('change');
+    $('.edit_media_manage').submit();
+  });
 });
