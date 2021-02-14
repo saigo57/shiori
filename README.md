@@ -4,8 +4,9 @@
 https://www.shiori-portfolio.work/  
 ポートフォリオ閲覧には、ゲストログイン(かんたんログイン)がご使用いただけます。
 ## 制作の背景
-私はYoutubeなどでよく動画を観るのですが、長い動画になると前回どこまで観たかわからなくなってしまうことが多々ありました。  
-途中から再生する機能があるサイトもありますが、うまく反映されていなかったり、特に生配信などで途中から観た場合には対応していないので、メモをとるなどしていました。　  
+私はYoutubeなどでよく動画を観るのですが、長い動画になると前回どこまで観たかわからなくなってしまうことが多々ありました。
+Youtubeは途中から再生する機能がありますが、うまく反映されていないときは少しづつ再生して探す必要がありました。　  
+
 そこで本に栞をはさむように、簡単に続きの管理がしたいと考え、このアプリケーションを制作しました。
 
 
@@ -23,9 +24,10 @@ https://www.shiori-portfolio.work/
 * JavaScript(jQuery)
 * scss
 * Materializecss
-### インフラ
+### インフラ等
 * GitHub(GitHub Flow, issue)
 * Docker(開発・本番)
+* docker-compose
 * AWS(VPC, ALB, RDS, ECS Fargate, ECR, ACM, Route53, SES)
 * Terraform(ECS周辺を除く)
 * お名前.com(ドメインの取得)
@@ -50,3 +52,21 @@ https://www.shiori-portfolio.work/
   - ステータスフィルタ(未視聴, 視聴中, など)
   - ソート(残り時間、動画時間)
 * プレイリスト機能
+
+
+## 工夫した点
+* fatになったcontroller, modelをconcern, query objectを用いてリファクタリングした。
+* 無限スクロールの実装
+* プレイリストへの追加をajaxで実装
+* youtube data apiを用いて動画情報入力の手間を削減
+* 友人に実際に使って頂いて、フィードバックを反映
+
+## 機能詳細
+
+## ER図
+![ER図](https://user-images.githubusercontent.com/18507447/107884816-4fa60a00-6f3a-11eb-8dd7-5ca93ca8f268.png)
+
+共通部分とdevise生成項目は省略しています
+## 改善点
+* フロントエンドの知識が不足しているため、操作性等の改善に限界があった
+
