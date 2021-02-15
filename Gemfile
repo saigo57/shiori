@@ -41,7 +41,7 @@ gem 'rmagick'
 gem 'bootsnap', '>= 1.4.2', require: false
 
 group :production do
-  gem 'fog-aws'
+  gem 'fog-aws', '>=3.8'
 end
 
 group :development, :test do
