@@ -32,7 +32,7 @@ class MediaTimeImagesController < ApplicationController
   private
 
   def find_media_manage
-    id = params[:media_time_image][:media_manage_id]
+    id = media_time_image_params[:media_manage_id].to_i
     @media_manage = current_user.media_manage.find(id)
   rescue ActiveRecord::RecordNotFound
     flash[:error] = '画像が存在しません'
@@ -40,6 +40,6 @@ class MediaTimeImagesController < ApplicationController
   end
 
   def media_time_image_params
-    params.require(:media_time_image).permit(:image)
+    params.require(:media_time_image).permit(:image, :media_manage_id)
   end
 end
