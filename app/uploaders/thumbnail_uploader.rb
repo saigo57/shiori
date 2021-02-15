@@ -43,10 +43,13 @@ class ThumbnailUploader < CarrierWave::Uploader::Base
   end
 
   def filename
-    return if original_filename.blank?
+    "#{secure_token}.jpg" if original_filename.present?
+  end
 
-    time = Time.zone.now
-    name = "#{time.strftime('%Y%m%d%H%M%S')}.jpg"
-    name.downcase
+  protected
+
+  def secure_token
+    var = :"@#{mounted_as}_secure_token"
+    model.instance_variable_get(var) or model.instance_variable_set(var, SecureRandom.uuid)
   end
 end
