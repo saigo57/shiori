@@ -4,6 +4,7 @@ if Rails.env.production?
   CarrierWave.configure do |config|
     config.storage :fog
     config.fog_provider = 'fog/aws'
+    config.fog_public = true
     config.fog_credentials = {
       # Amazon S3用の設定
       provider: 'AWS',
