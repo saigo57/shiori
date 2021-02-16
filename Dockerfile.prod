@@ -33,9 +33,9 @@ RUN curl https://s3.ap-northeast-1.amazonaws.com/amazon-ssm-ap-northeast-1/lates
 
 RUN mkdir /shiori
 WORKDIR /shiori
-ADD Gemfile /shiori/Gemfile
-ADD Gemfile.lock /shiori/Gemfile.lock
-ADD . /shiori
+COPY Gemfile /shiori/Gemfile
+COPY Gemfile.lock /shiori/Gemfile.lock
+COPY . /shiori
 RUN mkdir -p tmp/sockets
 
 RUN bundle install
