@@ -36,6 +36,6 @@ RUN echo "deb http://http.us.debian.org/debian buster main" >> /etc/apt/sources.
 
 RUN mkdir /shiori
 WORKDIR /shiori
-ADD Gemfile /shiori/Gemfile
-ADD Gemfile.lock /shiori/Gemfile.lock
-ADD . /shiori
+COPY Gemfile /shiori/Gemfile
+COPY Gemfile.lock /shiori/Gemfile.lock
+COPY . /shiori
