@@ -4,7 +4,7 @@ class MediaTimeImageUploaderUploader < CarrierWave::Uploader::Base
   include CarrierWave::RMagick
 
   if Rails.env.production?
-    storage :fog
+    storage :aws
   else
     storage :file
   end
