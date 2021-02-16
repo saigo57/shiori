@@ -30,6 +30,7 @@ gem 'jbuilder', '~> 2.7'
 gem 'activerecord-import'
 gem 'aws-sdk-rails', '~> 3'
 gem 'carrierwave'
+gem 'carrierwave-aws'
 gem 'devise'
 gem 'devise-i18n'
 gem 'devise-i18n-views'
@@ -40,9 +41,6 @@ gem 'rmagick'
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', '>= 1.4.2', require: false
 
-group :production do
-  gem 'carrierwave-aws'
-end
 
 group :development, :test do
   # Call 'byebug' anywhere in the code to stop execution and get a debugger console
