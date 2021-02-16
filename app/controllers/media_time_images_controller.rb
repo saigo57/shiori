@@ -4,15 +4,11 @@ class MediaTimeImagesController < ApplicationController
   before_action :find_media_manage
 
   def create
-    logger.info('image before create')
     time_image = @media_manage.media_time_image.create(media_time_image_params)
-    logger.info('image after create')
 
     if time_image.save
-      logger.info('画像を保存しました')
       flash[:success] = '画像を保存しました'
     else
-      logger.error("画像が保存できませんでした#{time_image.errors}")
       flash[:error] = '画像が保存できませんでした'
     end
 
