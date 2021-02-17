@@ -7,7 +7,7 @@
       <span><%= playlist.name %></span>
     </label>
   </p>
-  <%= f.hidden_field :media_manage_id, value: media_manage.id %>
-  <%= f.hidden_field :playlist_id, value: playlist.id %>
+  <%= f.hidden_field :media_manage_id, { value: media_manage.id, id: nil } %>
+  <%= f.hidden_field :playlist_id, { value: playlist.id, id: nil } %>
   <%= f.submit "", id: "playlist-submit-#{playlist.id}", class: 'playlist-submit' %>
 <% end %>
