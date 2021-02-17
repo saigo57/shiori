@@ -4,11 +4,10 @@
 https://www.shiori-portfolio.work/  
 ポートフォリオ閲覧には、ゲストログイン(かんたんログイン)がご使用いただけます。
 ## 制作の背景
-私はYoutubeなどでよく動画を観るのですが、長い動画になると前回どこまで観たかわからなくなってしまうことが多々ありました。
-Youtubeは途中から再生する機能がありますが、うまく反映されていないときは少しづつ再生して探す必要がありました。　  
+私はYouTubeで長い動画を観る際に、前回どこまで観たかわからなくなってしまうことが多々ありました。　　
+そこで、本に栞をはさむように、動画にも手軽に続きを管理できるサービスがほしいと考え、このアプリケーションを制作いたしました。
 
-そこで本に栞をはさむように、簡単に続きの管理がしたいと考え、このアプリケーションを制作しました。
-
+![動画登録](https://user-images.githubusercontent.com/18507447/108235686-68f0c580-7189-11eb-867d-060c18d3f40c.gif)
 
 ## 使用技術
 ### 開発環境
@@ -19,22 +18,23 @@ Youtubeは途中から再生する機能がありますが、うまく反映さ�
 * MySQL 8.0.20
 * Nginx 1.17.6
 * google-api-client
-* rspec(capybara + headless chrome, mock(youtube apiのテスト))
+* rspec(capybara + headless chrome, mock(Youtube APIのテスト))
 * rubocop
 * JavaScript(jQuery)
-* scss
+* SCSS
 * Materializecss
 ### インフラ等
 * GitHub(GitHub Flow, issue)
 * Docker(開発・本番)
-* docker-compose
-* AWS(VPC, ALB, RDS, ECS Fargate, ECR, ACM, Route53, SES)
+* docker-compose(開発)
+* AWS(VPC, ALB, RDS, ECS, Fargate, ECR, ACM, Route53, SES)
 * Terraform(ECS周辺を除く)
 * お名前.com(ドメインの取得)
 * CircleCI(CI/CD)
   - push時に、rspec・rubocopを実行
-  - mainブランチへのマージ時に、テストからAWSへのデプロイまでを実施
+  - mainブランチへのマージ時に、テスト及びAWSへのデプロイを実施
 
+![構成図](https://user-images.githubusercontent.com/18507447/108231606-4492ea00-7185-11eb-9f8a-07522e764316.png)
 ## 機能一覧
 * アカウント管理(devise)
   - ユーザー登録
@@ -42,7 +42,7 @@ Youtubeは途中から再生する機能がありますが、うまく反映さ�
 * 動画一覧機能
 * 動画登録機能(URL, タイトル, 動画時間, サムネイル)
 * 動画情報自動取得機能(YouTube Data API)
-  - youtubeのURLを指定した場合、タイトル・動画時間・サムネイルを自動で取得します
+  - YouTubeのURLを指定した場合、タイトル・動画時間・サムネイルを自動で取得します
 * 視聴時間記録機能
   - 開始と終了を記録(ex.15min〜50minまで)
   - 複数時間のマージ(ex.0min〜15min + 15min〜50min → 0min〜50min)
@@ -53,20 +53,14 @@ Youtubeは途中から再生する機能がありますが、うまく反映さ�
   - ソート(残り時間、動画時間)
 * プレイリスト機能
 
-
-## 工夫した点
-* fatになったcontroller, modelをconcern, query objectを用いてリファクタリングした。
-* 無限スクロールの実装
-* プレイリストへの追加をajaxで実装
-* youtube data apiを用いて動画情報入力の手間を削減
-* 友人に実際に使って頂いて、フィードバックを反映
-
-## 機能詳細
-
+## アピールポイント
+* CircleCIを用いてCI/CDパイプラインを構築した
+* Terraformを使ってインフラのコード化を行った
+* 肥大化してしまったcontroller, modelをconcern, query objectを用いてリファクタリングした
+* YouTube Data APIを用いて、動画情報入力の手間を削減した
+* 動画一覧に無限スクロールを採用した
+* 友人に実際に使って頂いて、フィードバックを反映した
 ## ER図
 ![ER図](https://user-images.githubusercontent.com/18507447/107884816-4fa60a00-6f3a-11eb-8dd7-5ca93ca8f268.png)
 
 共通部分とdevise生成項目は省略しています
-## 改善点
-* フロントエンドの知識が不足しているため、操作性等の改善に限界があった
-
