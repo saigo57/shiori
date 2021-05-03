@@ -49,6 +49,7 @@ test:
 #
 production:
   <<: *default
+  adapter: postgresql
   database: shiori_production
   username: shiori
   host: <%= ENV['DATABASE_HOST'] %>
