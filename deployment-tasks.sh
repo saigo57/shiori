@@ -1,3 +1,3 @@
 #!/bin/sh
 
-bundle rails db:migrate
+rails db:migrate
