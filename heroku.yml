@@ -1,8 +1,10 @@
 build:
   docker:
     web: Dockerfile.prod
+    warker: worker/Dockerfile
 release:
+  image: worker
   command:
-    - bundle rails db:migrate
+    - ./deployment-tasks.sh
 run:
   web: bundle exec puma -C config/puma.rb
