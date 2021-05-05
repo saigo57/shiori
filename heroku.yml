@@ -1,9 +1,8 @@
 build:
   docker:
     web: Dockerfile.prod
-    warker: worker/Dockerfile
 release:
-  image: worker
+  image: web
   command:
     - ./deployment-tasks.sh
 run:
