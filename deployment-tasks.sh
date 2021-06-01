@@ -1,5 +1,3 @@
 #!/bin/sh
 
-cat config/webpacker.yml
-yarn install --check-files
-rails db:migrate
+rails db:migrate RAILS_ENV=production
