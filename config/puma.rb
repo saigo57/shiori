@@ -8,10 +8,7 @@ rails_env = ENV.fetch('RAILS_ENV', 'development')
 environment rails_env
 port        ENV.fetch('PORT', 3000)
 
-if rails_env == 'production'
-  app_root = File.expand_path('..', __dir__)
-  bind "unix://#{app_root}/tmp/sockets/puma.sock"
-else
+unless rails_env == 'production'
   pidfile ENV.fetch('PIDFILE', 'tmp/pids/server.pid')
   plugin :tmp_restart
 end
