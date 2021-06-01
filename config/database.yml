@@ -51,7 +51,7 @@ production:
   <<: *default
   adapter: postgresql
   encoding: unicode
-  database: shiori_production
-  username: shiori
+  database: <%= ENV['DATABASE_NAME'] %>
+  username: <%= ENV['DATABASE_USER'] %>
   host: <%= ENV['DATABASE_HOST'] %>
   password: <%= ENV.fetch("DATABASE_PASSWORD") %>
