@@ -7,3 +7,4 @@
 #     https: false
 #   )
 # end
+puts 'テストログapplication_controller_renderer.rb'
