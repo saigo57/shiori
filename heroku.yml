@@ -1,6 +1,9 @@
 build:
   docker:
     web: Dockerfile.prod
+  config:
+    DATABASE_PASSWORD: $DATABASE_PASSWORD
+    ARG_RAILS_MASTER_KEY: $ARG_RAILS_MASTER_KEY
 release:
   image: web
   command:
