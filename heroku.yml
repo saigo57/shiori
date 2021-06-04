@@ -6,4 +6,4 @@ release:
   command:
     - ./deployment-tasks.sh
 run:
-  web: RAILS_ENV=production bundle exec rake assets:precompile & bundle exec puma -C config/puma.rb
+  web: bundle exec puma -C config/puma.rb

@@ -13,3 +13,6 @@ COPY . /shiori
 RUN mkdir -p tmp/sockets
 
 RUN bundle install
+ARG ARG_MYSQL_PASSWORD
+RUN RAILS_ENV=production \
+    bundle exec rake assets:precompile
