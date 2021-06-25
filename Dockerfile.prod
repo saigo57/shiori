@@ -11,6 +11,7 @@ COPY Gemfile /shiori/Gemfile
 COPY Gemfile.lock /shiori/Gemfile.lock
 COPY . /shiori
 RUN mkdir -p tmp/sockets
+RUN touch test.txt
 
 RUN bundle install
 ARG ARG_RAILS_MASTER_KEY
