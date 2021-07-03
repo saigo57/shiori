@@ -9,3 +9,4 @@
 # end
 puts 'テストログapplication_controller_renderer.rb'
 puts 'テストログ2application_controller_renderer.rb'
+puts 'テストログ3application_controller_renderer.rb'
