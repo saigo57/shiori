@@ -13,18 +13,14 @@ COPY Gemfile /shiori/Gemfile
 COPY Gemfile.lock /shiori/Gemfile.lock
 COPY . /shiori
 RUN mkdir -p tmp/sockets
-RUN touch test.txt
 
 RUN bundle install
 ARG ARG_RAILS_MASTER_KEY
 ARG ARG_DATABASE_PASSWORD
 
-RUN echo 'echo test'
-RUN echo $ARG_RAILS_MASTER_KEY
 RUN RAILS_ENV=production \
     RAILS_MASTER_KEY=$ARG_RAILS_MASTER_KEY \
     DATABASE_PASSWORD=$ARG_DATABASE_PASSWORD \
-    MYSQL_PASSWORD=$ARG_DATABASE_PASSWORD \
     bundle exec rake assets:precompile
 
 CMD bundle exec puma -C config/puma.rb
