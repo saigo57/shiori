@@ -15,6 +15,7 @@ Rails.application.routes.draw do
   resources :playlists
   resources :playlist_media_manages, only: [:create, :destroy]
   resources :media_time_span, only: [:create, :destroy]
+  resource :finish_watching, only: :create
   resources :media_time_images, only: [:create, :destroy]
 
   mount LetterOpenerWeb::Engine, at: '/lo' if Rails.env.development?
