@@ -111,6 +111,10 @@ Style/SymbolArray:
 Style/ClassAndModuleChildren:
   Enabled: false
 
+Metrics/ClassLength:
+  CountComments: false
+  Max: 300
+
 Metrics/MethodLength:
   Max: 15
   Exclude:

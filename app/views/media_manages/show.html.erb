@@ -37,6 +37,12 @@
   ＋画像
 </button>
 
+<% if @media_manage.media_sec_exists? %>
+  <button data-target="media_manages_finish_watching_modal" class="btn modal-trigger yellow darken-3">
+    視聴完了にする
+  </button>
+<% end %>
+
 <button data-target="media_manages_playlist_modal" class="btn modal-trigger cyan accent-4">
   プレイリスト
 </button>
@@ -60,6 +66,10 @@
 
     $('#media_time_image_form_id').children('input').change(function(){
       $('#media_time_image_form_id').submit();
+    });
+
+    $('#timespan_finish_watch_submit_id').click(function(){
+      $('#timespan_finish_watch_id').submit();
     });
   })
 </script>
@@ -134,6 +144,23 @@
   <div class="modal-footer">
     <a href="#!" class="modal-close waves-effect btn yellow darken-3">キャンセル</a>
     <%= link_to '戻す', restore_media_manage_path(@media_manage), method: :patch, class: "waves-effect waves-red btn red" %>
+  </div>
+</div>
+
+<div id="media_manages_finish_watching_modal" class="modal">
+  <div class="modal-content">
+    <h4>確認</h4>
+    <p>視聴を完了した状態にします。</p>
+    <p>よろしいですか？</p>
+    <p>※「0秒〜この動画の長さ」の視聴履歴が追加されます。</p>
+  </div>
+  <div class="modal-footer">
+    <a href="#!" class="modal-close waves-effect btn yellow darken-3">キャンセル</a>
+    <button type="button" id="timespan_finish_watch_submit_id" class="waves-effect waves-lite btn">視聴を完了する</button>
+
+    <%= form_with id: 'timespan_finish_watch_id', url: finish_watching_path do |f| %>
+      <input type="hidden" name="media_manage_id" value="<%= @media_manage.id %>">
+    <% end %>
   </div>
 </div>
 

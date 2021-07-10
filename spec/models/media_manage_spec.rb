@@ -167,6 +167,25 @@ RSpec.describe MediaManage, type: :model do
     end
   end
 
+  context 'media_sec_exists?' do
+    subject { media_manage.media_sec_exists? }
+
+    it 'media_secに値が入っていること、trueとなること' do
+      media_manage.media_sec = 100
+      is_expected.to be_truthy
+    end
+
+    it 'media_secがnilのときfalseとなること' do
+      media_manage.media_sec = nil
+      is_expected.to be_falsey
+    end
+
+    it 'media_secが0のときfalseとなること' do
+      media_manage.media_sec = 0
+      is_expected.to be_falsey
+    end
+  end
+
   context 'media_status' do
     subject { media_manage.media_status }
 

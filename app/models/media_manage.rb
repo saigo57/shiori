@@ -84,9 +84,13 @@ class MediaManage < ApplicationRecord
     @sec_watched
   end
 
+  def media_sec_exists?
+    !media_sec.nil? && !media_sec.zero?
+  end
+
   def choice_status
     # 動画時間がない場合は計算できないのでunknown
-    return :unknown if media_sec.nil? || media_sec.zero?
+    return :unknown unless media_sec_exists?
     # 視聴時間0のときは未視聴
     return :nowatch if watched_seconds.zero?
     # のこり時間が1以上のときは視聴中

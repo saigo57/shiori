@@ -322,5 +322,20 @@ RSpec.describe 'media_manage', type: :system, js: true do
       # 戻すボタン消えたことを確認
       expect(page).to_not have_content('元に戻す')
     end
+
+    scenario '視聴完了にする' do
+      within('.waching-data-section') do
+        expect(page).to_not have_content('00:00:00')
+        expect(page).to_not have_content('01:02:03')
+      end
+
+      click_on '視聴完了にする'
+      click_on '視聴を完了する'
+
+      within('.waching-data-section') do
+        expect(page).to have_content('00:00:00')
+        expect(page).to have_content('01:02:03')
+      end
+    end
   end
 end
