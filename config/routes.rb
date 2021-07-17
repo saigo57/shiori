@@ -13,6 +13,7 @@ Rails.application.routes.draw do
     patch 'fetch', on: :member
   end
   resources :playlists
+  resource :playlist_orders, only: :update
   resources :playlist_media_manages, only: [:create, :destroy]
   resources :media_time_span, only: [:create, :destroy]
   resource :finish_watching, only: :create
