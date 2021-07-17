@@ -1,7 +1,30 @@
 version: 2.1
 orbs:
-  aws-ecr: circleci/aws-ecr@6.7.0
-  aws-ecs: circleci/aws-ecs@1.0.4
+  heroku: circleci/heroku@1.0.1
+commands:
+  login:
+    steps:
+    - run: heroku container:login
+  push:
+    parameters:
+      app-name:
+        type: string
+      process-types:
+        default: web
+        type: string
+    steps:
+    - run: heroku container:push <<parameters.process-types>> --app <<parameters.app-name>> --arg ARG_RAILS_MASTER_KEY=${ARG_RAILS_MASTER_KEY},ARG_DATABASE_PASSWORD=${ARG_DATABASE_PASSWORD}
+
+  release:
+    parameters:
+      app-name:
+        type: string
+      process-types:
+        default: web
+        type: string
+    steps:
+    - run: heroku container:release <<parameters.process-types>> --app <<parameters.app-name>>
+
 jobs:
   test:
     docker:
@@ -74,8 +97,36 @@ jobs:
       - store_artifacts:
           path: /tmp/test-results
           destination: test-results
+  push-and-release:
+    executor: heroku/default
+    parameters:
+      app-name:
+        type: string
+    steps:
+    - checkout
+    - heroku/install
+    - setup_remote_docker:
+        version: 18.09.3
+    - login
+    - push:
+        app-name: <<parameters.app-name>>
+        process-types: web
+    - release:
+        app-name: <<parameters.app-name>>
+        process-types: web
 
 workflows:
+  build_and_release:
+    jobs:
+      - test:
+          filters:
+            branches:
+              only:
+                - main
+      - push-and-release:
+          requires:
+            - test
+          app-name: ${HEROKU_APP_NAME}
   test:
     jobs:
       - test:
