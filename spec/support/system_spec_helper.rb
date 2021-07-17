@@ -5,7 +5,8 @@ module SystemSpecHelper
     page.save_screenshot "screenshot-#{DateTime.now}.png"
   end
 
-  def login(user)
+  def login(user, with_login: false)
+    visit new_user_session_path if with_login
     within('nav') { click_link 'ログイン' }
     within('h2') { expect(page).to have_content 'ログイン' }
     fill_in 'user[email]', with: user.email

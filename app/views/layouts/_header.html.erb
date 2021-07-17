@@ -39,13 +39,17 @@
 
     <li><div class="divider"></div></li>
 
-    <% @playlists.each do |playlist| %>
-      <li>
-        <%= link_to playlist_path(playlist) do %>
-          <i class="material-icons">playlist_play</i><%= playlist.name %>
+    <li>
+      <ul class="sortable">
+        <% @playlists.each do |playlist| %>
+          <li id="playlist-<%= playlist.id %>-id">
+            <%= link_to playlist_path(playlist) do %>
+              <i class="material-icons">playlist_play</i><%= playlist.name %>
+            <% end %>
+          </li>
         <% end %>
-      </li>
-    <% end %>
+      </ul>
+    </li>
 
     <li>
       <%= link_to new_playlist_path do %>
@@ -70,3 +74,23 @@
     <li><%= link_to "サインアップ", new_user_registration_path, class: 'post' %></li>
   <% end %>
 </ul>
+
+<script>
+  $(function() {
+    $(".sortable").sortable({
+      update: function() {
+        var id_list = $(".sortable").sortable("toArray").map(function(value, index, array) {
+          return value.substring('playlist-'.length, value.length - '-id'.length);
+        });
+        $.ajax({
+          type: 'PATCH',
+          url: '<%= playlist_orders_path %>',
+          data: { order: id_list },
+          dataType: 'text'
+        });
+        <%# TODO: エラー時の処理を考える %>
+      }
+    });
+    $(".sortable").disableSelection();
+  });
+</script>

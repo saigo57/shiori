@@ -14,7 +14,7 @@ class ApplicationController < ActionController::Base
   def load_playlists
     return unless user_signed_in?
 
-    @playlists = current_user.playlist.all
+    @playlists = current_user.playlist.order(:order)
   end
 
   def check_guest
