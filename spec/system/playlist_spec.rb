@@ -109,4 +109,16 @@ RSpec.describe 'playlist', type: :system, js: true do
     toggle_side_nav
     expect(page).to_not have_content('プレイリスト1')
   end
+
+  scenario 'プレイリストに戻る' do
+    add_media_to_playlist('media_1', 'プレイリスト1')
+
+    toggle_side_nav
+    click_link 'プレイリスト1'
+    click_link 'media_1'
+
+    click_link 'プレイリスト[プレイリスト1] に戻る'
+
+    have_content 'プレイリスト1'
+  end
 end

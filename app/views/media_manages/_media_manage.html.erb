@@ -9,7 +9,13 @@
   </div>
   <div class="card-stacked">
     <div class="card-action">
-      <%= link_to media_manage.title, media_manage_path(media_manage), class: 'black-text' %>
+      <% params = {} %>
+
+      <% if playlist %>
+        <% params[:playlist] = playlist %>
+      <% end %>
+
+      <%= link_to media_manage.title, media_manage_path(media_manage, **params), class: 'black-text' %>
     </div>
     <div class="card-content grey-text text-darken-1">
       <p>
