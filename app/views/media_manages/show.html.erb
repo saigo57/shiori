@@ -1,5 +1,9 @@
 
-<%= link_to "一覧に戻る", media_manages_path %>
+<% if @inflow_playlist %>
+  <%= link_to "プレイリスト[#{@inflow_playlist.name}] に戻る", playlist_path(@inflow_playlist) %>
+<% else %>
+  <%= link_to "一覧に戻る", media_manages_path %>
+<% end %>
 
 <div class="media-manage-show-thumbnail">
   <%= link_to @media_manage.media_url, target: :_blank do %>

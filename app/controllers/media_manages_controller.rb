@@ -33,6 +33,8 @@ class MediaManagesController < ApplicationController
     @time_spans = @media_manage.time_spans
     @media_time_image = MediaTimeImage.new
 
+    @inflow_playlist = Playlist.find(params[:playlist]) if params[:playlist]
+
     # PlaylistからPlaylistMediaManageへのハッシュを作成
     @pm_hash = {}
     @playlists.each do |p|
