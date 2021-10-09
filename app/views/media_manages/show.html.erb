@@ -24,13 +24,13 @@
 
 <ul id='playlist-show-dropdown' class='dropdown-content'>
   <li>
-    <a href="<%= edit_media_manage_path(@media_manage) %>">
+    <a href="<%= add_params_to_url(edit_media_manage_path(@media_manage), @playlist_param) %>">
       動画情報編集
     </a>
   </li>
 
   <li>
-    <%= link_to '動画情報更新', fetch_media_manage_path(@media_manage), method: :patch %>
+    <%= link_to '動画情報更新', add_params_to_url(fetch_media_manage_path(@media_manage), @playlist_param), method: :patch %>
   </li>
 </ul>
 
@@ -61,6 +61,9 @@
 <%= form_for @media_time_image, html: {id: 'media_time_image_form_id'} do |f| %>
   <%= f.hidden_field :media_manage_id, value: @media_manage.id %>
   <%= f.file_field :image, accept: 'image/jpeg,image/gif,image/png' %>
+  <% if @inflow_playlist %> 
+    <%= f.hidden_field :playlist, value: @inflow_playlist.id %>
+  <% end %>
 <% end %>
 <script type="text/javascript">
   $(function(){
@@ -93,7 +96,7 @@
               </a>
             </div>
             <div class="time-span-item time-span-icons time-span-delete">
-              <a href=<%= media_time_span_path(ts) %> data-method="delete">
+              <a href=<%= add_params_to_url(media_time_span_path(ts), @playlist_param) %> data-method="delete">
                 <i class="material-icons">delete</i>
               </a>
             </div>
@@ -127,8 +130,12 @@
           </div>
           <div class="modal-footer">
             <a href="#!" class="modal-close waves-effect btn yellow darken-3">キャンセル</a>
-            <%= link_to '削除', media_time_image_path(time_image, media_time_image: 
-              { media_manage_id: @media_manage.id }), method: :delete, 
+            <%= link_to '削除',
+              add_params_to_url(
+                media_time_image_path(time_image, media_time_image: { media_manage_id: @media_manage.id }),
+                @playlist_param
+              ),
+              method: :delete, 
               class: "waves-effect waves-red btn red" %>
           </div>
         </div>
@@ -137,7 +144,7 @@
   <% end %>
 </div>
 
-<%= render partial: "input_timespan_modal", locals: { media_namage: @media_manage } %>
+<%= render partial: "input_timespan_modal", locals: { media_namage: @media_manage, playlist_param: @playlist_param } %>
 
 <div id="media_manages_restore_modal" class="modal">
   <div class="modal-content">
@@ -147,7 +154,7 @@
   </div>
   <div class="modal-footer">
     <a href="#!" class="modal-close waves-effect btn yellow darken-3">キャンセル</a>
-    <%= link_to '戻す', restore_media_manage_path(@media_manage), method: :patch, class: "waves-effect waves-red btn red" %>
+    <%= link_to '戻す', add_params_to_url(restore_media_manage_path(@media_manage), @playlist_param), method: :patch, class: "waves-effect waves-red btn red" %>
   </div>
 </div>
 
@@ -162,7 +169,7 @@
     <a href="#!" class="modal-close waves-effect btn yellow darken-3">キャンセル</a>
     <button type="button" id="timespan_finish_watch_submit_id" class="waves-effect waves-lite btn">視聴を完了する</button>
 
-    <%= form_with id: 'timespan_finish_watch_id', url: finish_watching_path do |f| %>
+    <%= form_with id: 'timespan_finish_watch_id', url: add_params_to_url(finish_watching_path, @playlist_param) do |f| %>
       <input type="hidden" name="media_manage_id" value="<%= @media_manage.id %>">
     <% end %>
   </div>

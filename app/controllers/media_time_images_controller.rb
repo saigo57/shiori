@@ -12,7 +12,7 @@ class MediaTimeImagesController < ApplicationController
       flash[:error] = '画像が保存できませんでした'
     end
 
-    redirect_to @media_manage
+    redirect_to_media_manage(@media_manage)
   end
 
   def destroy
@@ -26,7 +26,7 @@ class MediaTimeImagesController < ApplicationController
   rescue ActiveRecord::RecordNotFound
     flash[:error] = '画像が存在しません'
   ensure
-    redirect_to @media_manage
+    redirect_to_media_manage(@media_manage)
   end
 
   private

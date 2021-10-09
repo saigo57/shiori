@@ -12,7 +12,7 @@ class FinishWatchingsController < ApplicationController
       flash[:error] = '動画時間がない場合は視聴完了にできません。'
     end
 
-    redirect_to media_manage_url(@media_manage)
+    redirect_to_media_manage(@media_manage)
   rescue ActiveRecord::RecordNotFound
     redirect_to root_url
   end

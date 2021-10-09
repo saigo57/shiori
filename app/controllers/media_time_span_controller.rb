@@ -14,13 +14,13 @@ class MediaTimeSpanController < ApplicationController
     next_spans = merge_spans(curr_spans)
     forward_spans(next_spans)
 
-    redirect_to media_manage_url(@media_manage)
+    redirect_to_media_manage(@media_manage)
   end
 
   def destroy
     @media_time_span.destroy
     flash[:success] = '時間を削除しました'
-    redirect_to media_manage_url(@media_manage)
+    redirect_to_media_manage(@media_manage)
   end
 
   private
@@ -48,7 +48,7 @@ class MediaTimeSpanController < ApplicationController
     return if begin_sec < end_sec
 
     flash[:error] = '開始時間より終了時間を大きくしてください'
-    redirect_to media_manage_url(@media_manage)
+    redirect_to_media_manage(@media_manage)
   end
 
   # paramのspanを整数として返す
