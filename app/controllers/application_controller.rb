@@ -23,4 +23,12 @@ class ApplicationController < ActionController::Base
 
     redirect_to root_path, alert: 'ゲストユーザーの変更・削除はできません'
   end
+
+  def playlist_param
+    { playlist: params[:playlist] } if params[:playlist]
+  end
+
+  def redirect_to_media_manage(media_manage)
+    redirect_to media_manage_url(media_manage, playlist_param)
+  end
 end

@@ -6,6 +6,7 @@ class MediaManagesController < ApplicationController
   before_action :check_signed_in
   before_action :load_params,       only: [:index]
   before_action :load_media_manage, only: [:edit, :show, :update, :destroy, :restore, :fetch]
+  before_action :load_playlist,     only: [:edit, :show, :update, :restore, :fetch]
   before_action :check_can_restore, only: [:restore]
 
   NEW_TITLE = '新規'
@@ -33,8 +34,6 @@ class MediaManagesController < ApplicationController
     @time_spans = @media_manage.time_spans
     @media_time_image = MediaTimeImage.new
 
-    @inflow_playlist = Playlist.find(params[:playlist]) if params[:playlist]
-
     # PlaylistからPlaylistMediaManageへのハッシュを作成
     @pm_hash = {}
     @playlists.each do |p|
@@ -50,7 +49,7 @@ class MediaManagesController < ApplicationController
     if @media_manage.update(media_manage_params)
       flash[:success] = '動画情報を更新しました'
       try_update_youtube(@media_manage)
-      redirect_to @media_manage
+      redirect_to_media_manage(@media_manage)
     else
       render 'edit'
     end
@@ -71,21 +70,26 @@ class MediaManagesController < ApplicationController
     end
 
     flash[:success] = '元に戻しました'
-    redirect_to @media_manage
+    redirect_to_media_manage(@media_manage)
   end
 
   def fetch
     try_update_youtube(@media_manage)
-    redirect_to @media_manage
+    redirect_to_media_manage(@media_manage)
   end
 
   private
+
+  def load_playlist
+    @playlist_param = playlist_param
+    @inflow_playlist = Playlist.find(params[:playlist]) if params[:playlist]
+  end
 
   def check_can_restore
     return if @media_manage.can_restore
 
     flash[:error] = '戻すバージョンがありません'
-    redirect_to @media_manage
+    redirect_to_media_manage(@media_manage)
   end
 
   def load_media_manage

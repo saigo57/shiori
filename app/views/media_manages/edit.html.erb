@@ -18,13 +18,14 @@
     <%= f.text_field :title %>
     <%= f.label "動画時間(時：分：秒)" %>
     <%= f.hidden_field :media_sec %>
+    <%= hidden_field_tag :playlist, @inflow_playlist.id if @inflow_playlist %>
     <div>
       <%= render "input_time", {prefix: "length", value: @media_manage.media_sec} %>
     </div>
   </details>
 
   <div class="media_manage-edit-form-btns">
-    <%= link_to "キャンセル", media_manage_path(@media_manage),
+    <%= link_to "キャンセル", add_params_to_url(media_manage_path(@media_manage), @playlist_param),
       class: "btn yellow darken-3" %>
     <%= f.submit "更新", class: "btn" %>
   </div>
