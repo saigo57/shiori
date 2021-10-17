@@ -38,5 +38,7 @@ module Shiori
     config.generators.system_tests = nil
 
     config.action_view.embed_authenticity_token_in_remote_forms = true
+
+    config.forgery_protection_origin_check = false
   end
 end
