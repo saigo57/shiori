@@ -98,6 +98,7 @@ class MediaManagesController < ApplicationController
     return unless @media_manage.nil?
 
     flash[:error] = 'このURLは存在しません'
+    Rails.logger.info { "media_manage could not found id:#{params[:id]}" }
     redirect_to root_url
   end
 
