@@ -8,7 +8,7 @@ class MediaManage < ApplicationRecord
   has_many :playlists, through: :playlist_media_manages
   has_many :playlist_media_manages, dependent: :destroy
   mount_uploader :thumbnail, ThumbnailUploader
-  enum status: { unknown: 0, nowatch: 1, watching: 2, watched: 3 }
+  enum status: { unknown: 0, nowatch: 1, watching: 2, watched: 3, do_not_watch: 4 }
   scope :join_curr_spans, lambda {
     eager_load(:media_time_span)
       .joins('AND media_time_spans.seq_id = media_manages.curr_seq_id')
@@ -55,6 +55,19 @@ class MediaManage < ApplicationRecord
     !!youtube_video_id
   end
 
+  def do_not_watch?
+    status == 'do_not_watch'
+  end
+
+  def set_do_not_watch
+    update(status: 'do_not_watch')
+  end
+
+  def cancel_do_not_watch
+    # 適当なstatusにしてstatusの非正規化を発火させる
+    update(status: 'unknown')
+  end
+
   def media_url_with_sec(sec)
     media_url unless youtube_video?
 
@@ -89,6 +102,7 @@ class MediaManage < ApplicationRecord
   end
 
   def choice_status
+    return :do_not_watch if do_not_watch?
     # 動画時間がない場合は計算できないのでunknown
     return :unknown unless media_sec_exists?
     # 視聴時間0のときは未視聴
@@ -110,6 +124,8 @@ class MediaManage < ApplicationRecord
       '未視聴'
     when 'unknown'
       '動画時間が登録されていません'
+    when 'do_not_watch'
+      '今は見ない'
     else
       '異常'
     end

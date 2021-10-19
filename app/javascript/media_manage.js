@@ -16,7 +16,6 @@ $(function() {
   });
 
   $('.media_manage-edit-thumbnail-field').change(function(){
-    console.log('change');
     $('.edit_media_manage').submit();
   });
 });

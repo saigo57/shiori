@@ -337,5 +337,13 @@ RSpec.describe 'media_manage', type: :system, js: true do
         expect(page).to have_content('01:02:03')
       end
     end
+
+    scenario '今際見ない' do
+      expect(page).to have_content('今は見ないに入れる')
+      click_on '今は見ないに入れる'
+      expect(page).to have_content('今は見ないから削除する')
+      click_on '今は見ないから削除する'
+      expect(page).to have_content('今は見ないに入れる')
+    end
   end
 end
