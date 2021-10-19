@@ -85,6 +85,44 @@ RSpec.describe 'media_manage', type: :request do
     end
   end
 
+  describe 'PATCH /media_manages/[id]/do_not_watch' do
+    it '自分のmedia_manageの場合、media_manageにリダイレクトされること' do
+      login(user)
+      patch do_not_watch_media_manage_path(media_manage)
+      expect(response).to redirect_to media_manage_url(media_manage, {})
+    end
+
+    it '自分のmedia_manageではない場合、homeにリダイレクトすること' do
+      login(user)
+      patch do_not_watch_media_manage_path(media_manage2)
+      expect(response).to redirect_to root_url
+    end
+
+    it '非ログインの場合、loginページにリダイレクトすること' do
+      patch do_not_watch_media_manage_path(media_manage)
+      expect(response).to redirect_to new_user_session_url
+    end
+  end
+
+  describe 'PATCH /media_manages/[id]/cancel_do_not_watch' do
+    it '自分のmedia_manageの場合、media_manageにリダイレクトされること' do
+      login(user)
+      patch cancel_do_not_watch_media_manage_path(media_manage)
+      expect(response).to redirect_to media_manage_url(media_manage, {})
+    end
+
+    it '自分のmedia_manageではない場合、homeにリダイレクトすること' do
+      login(user)
+      patch cancel_do_not_watch_media_manage_path(media_manage2)
+      expect(response).to redirect_to root_url
+    end
+
+    it '非ログインの場合、loginページにリダイレクトすること' do
+      patch cancel_do_not_watch_media_manage_path(media_manage)
+      expect(response).to redirect_to new_user_session_url
+    end
+  end
+
   describe 'GET /media_manages/new' do
     it 'ログイン時、アクセスに成功し、新たにできたページにリダイレクトすること' do
       login(user)

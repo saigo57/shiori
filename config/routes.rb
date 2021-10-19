@@ -11,6 +11,8 @@ Rails.application.routes.draw do
   resources :media_manages do
     patch 'restore', on: :member
     patch 'fetch', on: :member
+    patch 'do_not_watch', on: :member
+    patch 'cancel_do_not_watch', on: :member
   end
   resources :playlists
   resource :playlist_orders, only: :update

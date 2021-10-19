@@ -34,6 +34,14 @@
   </li>
 </ul>
 
+<% if @media_manage.do_not_watch? %>
+  <%= link_to '今は見ないから削除する', cancel_do_not_watch_media_manage_path, class:"btn light-blue darken-2", method: :patch %>
+<% else %>
+  <%= link_to '今は見ないに入れる', do_not_watch_media_manage_path, class:"btn grey darken-2", method: :patch %>
+<% end %>
+
+<div class="media-manage-button-spacer"></div>
+
 <button data-target="media_manages_input_time_modal" class="btn modal-trigger amber darken-3">
   ＋時間
 </button>
@@ -56,7 +64,6 @@
     元に戻す
   </button>
 <% end %>
-
 
 <%= form_for @media_time_image, html: {id: 'media_time_image_form_id'} do |f| %>
   <%= f.hidden_field :media_manage_id, value: @media_manage.id %>

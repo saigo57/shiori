@@ -100,6 +100,36 @@ RSpec.describe MediaManage, type: :model do
     end
   end
 
+  context 'do_not_watch?' do
+    subject { media_manage.do_not_watch? }
+
+    it 'statusがdo_not_watchでないときfalseを返すこと' do
+      expect(media_manage.status).not_to eq 'do_not_watch'
+      is_expected.to be_falsey
+    end
+
+    it 'statusがdo_not_watchのときtrueを返すこと' do
+      media_manage.update(status: 'do_not_watch')
+      is_expected.to be_truthy
+    end
+  end
+
+  context 'set_do_not_watch/cancel_do_not_watch' do
+    subject { media_manage.status }
+
+    it 'do_not_watchになること' do
+      expect(media_manage.status).not_to eq 'do_not_watch'
+      media_manage.set_do_not_watch
+      is_expected.to eq 'do_not_watch'
+    end
+
+    it 'do_not_watchではなくなること' do
+      media_manage.update(status: 'do_not_watch')
+      media_manage.cancel_do_not_watch
+      is_expected.to eq 'nowatch'
+    end
+  end
+
   context 'youtube_thumbnail_url' do
     subject { media_manage.youtube_thumbnail_url }
 
@@ -242,6 +272,19 @@ RSpec.describe MediaManage, type: :model do
       add_spans({ seq_id: 1, begin_sec: 0, end_sec: 900 })
       add_spans({ seq_id: 1, begin_sec: media_manage.media_sec + 1000, end_sec: media_manage.media_sec + 1100 })
       is_expected.to eq '視聴中・のこり00:45:00'
+    end
+
+    it 'statusがdo_not_watchのとき今は見ないとなること' do
+      media_manage.status = 'do_not_watch'
+      media_manage.update_denormalized
+      is_expected.to eq '今は見ない'
+    end
+
+    it 'statusがdo_not_watchのとき、他のステータスの条件が成り立っても、今は見ないとなること' do
+      media_manage.status = 'do_not_watch'
+      add_spans({ seq_id: 1, begin_sec: 0, end_sec: 900 })
+      media_manage.update_denormalized
+      is_expected.to eq '今は見ない'
     end
   end
 

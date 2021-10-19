@@ -5,12 +5,13 @@ class MediaManagesController < ApplicationController
   include ReflectYoutube
   before_action :check_signed_in
   before_action :load_params,       only: [:index]
-  before_action :load_media_manage, only: [:edit, :show, :update, :destroy, :restore, :fetch]
+  before_action :load_media_manage, only: [:edit, :show, :update, :destroy, :restore,
+                                           :fetch, :do_not_watch, :cancel_do_not_watch]
   before_action :load_playlist,     only: [:edit, :show, :update, :restore, :fetch]
   before_action :check_can_restore, only: [:restore]
 
   NEW_TITLE = '新規'
-  DEFAULT_SEARCH_FLAGS = { unknown: true, watching: true, watched: false, nowatch: true }.freeze
+  DEFAULT_SEARCH_FLAGS = { unknown: true, watching: true, watched: false, nowatch: true, do_not_watch: false }.freeze
   SORT_ITEMS = { '残り動画時間': 'remaining_time', '動画時間': 'media_time' }.freeze
   DEFAULT_SORT_TARGET = 'remaining_time'
 
@@ -75,6 +76,16 @@ class MediaManagesController < ApplicationController
 
   def fetch
     try_update_youtube(@media_manage)
+    redirect_to_media_manage(@media_manage)
+  end
+
+  def do_not_watch
+    @media_manage.set_do_not_watch
+    redirect_to_media_manage(@media_manage)
+  end
+
+  def cancel_do_not_watch
+    @media_manage.cancel_do_not_watch
     redirect_to_media_manage(@media_manage)
   end
 

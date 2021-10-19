@@ -25,6 +25,12 @@
       </div>
       <div class="search-checkbox">
         <label>
+          <%= f.check_box :do_not_watch, { checked: search_flags[:do_not_watch], class: "filled-in" } %>
+          <span>今は見ない</span>
+        </label>
+      </div>
+      <div class="search-checkbox">
+        <label>
           <%= f.check_box :unknown, { checked: search_flags[:unknown], class: "filled-in" } %>
           <span>不明</span>
         </label>
