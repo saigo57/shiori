@@ -9,7 +9,7 @@ RSpec.describe 'playlist', type: :system, js: true do
 
   before do
     3.times do |i|
-      create(:alices_media_manage, user: alice, title: "media_#{i + 1}")
+      create(:alices_media_manage, user: alice, title: "media_#{i + 1}", media_url: "http://media#{i + 1}.example.com")
     end
 
     visit root_path

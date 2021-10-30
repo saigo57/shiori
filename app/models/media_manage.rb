@@ -7,6 +7,8 @@ class MediaManage < ApplicationRecord
   has_many :media_time_image, dependent: :destroy
   has_many :playlists, through: :playlist_media_manages
   has_many :playlist_media_manages, dependent: :destroy
+  validates :media_url, length: { minimum: 1 }, allow_nil: true
+  validates :media_url, uniqueness: { scope: :user }, allow_nil: true
   mount_uploader :thumbnail, ThumbnailUploader
   enum status: { unknown: 0, nowatch: 1, watching: 2, watched: 3, do_not_watch: 4 }
   scope :join_curr_spans, lambda {
