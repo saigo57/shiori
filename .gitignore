@@ -43,4 +43,5 @@ yarn-debug.log*
 .DS_Store
 .env
 /db/mysql/volumes/*
+/coverage
 public/uploads
