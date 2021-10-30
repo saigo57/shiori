@@ -1,0 +1,8 @@
+ja:
+  activerecord:
+    errors:
+      models:
+        media_manage:
+          attributes:
+            media_url:
+              taken: "このURLは既に登録されています"

@@ -10,6 +10,34 @@ RSpec.describe MediaManage, type: :model do
     media_manage.update_denormalized
   end
 
+  context 'media_url unique validation' do
+    let(:media_manage) { create(:media_manage) }
+    let(:media_manage2) { create(:media_manage2) }
+    let(:user) { User.find(media_manage.user_id) }
+    let(:user2) { User.find(media_manage2.user_id) }
+    let(:media_url) { 'http://media.example.com' }
+
+    before do
+      expect(user.id).to_not eq user2.id
+      media_manage.update(media_url: media_url)
+    end
+
+    it 'URLが重複した場合エラーになること' do
+      m = user.media_manage.create
+      m.media_url = media_url
+      m.valid?
+      expect(m.errors[:media_url]).to include 'このURLは既に登録されています'
+      expect(m.errors[:media_url]).to be_any
+    end
+
+    it '別のユーザーでURLが重複した場合エラーにならないこと' do
+      m = user2.media_manage.create
+      m.media_url = media_url
+      expect(m.valid?).to be_truthy
+      expect(m.errors[:media_url]).to be_empty
+    end
+  end
+
   context 'time_spans' do
     it '現在のseqのデータのみが取得できること' do
       add_spans({ seq_id: 1, begin_sec: 0, end_sec: 10 })
@@ -80,7 +108,7 @@ RSpec.describe MediaManage, type: :model do
     subject { media_manage.youtube_video? }
 
     it 'urlがないときfalseを返すこと' do
-      expect(media_manage.media_url).to be_nil
+      media_manage.media_url = nil
       is_expected.to be_falsey
     end
 
@@ -134,7 +162,7 @@ RSpec.describe MediaManage, type: :model do
     subject { media_manage.youtube_thumbnail_url }
 
     it 'urlがないときnilを返すこと' do
-      expect(media_manage.media_url).to be_nil
+      media_manage.media_url = nil
       is_expected.to be_nil
     end
 

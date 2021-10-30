@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2021_07_10_170444) do
+ActiveRecord::Schema.define(version: 2021_10_30_150330) do
 
   create_table "media_manages", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
     t.string "title"
@@ -23,6 +23,7 @@ ActiveRecord::Schema.define(version: 2021_07_10_170444) do
     t.integer "media_sec"
     t.integer "status", default: 0
     t.integer "remaining_sec"
+    t.index ["user_id", "media_url"], name: "index_media_manages_on_user_id_and_media_url", unique: true
     t.index ["user_id"], name: "index_media_manages_on_user_id"
   end
 

@@ -42,10 +42,10 @@ RSpec.describe 'search', type: :system, js: true do
     visit root_path
     login(alice)
 
-    create_media({ title: 'タイトル1(未視聴) groupA', media_len: '1:0:0' })
-    create_media({ title: 'タイトル2(視聴済み) groupA', media_len: '2:0:0', watch_begin: '0:0:0', watch_end: '2:0:0' })
-    create_media({ title: 'タイトル3(視聴中) groupB', media_len: '3:0:0', watch_begin: '0:0:0', watch_end: '2:30:0' })
-    create_media({ title: 'タイトル4(不明) groupB' })
+    create_media({ title: 'タイトル1(未視聴) groupA', media_url: 'http://media1.example.com', media_len: '1:0:0' })
+    create_media({ title: 'タイトル2(視聴済み) groupA', media_url: 'http://media2.example.com', media_len: '2:0:0', watch_begin: '0:0:0', watch_end: '2:0:0' })
+    create_media({ title: 'タイトル3(視聴中) groupB', media_url: 'http://media3.example.com', media_len: '3:0:0', watch_begin: '0:0:0', watch_end: '2:30:0' })
+    create_media({ title: 'タイトル4(不明) groupB', media_url: 'http://media4.example.com' })
 
     visit media_manages_path
   end

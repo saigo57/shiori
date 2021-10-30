@@ -18,7 +18,7 @@ RSpec.describe 'infinite_scroll', type: :system, js: true do
 
   before do
     50.times do |i|
-      media_manage = create(:alices_media_manage, user: alice, title: "動画#{i + 1}", media_sec: i + 1)
+      media_manage = create(:alices_media_manage, user: alice, title: "動画#{i + 1}", media_sec: i + 1, media_url: "http://media#{i + 1}.example.com")
       create(:playlist_media_manage, playlist: playlist, media_manage: media_manage)
     end
 

@@ -31,6 +31,12 @@
   </div>
 <% end %>
 
+<% unless @duplicate_media_manage.nil? %>
+  <div class="media_manage-alert-area">
+    <div class="duplicate-media-url">このURLは既に登録されています。</div>
+    <%= link_to @duplicate_media_manage.title, media_manage_path(@duplicate_media_manage) %>
+  </div>
+<% end %>
 
 <h3>動画情報を削除</h3>
 <button data-target="media_manages_delete_modal" class="btn modal-trigger red accent-4">

@@ -52,6 +52,13 @@ class MediaManagesController < ApplicationController
       try_update_youtube(@media_manage)
       redirect_to_media_manage(@media_manage)
     else
+      if @media_manage.errors[:media_url].any?
+        if @media_manage.media_url.present?
+          @duplicate_media_manage = current_user.media_manage.find_by(media_url: @media_manage.media_url)
+        else
+          flash[:error] = 'URLは空にできません。'
+        end
+      end
       render 'edit'
     end
   end

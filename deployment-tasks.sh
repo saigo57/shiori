@@ -1,3 +1,3 @@
 #!/bin/sh
 
-rails db:migrate RAILS_ENV=production
+#rails db:migrate RAILS_ENV=production
