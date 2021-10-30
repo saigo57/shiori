@@ -36,6 +36,7 @@ gem 'devise'
 gem 'devise-i18n'
 gem 'devise-i18n-views'
 gem 'google-api-client'
+gem 'grape'
 gem 'kaminari'
 gem 'rmagick'
 
