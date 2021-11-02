@@ -126,8 +126,7 @@ Metrics/AbcSize:
     - 'db/migrate/*'
 
 Metrics/BlockLength:
-  Exclude:
-    - 'spec/**/*'
+  Enabled: false
 
 Style/AsciiComments:
   Enabled: false
