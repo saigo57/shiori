@@ -8,8 +8,29 @@ module Resources
           include ReflectYoutube
         end
 
+        # GET /api/v1/media_manages?media_url=
+        desc '動画情報取得'
+        params do
+          requires :media_url, type: String, desc: 'media_url'
+        end
+        get do
+          authenticate_user!
+          # URL変形
+          m = MediaManage.new.tap do |obj|
+            obj.media_url = params[:media_url]
+          end
+
+          media_manage = current_user.media_manage.find_by(media_url: m.media_url)
+          return { id: nil, status: '未登録' } unless media_manage
+
+          {
+            id: media_manage.id,
+            status: media_manage.media_status
+          }
+        end
+
         # POST /api/v1/media_manages/
-        desc 'user list'
+        desc '動画新規登録'
         params do
           requires :media_url, type: String, desc: 'media_url'
         end
