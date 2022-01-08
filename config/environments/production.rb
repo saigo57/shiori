@@ -65,7 +65,7 @@ Rails.application.configure do
   config.action_mailer.perform_caching = false
 
   config.action_mailer.delivery_method = :smtp
-  config.action_mailer.default_url_options = { host: 'shiori.amanoiwato.link' }
+  config.action_mailer.default_url_options = { host: ENV['SHIORI_HOST_NAME'] }
   config.action_mailer.smtp_settings = {
     address:"smtp.gmail.com",
     domain: 'gmail.com',

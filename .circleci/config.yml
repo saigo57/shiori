@@ -116,7 +116,7 @@ jobs:
         process-types: web
 
 workflows:
-  build_and_release:
+  production_release:
     jobs:
       - test:
           filters:
@@ -127,9 +127,22 @@ workflows:
           requires:
             - test
           app-name: ${HEROKU_APP_NAME}
+  staging_release:
+    jobs:
+      - test:
+          filters:
+            branches:
+              only:
+                - develop
+      - push-and-release:
+          requires:
+            - test
+          app-name: ${HEROKU_APP_NAME_STAGING}
   test:
     jobs:
       - test:
           filters:
             branches:
-              ignore: main
+              ignore:
+                - main
+                - develop
