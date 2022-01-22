@@ -10,15 +10,8 @@ class SearchMediaManageQuery < Query
     pattern += '.*'
 
     base_list = MediaManage.list
-    # TODO: 開発環境もpostgresにする
-    if Rails.env.production?
-      # for postgres
-      base_list.where('media_manages.title ~ ?', pattern)
-               .or(base_list.where('media_manages.media_url ~ ?', pattern))
-    else
-      base_list.where('media_manages.title REGEXP ?', pattern)
-               .or(base_list.where('media_manages.media_url REGEXP ?', pattern))
-    end
+    base_list.where('media_manages.title ~ ?', pattern)
+             .or(base_list.where('media_manages.media_url ~ ?', pattern))
   end
 
   # チェックボックスでフィルタリングする
