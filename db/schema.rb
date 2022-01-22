@@ -12,7 +12,10 @@
 
 ActiveRecord::Schema.define(version: 2021_10_30_150330) do
 
-  create_table "media_manages", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+  # These are extensions that must be enabled in order to support this database
+  enable_extension "plpgsql"
+
+  create_table "media_manages", force: :cascade do |t|
     t.string "title"
     t.bigint "user_id"
     t.datetime "created_at", precision: 6, null: false
@@ -27,7 +30,7 @@ ActiveRecord::Schema.define(version: 2021_10_30_150330) do
     t.index ["user_id"], name: "index_media_manages_on_user_id"
   end
 
-  create_table "media_time_images", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+  create_table "media_time_images", force: :cascade do |t|
     t.string "image"
     t.bigint "media_manage_id"
     t.datetime "created_at", precision: 6, null: false
@@ -35,7 +38,7 @@ ActiveRecord::Schema.define(version: 2021_10_30_150330) do
     t.index ["media_manage_id"], name: "index_media_time_images_on_media_manage_id"
   end
 
-  create_table "media_time_spans", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+  create_table "media_time_spans", force: :cascade do |t|
     t.integer "begin_sec"
     t.integer "end_sec"
     t.bigint "media_manage_id"
@@ -45,17 +48,16 @@ ActiveRecord::Schema.define(version: 2021_10_30_150330) do
     t.index ["media_manage_id"], name: "index_media_time_spans_on_media_manage_id"
   end
 
-  create_table "playlist_media_manages", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+  create_table "playlist_media_manages", force: :cascade do |t|
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
-    t.bigint "playlit_id"
     t.bigint "playlist_id"
     t.bigint "media_manage_id"
     t.index ["media_manage_id"], name: "index_playlist_media_manages_on_media_manage_id"
     t.index ["playlist_id"], name: "index_playlist_media_manages_on_playlist_id"
   end
 
-  create_table "playlists", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+  create_table "playlists", force: :cascade do |t|
     t.string "name"
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
@@ -63,7 +65,7 @@ ActiveRecord::Schema.define(version: 2021_10_30_150330) do
     t.integer "order"
   end
 
-  create_table "users", charset: "utf8mb4", collation: "utf8mb4_0900_ai_ci", force: :cascade do |t|
+  create_table "users", force: :cascade do |t|
     t.string "email", default: "", null: false
     t.string "encrypted_password", default: "", null: false
     t.string "reset_password_token"
