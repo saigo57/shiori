@@ -5,7 +5,7 @@ require:
 
 AllCops:
   NewCops: disable
-  TargetRubyVersion: 2.6.6
+  TargetRubyVersion: 2.7.5
   Exclude:
     - '**/tmp/**/*'
     - '**/templates/**/*'
