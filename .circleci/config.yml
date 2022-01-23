@@ -77,8 +77,8 @@ jobs:
           command: |
             bundle exec rake db:create db:schema:load --trace
       - run:
-          name: Compile webpacker assets
-          command: RAILS_MASTER_KEY=${RAILS_MASTER_KEY} bundle exec rake webpacker:compile
+          name: Compile assets
+          command: RAILS_MASTER_KEY=${RAILS_MASTER_KEY} bundle exec rake assets:precompile
       # Rubocop
       - run:
           name: Rubocop

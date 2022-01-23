@@ -1,17 +1,19 @@
 {
   "name": "shiori",
   "private": true,
+  "scripts": {
+    "build": "esbuild app/javascript/*.* --bundle --sourcemap --outdir=app/assets/builds",
+    "build:css": "sass ./app/assets/stylesheets/application.sass.scss ./app/assets/builds/application.css --no-source-map --load-path=node_modules"
+  },
   "dependencies": {
     "@rails/actioncable": "^6.0.0",
     "@rails/activestorage": "^6.0.0",
     "@rails/ujs": "^6.0.0",
-    "@rails/webpacker": "4.3.0",
+    "autoprefixer": "^10.4.2",
+    "esbuild": "^0.14.13",
     "node-sass": "^7.0.1",
+    "sass": "^1.49.0",
     "turbolinks": "^5.2.0"
   },
-  "version": "0.1.0",
-  "devDependencies": {
-    "webpack-dev-server": "^3.11.0"
-  },
-  "@rails/webpacker": "5.4.3"
+  "version": "0.1.0"
 }

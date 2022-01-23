@@ -28,5 +28,27 @@ services:
     depends_on:
       - db
 
+  esbuild:
+    container_name: esbuild
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    command: /bin/bash -c "yarn build --watch"
+    tty: true
+    env_file: .env
+    volumes:
+      - .:/shiori:delegated
+
+  cssbuild:
+    container_name: cssbuild
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    command: /bin/bash -c "yarn build:css --watch"
+    tty: true
+    env_file: .env
+    volumes:
+      - .:/shiori:delegated
+
 volumes:
   bundle:

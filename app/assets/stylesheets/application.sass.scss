@@ -1,0 +1,20 @@
+@use "./const";
+@use "./header";
+@use "./home";
+@use "./media_manage";
+@use "./media_search";
+@use "./playlist";
+ 
+html {
+  height: 100%;
+}
+
+body {
+  height: 100%;
+  margin: 0;
+}
+
+.container {
+  padding-top: 10px;
+  padding-bottom: 10px;
+}
