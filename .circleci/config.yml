@@ -28,7 +28,7 @@ commands:
 jobs:
   test:
     docker:
-      - image: circleci/ruby:2.6.6-node-browsers
+      - image: circleci/ruby:2.7.5-node-browsers
         environment:
           RAILS_ENV: test
           DATABASE_HOST: 127.0.0.1
@@ -47,8 +47,8 @@ jobs:
       # bundle
       - restore_cache:
           keys:
-            - v2-bundle-{{ checksum "Gemfile.lock" }}
-            - v2-bundle-
+            - v3-bundle-{{ checksum "Gemfile.lock" }}
+            - v3-bundle-
       - run:
           name: bundle install
           command: |
@@ -56,19 +56,19 @@ jobs:
       - save_cache:
           paths:
             - ./vendor/bundle
-          key: v2-bundle-{{ checksum "Gemfile.lock" }}
+          key: v3-bundle-{{ checksum "Gemfile.lock" }}
       # yarn
       - restore_cache:
           keys:
-            - v2-yarn-{{ checksum "yarn.lock" }}
-            - v2-yarn-
+            - v3-yarn-{{ checksum "yarn.lock" }}
+            - v3-yarn-
       - run:
           name: yarn install
           command: yarn install
       - save_cache:
           paths:
             - ./node_modules
-          key: v2-yarn-{{ checksum "yarn.lock" }}
+          key: v3-yarn-{{ checksum "yarn.lock" }}
       # Database setup
       - run: rm ./config/database.yml
       - run: mv ./config/database.yml.ci ./config/database.yml
@@ -77,8 +77,8 @@ jobs:
           command: |
             bundle exec rake db:create db:schema:load --trace
       - run:
-          name: Compile webpacker assets
-          command: RAILS_MASTER_KEY=${RAILS_MASTER_KEY} bundle exec rake webpacker:compile
+          name: Compile assets
+          command: RAILS_MASTER_KEY=${RAILS_MASTER_KEY} bundle exec rake assets:precompile
       # Rubocop
       - run:
           name: Rubocop
