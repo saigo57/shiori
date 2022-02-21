@@ -40,6 +40,8 @@ class SearchMediaManageQuery < Query
       base_scope.order(media_sec: order)
     when 'remaining_time'
       base_scope.order(remaining_sec: order, media_sec: order)
+    when 'registration'
+      base_scope.order(created_at: order)
     else
       base_scope
     end

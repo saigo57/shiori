@@ -12,8 +12,8 @@ class MediaManagesController < ApplicationController
 
   NEW_TITLE = '新規'
   DEFAULT_SEARCH_FLAGS = { unknown: true, watching: true, watched: false, nowatch: true, do_not_watch: false }.freeze
-  SORT_ITEMS = { '残り動画時間': 'remaining_time', '動画時間': 'media_time' }.freeze
-  DEFAULT_SORT_TARGET = 'remaining_time'
+  SORT_ITEMS = { '登録順': 'registration', '残り動画時間': 'remaining_time', '動画時間': 'media_time' }.freeze
+  DEFAULT_SORT_TARGET = 'registration'
 
   def index
     @media_manages = current_user.media_manage.search(
