@@ -1,0 +1,44 @@
+@use "./lib/modaal";
+@use "./lib/reset";
+@use "./lib/toastr.min";
+@use "./component/button";
+@use "./component/input";
+@use "./component/select";
+@use "./component/modal";
+@use "./component/form";
+@use "./const";
+@use "./devise";
+@use "./header";
+@use "./home";
+@use "./media_manage";
+@use "./media_search";
+@use "./playlist";
+
+html {
+  height: 100%;
+}
+
+body {
+  height: 100%;
+  margin: 0;
+  background-color: const.$main-background-color;
+  color: const.$main-font-color;
+}
+
+.container {
+  margin: 0 auto;
+  padding-top: const.$container-top-size;
+  padding-bottom: 10px;
+  width: 70%;
+  max-width: 1280px;
+
+  @media (max-width: const.$mobile-brakepoint) {
+    width: 90%;
+  }
+}
+
+.page-title {
+  margin-top: 20px;
+  margin-bottom: 10px;
+  font-size: 30px;
+}

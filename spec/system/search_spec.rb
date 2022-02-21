@@ -27,7 +27,7 @@ RSpec.describe 'search', type: :system, js: true do
   end
 
   def input_span(watch_begin, watch_end)
-    click_on '＋時間'
+    click_on '時間追加'
     begin_list = watch_begin.split(':')
     end_list = watch_end.split(':')
     fill_in_time('begin', hour: begin_list[0], min: begin_list[1], sec: begin_list[2])
@@ -96,7 +96,7 @@ RSpec.describe 'search', type: :system, js: true do
     find('label', text: '視聴済み').click
 
     # 残り時間の昇順に並んでいること
-    cards = page.all('.media-manage-card')
+    cards = page.all('.media-manage__card')
     expect(cards[0]).to have_content('タイトル4(不明)')
     expect(cards[1]).to have_content('タイトル2(視聴済み)')
     expect(cards[2]).to have_content('タイトル3(視聴中)')
@@ -104,7 +104,7 @@ RSpec.describe 'search', type: :system, js: true do
 
     # 残り時間の降順に並んでいること
     find('.search-sort-order').click
-    cards = page.all('.media-manage-card')
+    cards = page.all('.media-manage__card')
     expect(cards[0]).to have_content('タイトル1(未視聴)')
     expect(cards[1]).to have_content('タイトル3(視聴中)')
     expect(cards[2]).to have_content('タイトル2(視聴済み)')
@@ -115,7 +115,7 @@ RSpec.describe 'search', type: :system, js: true do
 
     # 動画時間の昇順に並んでいること
     find('#sort_target').find('option[value="media_time"]').select_option
-    cards = page.all('.media-manage-card')
+    cards = page.all('.media-manage__card')
     expect(cards[0]).to have_content('タイトル4(不明)')
     expect(cards[1]).to have_content('タイトル1(未視聴)')
     expect(cards[2]).to have_content('タイトル2(視聴済み)')
@@ -123,7 +123,7 @@ RSpec.describe 'search', type: :system, js: true do
 
     # 動画時間の降順に並んでいること
     find('.search-sort-order').click
-    cards = page.all('.media-manage-card')
+    cards = page.all('.media-manage__card')
     expect(cards[0]).to have_content('タイトル3(視聴中)')
     expect(cards[1]).to have_content('タイトル2(視聴済み)')
     expect(cards[2]).to have_content('タイトル1(未視聴)')

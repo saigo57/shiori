@@ -1,6 +1,81 @@
+@use "./const";
+
 @media only screen {
   .sidenav-trigger {
     visibility: visible !important;
     opacity: 100;
+  }
+}
+
+.nav {
+  display: flex;
+  height: 50px;
+  font-size: 24px;
+  background-color: const.$verylight-background-color;
+  color: const.$main-font-color;
+  text-decoration: none;
+  user-select: none;
+
+  .sidenav-trigger {
+    display: block;
+    color: const.$main-font-color;
+    margin-top: 12px;
+    margin-left: 10px;
+  }
+  .brand-logo {
+    display: block;
+    color: const.$main-font-color;
+    text-decoration: none;
+    margin-top: 12px;
+    margin-left: 10px;
+  }
+}
+#sidenav-menu-cover {
+  position: absolute;
+  background-color: white;
+  opacity: 0.3;
+  width: 100%;
+  height: calc(100% - 50px);
+  z-index: 99;
+
+  #sidenav-menu.hide + & {
+    display: none;
+  }
+}
+.sidenav {
+  position: absolute;
+  top: 50px;
+  left: 0;
+  padding: 0;
+  margin: 0;
+  height: calc(100% - 50px);
+  width: 250px;
+  background-color: const.$main-background-color;
+  z-index: 100;
+  &.hide {
+    display: none;
+  }
+
+  li.sidenav-item {
+    padding: 10px 0;
+    color: const.$main-font-color;
+    text-decoration: none;
+    span{ vertical-align: super; }
+    &:hover {
+      background-color: const.$light-background-color;
+    }
+
+    a {
+      display: block;
+      margin: 0;
+      padding: 0 10px;
+      width: 100%;
+      height: 100%;
+    }
+  }
+  li.divider {
+    padding: 0;
+    height: 1px;
+    background-color: const.$light-background-color;
   }
 }

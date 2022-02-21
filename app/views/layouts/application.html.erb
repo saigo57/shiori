@@ -11,22 +11,29 @@
     <%= csp_meta_tag %>
 
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.1/jquery.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>
-    
+
     <link rel="preconnect" href="https://fonts.gstatic.com">
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans&display=swap" rel="stylesheet">
 
     <!--Import Google Icon Font-->
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <!-- Compiled and minified CSS -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/css/materialize.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.css">
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jscroll/2.4.1/jquery.jscroll.min.js"></script>
     <script src="https://code.jquery.com/ui/1.12.0/jquery-ui.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui-touch-punch/0.2.3/jquery.ui.touch-punch.min.js"></script>
 
-    <%= stylesheet_link_tag 'application', media: 'all' %>
-    <%= javascript_pack_tag 'application' %>
+    <script src="/lib/modaal.min.js"></script>
+    <script src="/lib/toastr.min.js"></script>
+    <%= javascript_include_tag "modaal_init", defer: true %>
+    <%= javascript_include_tag "toastr_init", defer: true %>
+    <%= javascript_include_tag "application", defer: true %>
+    <%= javascript_include_tag "input_time", defer: true %>
+    <%= javascript_include_tag "playlist", defer: true %>
+    <%= javascript_include_tag "search_form", defer: true %>
+    <%= javascript_include_tag "media_manage", defer: true %>
+    <%= stylesheet_link_tag "application", defer: true %>
   </head>
 
   <body>

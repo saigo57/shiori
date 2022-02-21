@@ -1,23 +1,13 @@
-// Place all the styles related to the playlist controller here.
-// They will automatically be included in application.css.
-// You can use Sass (SCSS) here: https://sass-lang.com/
+@use "const";
 
 .playlist-form {
+  margin-bottom: 6px;
   & > .playlist-submit {
     display: none;
-
   }
 
-  & > p > label {
-    & > span:after {
-      margin-top: 2px;
-    }
-
-    & > span {
-      display: inline-block;
-      color: black;
-      vertical-align: top;
-    }
+  .playlist-checkbox {
+    color: const.$main-font-color;
   }
 }
 
@@ -39,22 +29,27 @@
     margin-bottom: 10px;
     color: gray;
   }
+
+  .playlist-actions {
+    margin-top: 10px;
+    margin-bottom: 20px;
+  }
 }
 
 .edit_playlist {
-  text-align: right;
-
   &:not(.active) {
     display: none;
   }
-
-  & > a {
-    margin-right: 20px;
-    vertical-align: middle;
+  .playlist_name {
+    width: 70%;
   }
-
-  & > input[type="submit"] {
-    margin-right: 20px;
+  .playlist-edit-buttons {
+    display: flex;
+    margin-top: 10px;
+    margin-bottom: 20px;
+  }
+  .playlist-edit-button {
+    margin-right: 5px;
   }
 }
 

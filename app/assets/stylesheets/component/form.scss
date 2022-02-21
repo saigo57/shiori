@@ -1,0 +1,12 @@
+@use "../const";
+
+.c-form {
+  margin: 20px 0;
+  &__field {
+    margin: 20px 0;
+    &-input {
+      margin-top: 4px;
+      width: 100%;
+    }
+  }
+}

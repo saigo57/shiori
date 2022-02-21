@@ -1,8 +1,8 @@
 <% if resource.errors.any? %>
-  <div id="error_explanation">
+  <div class="devise-form__error_explanation">
     <ul>
       <% resource.errors.full_messages.each do |message| %>
-        <li class="red-text text-accent-3"><%= message %></li>
+        <li class="devise-form__error_explanation-error"><%= message %></li>
       <% end %>
     </ul>
   </div>
