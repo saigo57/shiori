@@ -42,12 +42,10 @@ RSpec.describe 'search', type: :system, js: true do
     visit root_path
     login(alice)
 
-    create_media({ title: 'タイトル1(未視聴) groupA', media_url: 'http://media1.example.com', media_len: '1:0:0' })
-    create_media({ title: 'タイトル2(視聴済み) groupA', media_url: 'http://media2.example.com', media_len: '2:0:0',
-                   watch_begin: '0:0:0', watch_end: '2:0:0' })
-    create_media({ title: 'タイトル3(視聴中) groupB', media_url: 'http://media3.example.com', media_len: '3:0:0',
-                   watch_begin: '0:0:0', watch_end: '2:30:0' })
-    create_media({ title: 'タイトル4(不明) groupB', media_url: 'http://media4.example.com' })
+    create_media({ created_at: Time.zone.parse('2022-02-21 22:00:01'), title: 'タイトル1(未視聴) groupA', media_url: 'http://media1.example.com', media_len: '1:0:0' })
+    create_media({ created_at: Time.zone.parse('2022-02-21 22:00:02'), title: 'タイトル2(視聴済み) groupA', media_url: 'http://media2.example.com', media_len: '2:0:0', watch_begin: '0:0:0', watch_end: '2:0:0' })
+    create_media({ created_at: Time.zone.parse('2022-02-21 22:00:03'), title: 'タイトル3(視聴中) groupB', media_url: 'http://media3.example.com', media_len: '3:0:0', watch_begin: '0:0:0', watch_end: '2:30:0' })
+    create_media({ created_at: Time.zone.parse('2022-02-21 22:00:04'), title: 'タイトル4(不明) groupB', media_url: 'http://media4.example.com' })
 
     visit media_manages_path
   end
@@ -95,7 +93,26 @@ RSpec.describe 'search', type: :system, js: true do
     # 全てにチェックを入れる
     find('label', text: '視聴済み').click
 
+    # 登録順の昇順に並んでいること
+    cards = page.all('.media-manage__card')
+    expect(cards[0]).to have_content('タイトル1(未視聴)')
+    expect(cards[1]).to have_content('タイトル2(視聴済み)')
+    expect(cards[2]).to have_content('タイトル3(視聴中)')
+    expect(cards[3]).to have_content('タイトル4(不明)')
+
+    # 登録順の降順に並んでいること
+    find('.search-sort-order').click
+    cards = page.all('.media-manage__card')
+    expect(cards[0]).to have_content('タイトル4(不明)')
+    expect(cards[1]).to have_content('タイトル3(視聴中)')
+    expect(cards[2]).to have_content('タイトル2(視聴済み)')
+    expect(cards[3]).to have_content('タイトル1(未視聴)')
+
+    # ソート順を戻す
+    find('.search-sort-order').click
+
     # 残り時間の昇順に並んでいること
+    find('#sort_target').find('option[value="remaining_time"]').select_option
     cards = page.all('.media-manage__card')
     expect(cards[0]).to have_content('タイトル4(不明)')
     expect(cards[1]).to have_content('タイトル2(視聴済み)')

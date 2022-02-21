@@ -39,8 +39,7 @@ Layout/SpaceAroundMethodCallOperator:
   Enabled: true
 
 Layout/LineLength:
-  Exclude:
-    - 'config/initializers/devise.rb'
+  Enabled: false
 
 Lint/DeprecatedOpenSSLConstant:
   Enabled: true
