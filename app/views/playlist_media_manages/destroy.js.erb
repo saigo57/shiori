@@ -8,4 +8,4 @@ $('#playlist-form-<%= @playlist.id %>').html(
   %>"
 );
 
-M.toast({html: 'プレイリストから削除しました'});
+toastr.success('プレイリストから削除しました');

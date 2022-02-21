@@ -23,8 +23,7 @@ RSpec.describe 'playlist', type: :system, js: true do
     expect(page).to have_content('新規プレイリスト')
 
     # プレイリスト名変更
-    find('.dropdown-trigger').click
-    find('.playlist-title-edit').click
+    click_link 'タイトル変更'
     fill_in 'playlist[name]', with: 'newプレイリスト'
     click_on '更新'
     expect(page).to have_content('プレイリスト情報を更新しました')
@@ -87,7 +86,6 @@ RSpec.describe 'playlist', type: :system, js: true do
   scenario 'プレイリスト1を削除(キャンセル)' do
     toggle_side_nav
     click_link 'プレイリスト1'
-    find('.dropdown-trigger').click
     click_link 'プレイリスト削除'
     click_on 'キャンセル'
 
@@ -100,9 +98,8 @@ RSpec.describe 'playlist', type: :system, js: true do
   scenario 'プレイリスト1を削除(実行)' do
     toggle_side_nav
     click_link 'プレイリスト1'
-    find('.dropdown-trigger').click
     click_link 'プレイリスト削除'
-    click_on '削除'
+    within('.modaal-content-container') { click_on '削除' }
 
     # 削除されていることを確認
     visit root_path

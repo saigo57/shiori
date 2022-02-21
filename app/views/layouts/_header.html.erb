@@ -1,82 +1,82 @@
 
-<nav>
-  <div class="nav-wrapper">
-    <a href="#" data-target="sidenav-menu" class="left sidenav-trigger show-on-large"><i class="material-icons">menu</i></a>
-    <ul id="nav-mobile" class="right hide-on-med-and-down">
-      <% if user_signed_in? %>
-        <li><%= link_to "新規動画", new_media_manage_path %></li>
-        <li><%= link_to "新規プレイリスト", new_playlist_path %></li>
-        <li><%= link_to "ログアウト", destroy_user_session_path, method: :delete %></li>
-      <% else %>
-        <li><%= link_to "ログイン", new_user_session_path %></li>
-        <li><%= link_to "サインアップ", new_user_registration_path, class: 'post' %></li>
-      <% end %>
-    </ul>
-    <%= link_to "Shiori", root_path, {class: "brand-logo"} %>
-  </div>
+<nav class="nav">
+  <a href="#" class="sidenav-trigger"><i class="material-icons">menu</i></a>
+  <%= link_to "Shiori", root_path, {class: "brand-logo"} %>
 </nav>
 
-<ul class="sidenav" id="sidenav-menu">
+<ul class="sidenav hide" id="sidenav-menu">
   <% if user_signed_in? %>
-    <li>
+    <li class="sidenav-item">
       <%= link_to edit_user_registration_path do %>
-        <i class="material-icons">person</i>ユーザー設定
+        <i class="material-icons">person</i><span>ユーザー設定</span>
       <% end %>
     </li>
 
-    <li><div class="divider"></div></li>
+    <li class="divider"></li>
 
-    <li>
+    <li class="sidenav-item">
       <%= link_to media_manages_path do %>
-        <i class="material-icons">list</i>動画一覧
+        <i class="material-icons">list</i><span>動画一覧</span>
       <% end %>
     </li>
-    <li>
+    <li class="sidenav-item">
       <%= link_to new_media_manage_path do %>
-        <i class="material-icons">add</i>新規動画
+        <i class="material-icons">add</i><span>新規動画</span>
       <% end %>
     </li>
 
-    <li><div class="divider"></div></li>
+    <li class="divider"></li>
 
     <li>
       <ul class="sortable">
         <% @playlists.each do |playlist| %>
-          <li id="playlist-<%= playlist.id %>-id">
+          <li id="playlist-<%= playlist.id %>-id" class="sidenav-item sortable-sidenav-item">
             <%= link_to playlist_path(playlist) do %>
-              <i class="material-icons">playlist_play</i><%= playlist.name %>
+              <i class="material-icons">playlist_play</i><span><%= playlist.name %></span>
             <% end %>
           </li>
         <% end %>
       </ul>
     </li>
 
-    <li>
+    <li class="sidenav-item">
       <%= link_to new_playlist_path do %>
-        <i class="material-icons">playlist_add</i>新規プレイリスト
+        <i class="material-icons">playlist_add</i><span>新規プレイリスト</span>
       <% end %>
     </li>
 
-    <li><div class="divider"></div></li>
+    <li class="divider"></li>
 
-    <li>
+    <li class="sidenav-item">
       <%= link_to destroy_user_session_path, method: :delete do %>
-        <i class="material-icons">exit_to_app</i>ログアウト
+        <i class="material-icons">exit_to_app</i><span>ログアウト</span>
       <% end %>
     </li>
   <% else %>
-    <li>
+    <li class="sidenav-item">
       <%= link_to new_user_session_path do %>
-        <i class="material-icons">login</i>ログイン
+        <i class="material-icons">login</i><span>ログイン</span>
       <% end %>
     </li>
 
-    <li><%= link_to "サインアップ", new_user_registration_path, class: 'post' %></li>
+    <li class="sidenav-item"><%= link_to "サインアップ", new_user_registration_path, class: 'post' %></li>
   <% end %>
 </ul>
 
+<div id="sidenav-menu-cover"></div>
+
 <script>
   $(function() {
+    $(".sidenav-trigger").click(function() {
+      $("#sidenav-menu").toggleClass('hide');
+    });
+    $("html").click(function(e) {
+      console.log($(e.target))
+      if ( $(e.target).closest('#sidenav-menu').length == 0 && $(e.target).closest('.sidenav-trigger').length == 0 ) {
+        $("#sidenav-menu").addClass('hide');
+      }
+    });
+  
     $(".sortable").sortable({
       update: function() {
         var id_list = $(".sortable").sortable("toArray").map(function(value, index, array) {

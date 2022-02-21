@@ -1,7 +1,7 @@
 
 <div class="time-input-parts">
   <input type="tel" name="<%= prefix %>-time-input-hour" maxlength="2" placeholder="時" autocomplete="off"
-   class="time-input-text browser-default" value="<%= value / 3600 unless value.nil? %>">
+   class="c-input time-input-text" value="<%= value / 3600 unless value.nil? %>">
 </div>
 
 <% sec = value % 3600 unless value.nil? %>
@@ -11,7 +11,7 @@
 </div>
 <div class="time-input-parts">
   <input type="tel" name="<%= prefix %>-time-input-min" maxlength="2" placeholder="分" autocomplete="off"
-   class="time-input-text browser-default" value="<%= sec / 60 unless value.nil? %>">
+   class="c-input time-input-text" value="<%= sec / 60 unless value.nil? %>">
 </div>
 
 <% sec = value % 60 unless value.nil? %>
@@ -21,5 +21,5 @@
 </div>
 <div class="time-input-parts">
   <input type="tel" name="<%= prefix %>-time-input-sec" maxlength="2" placeholder="秒" autocomplete="off"
-   class="time-input-text browser-default" value="<%= sec unless value.nil? %>">
+   class="c-input time-input-text" value="<%= sec unless value.nil? %>">
 </div>

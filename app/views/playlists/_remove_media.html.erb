@@ -3,8 +3,7 @@
   <p>
     <label>
       <%= f.check_box :check, { id: "playlist-checkbox-#{playlist.id}",
-        class: "playlist-checkbox filled-in", checked: true } %>
-      <span><%= playlist.name %></span>
+        class: "playlist-checkbox filled-in", checked: true } %><%= playlist.name %>
     </label>
   </p>
   <%= f.hidden_field :media_manage_id, { value: media_manage.id, id: nil } %>

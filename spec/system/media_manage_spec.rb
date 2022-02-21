@@ -52,7 +52,7 @@ RSpec.describe 'media_manage', type: :system, js: true do
     # 新規動画作成ページを表示
     toggle_side_nav
     within('#sidenav-menu') { click_link '新規動画' }
-    expect(page).to have_content('動画情報編集')
+    expect(page).to have_content('編集')
 
     # 情報を入力
     find('.media_manage-edit-details').click
@@ -65,7 +65,7 @@ RSpec.describe 'media_manage', type: :system, js: true do
     click_on '更新'
     expect(page).to have_content('動画情報を更新しました')
     expect(page).to have_content(title)
-    within('.media-manage-show-thumbnail') { expect(page).to have_content('01:02:03') }
+    within('.media-manage-show__media-info') { expect(page).to have_content('01:02:03') }
 
     # 一覧
     toggle_side_nav
@@ -80,7 +80,7 @@ RSpec.describe 'media_manage', type: :system, js: true do
       # 新規動画作成ページを表示
       toggle_side_nav
       within('#sidenav-menu') { click_link '新規動画' }
-      expect(page).to have_content('動画情報編集')
+      expect(page).to have_content('編集')
 
       # 情報を入力
       @title = '【テスト】youtubeタイトル'
@@ -95,17 +95,16 @@ RSpec.describe 'media_manage', type: :system, js: true do
       expect(page).to have_content('動画情報を更新しました')
       expect(page).to have_content('youtubeからの取得に成功しました。')
       expect(page).to have_content(@title)
-      within('.media-manage-show-thumbnail') { expect(page).to have_content('04:05:06') }
+      within('.media-manage-show__media-info') { expect(page).to have_content('04:05:06') }
 
       # youtube情報変化
       allow(@youtube_service_moc).to receive(:list_videos).and_return(
         YoutubeVideosInfo.new(title: 'newタイトル', hour: 3, min: 2, sec: 1)
       )
-      find('.show-media-manage-menu').click
       click_link '動画情報更新'
       expect(page).to have_content('youtubeからの取得に成功しました。')
       expect(page).to have_content('newタイトル')
-      within('.media-manage-show-thumbnail') { expect(page).to have_content('03:02:01') }
+      within('.media-manage-show__media-info') { expect(page).to have_content('03:02:01') }
     end
 
     scenario 'youtube情報取得失敗(apiエラー)' do
@@ -129,7 +128,7 @@ RSpec.describe 'media_manage', type: :system, js: true do
         YoutubeVideosInfo.new(title: @title, hour: 4, min: 5, sec: 6, item_count: 2)
       )
       click_on '更新'
-      click_on '＋時間'
+      click_on '時間追加'
       fill_in_time('begin', hour: 0, min: 0, sec: 0)
       fill_in_time('end', hour: 1, min: 0, sec: 0)
       click_on '登録'
@@ -146,7 +145,6 @@ RSpec.describe 'media_manage', type: :system, js: true do
     end
 
     scenario 'タイトル変更' do
-      find('.show-media-manage-menu').click
       click_link '編集'
       find('.media_manage-edit-details').click
       new_title = 'newタイトル'
@@ -157,11 +155,10 @@ RSpec.describe 'media_manage', type: :system, js: true do
       click_on '更新'
       expect(page).to have_content('動画情報を更新しました')
       expect(page).to have_content(new_title)
-      within('.media-manage-show-thumbnail') { expect(page).to have_content('12:45:56') }
+      within('.media-manage-show__media-info') { expect(page).to have_content('12:45:56') }
     end
 
     scenario '編集-キャンセル' do
-      find('.show-media-manage-menu').click
       click_link '編集'
       find('.media_manage-edit-details').click
       new_title = 'newタイトル'
@@ -171,11 +168,10 @@ RSpec.describe 'media_manage', type: :system, js: true do
       fill_in 'length-time-input-sec', with: 56
       click_on 'キャンセル'
       expect(page).to have_content(media_manage_other_site.title)
-      within('.media-manage-show-thumbnail') { expect(page).to have_content('01:02:03') }
+      within('.media-manage-show__media-info') { expect(page).to have_content('01:02:03') }
     end
 
     scenario '削除' do
-      find('.show-media-manage-menu').click
       click_link '編集'
       click_on 'delete' # 表示はDELETE
       expect(page).to have_content('確認')
@@ -185,16 +181,15 @@ RSpec.describe 'media_manage', type: :system, js: true do
     end
 
     scenario '削除-キャンセル' do
-      find('.show-media-manage-menu').click
       click_link '編集'
       click_on 'delete' # 表示はDELETE
       expect(page).to have_content('確認')
-      within('#media_manages_delete_modal') { click_on 'キャンセル' }
-      expect(page).to have_content('動画情報編集')
+      within('.modaal-content-container') { click_on 'キャンセル' }
+      expect(page).to have_content('編集')
     end
 
     scenario '視聴時間入力' do
-      click_on '＋時間'
+      click_on '時間追加'
       fill_in_time('begin', hour: 1, min: 2, sec: 3)
       fill_in_time('end', hour: 4, min: 5, sec: 6)
       click_on '登録'
@@ -207,19 +202,19 @@ RSpec.describe 'media_manage', type: :system, js: true do
 
     scenario '視聴ステータス' do
       # 途中までの時間で入力
-      click_on '＋時間'
+      click_on '時間追加'
       fill_in_time('begin', hour: 0, min: 0, sec: 0)
       fill_in_time('end', hour: 0, min: 1, sec: 2)
       click_on '登録'
 
       click_link '一覧に戻る'
-      within('.card-content') do
+      within('.media-manage__card-info-status') do
         expect(page).to have_content('視聴中・のこり01:01:01')
       end
 
       # 動画が見終わるように入力
       click_link media_manage_other_site.title
-      click_on '＋時間'
+      click_on '時間追加'
       fill_in_time('begin', hour: 0, min: 0, sec: 0)
       fill_in_time('end', hour: 1, min: 2, sec: 3)
       click_on '登録'
@@ -227,13 +222,13 @@ RSpec.describe 'media_manage', type: :system, js: true do
       click_link '一覧に戻る'
       find('label', text: '視聴済み').click
       click_on '検索'
-      within('.card-content') do
+      within('.media-manage__card-info-status') do
         expect(page).to have_content('視聴済み')
       end
     end
 
     scenario '視聴時間入力(キャンセル)' do
-      click_on '＋時間'
+      click_on '時間追加'
       fill_in_time('begin', hour: 3, min: 2, sec: 1)
       fill_in_time('end', hour: 4, min: 5, sec: 6)
       click_on 'キャンセル'
@@ -245,7 +240,7 @@ RSpec.describe 'media_manage', type: :system, js: true do
     end
 
     scenario '空欄時0として扱われること' do
-      click_on '＋時間'
+      click_on '時間追加'
       fill_in_time('end', sec: 1)
       click_on '登録'
 
@@ -256,11 +251,11 @@ RSpec.describe 'media_manage', type: :system, js: true do
     end
 
     scenario '時間の削除' do
-      click_on '＋時間'
+      click_on '時間追加'
       fill_in_time('end', hour: 1)
       click_on '登録'
 
-      click_on '＋時間'
+      click_on '時間追加'
       fill_in_time('begin', hour: 2)
       fill_in_time('end', hour: 3)
       click_on '登録'
@@ -284,7 +279,7 @@ RSpec.describe 'media_manage', type: :system, js: true do
 
     scenario '一つ前に戻る' do
       # 区間A
-      click_on '＋時間'
+      click_on '時間追加'
       fill_in_time('end', hour: 2)
       click_on '登録'
 
@@ -292,7 +287,7 @@ RSpec.describe 'media_manage', type: :system, js: true do
       expect(page).to_not have_content('元に戻す')
 
       # 区間B
-      click_on '＋時間'
+      click_on '時間追加'
       fill_in_time('begin', hour: 1)
       fill_in_time('end', hour: 3)
       click_on '登録'
@@ -338,12 +333,15 @@ RSpec.describe 'media_manage', type: :system, js: true do
       end
     end
 
-    scenario '今際見ない' do
-      expect(page).to have_content('今は見ないに入れる')
-      click_on '今は見ないに入れる'
-      expect(page).to have_content('今は見ないから削除する')
-      click_on '今は見ないから削除する'
-      expect(page).to have_content('今は見ないに入れる')
+    scenario '今は見ない' do
+      expect(page).to have_content('今は見ない')
+      expect(page).to have_content('に入れる')
+      click_on '今は見ない'
+      expect(page).to have_content('今は見ない')
+      expect(page).to have_content('から削除する')
+      click_on '今は見ない'
+      expect(page).to have_content('今は見ない')
+      expect(page).to have_content('に入れる')
     end
   end
 end

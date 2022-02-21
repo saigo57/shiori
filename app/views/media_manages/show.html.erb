@@ -1,69 +1,81 @@
 
 <% if @inflow_playlist %>
-  <%= link_to "プレイリスト[#{@inflow_playlist.name}] に戻る", playlist_path(@inflow_playlist) %>
+  <%= link_to "＜ プレイリスト[#{@inflow_playlist.name}] に戻る", playlist_path(@inflow_playlist) %>
 <% else %>
-  <%= link_to "一覧に戻る", media_manages_path %>
+  <%= link_to "＜ 一覧に戻る", media_manages_path %>
 <% end %>
 
-<div class="media-manage-show-thumbnail">
-  <%= link_to @media_manage.media_url, target: :_blank do %>
-    <%= thumbnail_tag(@media_manage, '240x135') %>
-  <% end %>
-  <span class="media-length"><%= @media_manage.media_sec_str %></span>
+<div class="media-manage-show__media-info">
+  <div class="media-manage-show__thumbnail">
+    <%= link_to @media_manage.media_url, target: :_blank do %>
+      <%= thumbnail_tag(@media_manage, '240x135') %>
+    <% end %>
+  </div>
+  <div class="media-manage-show__media-detail">
+    <div class="show-media-manag-title">
+      <%= @media_manage.title %>
+    </div>
+    <div>
+      動画時間：<%= @media_manage.media_sec_str %>
+    </div>
+    <div>
+      ステータス：<%= @media_manage.media_status %>
+    </div>
+  </div>
 </div>
 
-<div class="show-media-manag-title">
-  <%= @media_manage.title %>
-</div>
-
-<div>
-  <a class='show-media-manage-menu dropdown-trigger' href='#' data-target='playlist-show-dropdown'>
-    <i class="material-icons">more_vert</i>
+<div class="media-manage-show__action-buttons">
+  <a href="#media_manages_input_time_modal" class="media-manage-show__action-button modaal-modal">
+    <i class="fa-solid fa-clock"></i>
+    <div class="media-manage-show__action-button-text">時間追加</div>
   </a>
-</div>
 
-<ul id='playlist-show-dropdown' class='dropdown-content'>
-  <li>
-    <a href="<%= add_params_to_url(edit_media_manage_path(@media_manage), @playlist_param) %>">
-      動画情報編集
+  <a id="media_time_image_btn_id" class="media-manage-show__action-button">
+    <i class="fa-solid fa-image"></i>
+    <div class="media-manage-show__action-button-text">画像追加</div>
+  </a>
+
+  <% if @media_manage.media_sec_exists? %>
+    <a href="#media_manages_finish_watching_modal" class="media-manage-show__action-button modaal-modal">
+      <i class="fa-solid fa-square-check"></i>
+      <div class="media-manage-show__action-button-text">視聴完了にする</div>
     </a>
-  </li>
+  <% end %>
 
-  <li>
-    <%= link_to '動画情報更新', add_params_to_url(fetch_media_manage_path(@media_manage), @playlist_param), method: :patch %>
-  </li>
-</ul>
+  <a href="#media_manages_playlist_modal" class="media-manage-show__action-button modaal-modal">
+    <i class="material-icons">playlist_play</i>
+    <div class="media-manage-show__action-button-text material-icon-text">プレイリスト</div>
+  </a>
 
-<% if @media_manage.do_not_watch? %>
-  <%= link_to '今は見ないから削除する', cancel_do_not_watch_media_manage_path, class:"btn light-blue darken-2", method: :patch %>
-<% else %>
-  <%= link_to '今は見ないに入れる', do_not_watch_media_manage_path, class:"btn grey darken-2", method: :patch %>
-<% end %>
+  <% if @media_manage.do_not_watch? %>
+    <%= link_to cancel_do_not_watch_media_manage_path, class: "media-manage-show__action-button", method: :patch do %>
+      <i class="fa-solid fa-folder-minus"></i>
+      <div class="media-manage-show__action-button-text">今は見ない<br>から削除する</div>
+    <% end %>
+  <% else %>
+    <%= link_to do_not_watch_media_manage_path, class: "media-manage-show__action-button is-text-only", method: :patch do %>
+      <i class="fa-solid fa-folder-plus"></i>
+      <div class="media-manage-show__action-button-text">今は見ない<br>に入れる</div>
+    <% end %>
+  <% end %>
 
-<div class="media-manage-button-spacer"></div>
+  <a href="<%= add_params_to_url(edit_media_manage_path(@media_manage), @playlist_param) %>" class="media-manage-show__action-button">
+    <i class="fa-solid fa-pen-to-square"></i>
+    <div class="media-manage-show__action-button-text">編集</div>
+  </a>
 
-<button data-target="media_manages_input_time_modal" class="btn modal-trigger amber darken-3">
-  ＋時間
-</button>
-<button id="media_time_image_btn_id" class="btn modal-trigger amber darken-3">
-  ＋画像
-</button>
+  <%= link_to add_params_to_url(fetch_media_manage_path(@media_manage), @playlist_param), class: "media-manage-show__action-button", method: :patch do %>
+    <i class="fa-brands fa-youtube"></i>
+    <div class="media-manage-show__action-button-text">動画情報更新</div>
+  <% end %>
 
-<% if @media_manage.media_sec_exists? %>
-  <button data-target="media_manages_finish_watching_modal" class="btn modal-trigger yellow darken-3">
-    視聴完了にする
-  </button>
-<% end %>
-
-<button data-target="media_manages_playlist_modal" class="btn modal-trigger cyan accent-4">
-  プレイリスト
-</button>
-
-<% if @media_manage.can_restore %>
-  <button data-target="media_manages_restore_modal" class="btn modal-trigger yellow darken-3">
-    元に戻す
-  </button>
-<% end %>
+  <% if @media_manage.can_restore %>
+    <a href="#media_manages_restore_modal" class="media-manage-show__action-button modaal-modal">
+      <i class="fa-solid fa-rotate-left"></i>
+      <div class="media-manage-show__action-button-text">元に戻す</div>
+    </a>
+  <% end %>
+</div>
 
 <%= form_for @media_time_image, html: {id: 'media_time_image_form_id'} do |f| %>
   <%= f.hidden_field :media_manage_id, value: @media_manage.id %>
@@ -72,6 +84,7 @@
     <%= f.hidden_field :playlist, value: @inflow_playlist.id %>
   <% end %>
 <% end %>
+
 <script type="text/javascript">
   $(function(){
     $('#media_time_image_btn_id').click(function(){
@@ -90,7 +103,7 @@
 
 <div class="waching-data-section">
   <% if @time_spans.any? %>
-    <ul class="collection time-span-collection">
+    <ul class="time-span-collection">
       <% @time_spans.each_with_index do |ts, i| %>
         <li class="collection-item">
           <div class="time-span-block" id="time-span-block-<%= i %>">
@@ -114,7 +127,7 @@
   <% end %>
 
   <% if @media_manage.media_time_image.any? %>
-    <ul class="collection">
+    <ul class="media_time_image-collection">
       <% @media_manage.media_time_image.each_with_index do |time_image, i| %>
         <li class="collection-item">
           <div class="time-span-block">
@@ -122,28 +135,28 @@
               <%= image_tag time_image.image.thumb.url %>
             <% end %>
             <div>
-              <button data-target="media_manages_time_image_delete_modal_<%= i %>" class="btn modal-trigger red accent-4">
+              <a href="#media_manages_time_image_delete_modal_<%= i %>" class="c-button c-button--warning modaal-modal">
                 削除
-              </button>
+              </a>
             </div>
           </div>
         </li>
 
-        <div id="media_manages_time_image_delete_modal_<%= i %>" class="modal">
-          <div class="modal-content">
-            <h4>確認</h4>
+        <div id="media_manages_time_image_delete_modal_<%= i %>" class="c-modal" style="display:none;">
+          <div class="c-modal--title">確認</div>
+          <div class="c-modal--content">
             <p>画像を削除します。</p>
             <p>この操作は取り消せません。よろしいですか？</p>
           </div>
-          <div class="modal-footer">
-            <a href="#!" class="modal-close waves-effect btn yellow darken-3">キャンセル</a>
+          <div>
+            <a href="#!" class="c-button modaal_inline_close">キャンセル</a>
             <%= link_to '削除',
               add_params_to_url(
                 media_time_image_path(time_image, media_time_image: { media_manage_id: @media_manage.id }),
                 @playlist_param
               ),
               method: :delete, 
-              class: "waves-effect waves-red btn red" %>
+              class: "c-button c-button--warning" %>
           </div>
         </div>
       <% end %>
@@ -153,28 +166,28 @@
 
 <%= render partial: "input_timespan_modal", locals: { media_namage: @media_manage, playlist_param: @playlist_param } %>
 
-<div id="media_manages_restore_modal" class="modal">
-  <div class="modal-content">
-    <h4>確認</h4>
+<div id="media_manages_restore_modal" style="display:none;">
+  <div class="c-modal--title">確認</div>
+  <div class="c-modal--content">
     <p>時間を一つ前の状態に戻します。</p>
     <p>よろしいですか？</p>
   </div>
-  <div class="modal-footer">
-    <a href="#!" class="modal-close waves-effect btn yellow darken-3">キャンセル</a>
-    <%= link_to '戻す', add_params_to_url(restore_media_manage_path(@media_manage), @playlist_param), method: :patch, class: "waves-effect waves-red btn red" %>
+  <div>
+    <a href="#!" class="c-button modaal_inline_close">キャンセル</a>
+    <%= link_to '戻す', add_params_to_url(restore_media_manage_path(@media_manage), @playlist_param), method: :patch, class: "c-button c-button--warning" %>
   </div>
 </div>
 
-<div id="media_manages_finish_watching_modal" class="modal">
-  <div class="modal-content">
-    <h4>確認</h4>
+<div id="media_manages_finish_watching_modal" style="display:none;">
+  <div class="c-modal--title">確認</div>
+  <div class="c-modal--content">
     <p>視聴を完了した状態にします。</p>
     <p>よろしいですか？</p>
     <p>※「0秒〜この動画の長さ」の視聴履歴が追加されます。</p>
   </div>
-  <div class="modal-footer">
-    <a href="#!" class="modal-close waves-effect btn yellow darken-3">キャンセル</a>
-    <button type="button" id="timespan_finish_watch_submit_id" class="waves-effect waves-lite btn">視聴を完了する</button>
+  <div>
+    <a href="#!" class="c-button modaal_inline_close">キャンセル</a>
+    <button id="timespan_finish_watch_submit_id" class="c-button c-button--confirm">視聴を完了する</button>
 
     <%= form_with id: 'timespan_finish_watch_id', url: add_params_to_url(finish_watching_path, @playlist_param) do |f| %>
       <input type="hidden" name="media_manage_id" value="<%= @media_manage.id %>">
@@ -182,9 +195,9 @@
   </div>
 </div>
 
-<div id="media_manages_playlist_modal" class="modal">
-  <div class="modal-content">
-    <h4>プレイリスト</h4>
+<div id="media_manages_playlist_modal" style="display:none;">
+  <div class="c-modal--title">プレイリスト</div>
+  <div class="c-modal--content">
     <% @playlists.each do |p| %>
       <%= render partial: "playlist_form", locals: {
         playlist: p,
@@ -192,7 +205,7 @@
         media_manage: @media_manage } %>
     <% end %>
   </div>
-  <div class="modal-footer">
-    <a href="#!" class="modal-close waves-effect waves-green btn">閉じる</a>
+  <div>
+    <a href="#!" class="c-button modaal_inline_close">閉じる</a>
   </div>
 </div>

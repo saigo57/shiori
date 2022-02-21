@@ -1,56 +1,70 @@
 
-<h1>
+<h1 class="page-title">
   動画情報編集
 </h1>
 
-<%= form_for @media_manage, url: {action: "update"} do |f| %>
+<div class="media-manage-edit__content c-form">
+  <%= form_for @media_manage, url: {action: "update"} do |f| %>
 
-  <%= f.label :media_url %>
-  <%= f.text_field :media_url, placeholder: 'https://www.youtube.com/watch?v=xxxxxx, https://youtu.be/xxxxxx, ...' %>
-
-  <details class="media_manage-edit-details">
-    <summary>手動設定項目</summary>
-    <p>youtubeのURLを指定している場合、これらの項目は自動取得されます。</p>
-    <p>サムネイルは画像をクリックすると変更できます(選択するとすぐに更新されます)</p>
-    <%= thumbnail_tag(@media_manage, '240x135', 'media_manage-edit-thumbnail') %>
-    <%= f.file_field :thumbnail, accept: 'image/jpeg,image/gif,image/png', class: "media_manage-edit-thumbnail-field" %><br/>
-    <%= f.label :title %>
-    <%= f.text_field :title %>
-    <%= f.label "動画時間(時：分：秒)" %>
-    <%= f.hidden_field :media_sec %>
-    <%= hidden_field_tag :playlist, @inflow_playlist.id if @inflow_playlist %>
-    <div>
-      <%= render "input_time", {prefix: "length", value: @media_manage.media_sec} %>
+    <div class="c-form__field">
+      <%= f.label :media_url %>
+      <%= f.text_field :media_url, placeholder: 'https://www.youtube.com/watch?v=xxxxxx, https://youtu.be/xxxxxx, ...',
+        class: "c-input c-form__field-input media-manage-edit__content-input" %>
     </div>
-  </details>
 
-  <div class="media_manage-edit-form-btns">
-    <%= link_to "キャンセル", add_params_to_url(media_manage_path(@media_manage), @playlist_param),
-      class: "btn yellow darken-3" %>
-    <%= f.submit "更新", class: "btn" %>
-  </div>
-<% end %>
+    <details class="media_manage-edit-details">
+      <summary>手動設定項目</summary>
+      <div class="media_manage-edit-details__content">
+        <p>youtubeのURLを指定している場合、これらの項目は自動取得されます。</p>
+        <p>サムネイルは画像をクリックすると変更できます(選択するとすぐに更新されます)</p>
+        <%= thumbnail_tag(@media_manage, '240x135', 'media_manage-edit-thumbnail') %>
+        <%= f.file_field :thumbnail, accept: 'image/jpeg,image/gif,image/png', class: "media_manage-edit-thumbnail-field" %><br/>
 
-<% unless @duplicate_media_manage.nil? %>
-  <div class="media_manage-alert-area">
-    <div class="duplicate-media-url">このURLは既に登録されています。</div>
-    <%= link_to @duplicate_media_manage.title, media_manage_path(@duplicate_media_manage) %>
-  </div>
-<% end %>
+        <div class="c-form__field">
+          <%= f.label :title %>
+          <%= f.text_field :title, class: "c-input c-form__field-input" %>
+        </div>
+        <div class="c-form__field">
+          <%= f.label "動画時間(時：分：秒)" %>
+          <%= f.hidden_field :media_sec, class: "c-input c-form__field-input" %>
+        </div>
+        <%= hidden_field_tag :playlist, @inflow_playlist.id if @inflow_playlist %>
+        <div>
+          <%= render "input_time", {prefix: "length", value: @media_manage.media_sec} %>
+        </div>
+      </div>
+    </details>
 
-<h3>動画情報を削除</h3>
-<button data-target="media_manages_delete_modal" class="btn modal-trigger red accent-4">
-  delete
-</button>
+    <div class="media_manage-edit-form-btns">
+      <%= link_to "キャンセル", add_params_to_url(media_manage_path(@media_manage), @playlist_param),
+        class: "c-button" %>
+      <%= f.submit "更新", class: "c-button c-button--confirm" %>
+    </div>
+  <% end %>
 
-<div id="media_manages_delete_modal" class="modal">
-  <div class="modal-content">
-    <h4>確認</h4>
+  <% unless @duplicate_media_manage.nil? %>
+    <div class="media_manage-alert-area">
+      <div class="duplicate-media-url">このURLは既に登録されています。</div>
+      <%= link_to @duplicate_media_manage.title, media_manage_path(@duplicate_media_manage) %>
+    </div>
+  <% end %>
+</div>
+
+<h1 class="page-title">動画情報を削除</h1>
+<div class="media-manage-edit__content">
+  <a href="#media_manages_delete_modal" class="c-button c-button--warning modaal-modal">
+    delete
+  </a>
+</div>
+
+<div id="media_manages_delete_modal" style="display:none;">
+  <div class="c-modal--title">確認</div>
+  <div class="c-modal--content">
     <p>この操作は取り消せません。</p>
     <p>本当に削除してよろしいですか？</p>
   </div>
-  <div class="modal-footer">
-    <a href="#!" class="modal-close waves-effect btn yellow darken-3">キャンセル</a>
-    <%= link_to '削除する', media_manage_path(@media_manage), method: :delete, class: "waves-effect waves-red btn red" %>
+  <div>
+    <a href="#!" class="c-button">キャンセル</a>
+    <%= link_to '削除する', media_manage_path(@media_manage), method: :delete, class: "c-button c-button--warning" %>
   </div>
 </div>

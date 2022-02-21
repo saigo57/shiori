@@ -2,13 +2,13 @@
 <% thumbnail_tag(media_manage, '160x90') %>
 <% link_to media_manage.title, media_manage_path(media_manage) %>
 
-<div class="card horizontal media-manage-card">
-  <div class="card-image">
+<div class="media-manage__card">
+  <div class="media-manage__card-image">
     <%= thumbnail_tag(media_manage, '160x90') %>
-    <span class="card-title media-length"><%= media_manage.media_sec_str %></span>
+    <span class="media-manage__card-image-media-length"><%= media_manage.media_sec_str %></span>
   </div>
-  <div class="card-stacked">
-    <div class="card-action">
+  <div class="media-manage__card-info">
+    <div class="media-manage__card-info-title">
       <% params = {} %>
 
       <% if playlist %>
@@ -17,11 +17,11 @@
 
       <%= link_to media_manage.title, media_manage_path(media_manage, **params), class: 'black-text' %>
     </div>
-    <div class="card-content grey-text text-darken-1">
+    <div class="media-manage__card-info-status">
       <p>
         <%= media_manage.media_status %>
         <% if media_manage.media_time_image.any? %>
-          <i class="material-icons">image</i>
+          <i class="fa-solid fa-image"></i>
         <% end %>
       </p>
     </div>

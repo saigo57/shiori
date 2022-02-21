@@ -1,0 +1,14 @@
+.devise-form__link {
+  text-decoration: underline;
+  line-height: 1.4em;
+  &::after {
+    content: "\A";
+    white-space: pre;
+  }
+}
+.devise-form__error_explanation {
+  &-error {
+    color: #da4040;
+    list-style: none;
+  }
+}

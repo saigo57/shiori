@@ -23,8 +23,8 @@ RSpec.describe 'user_registration', type: :system, js: true do
   scenario 'サインアップ成功' do
     expect(ActionMailer::Base.deliveries).to be_empty
 
-    within('nav') { click_link 'サインアップ' }
-    within('h2') { expect(page).to have_content 'サインアップ' }
+    click_on 'サインアップ'
+    within('.page-title') { expect(page).to have_content 'サインアップ' }
 
     input_valid_account_info
 
@@ -40,7 +40,7 @@ RSpec.describe 'user_registration', type: :system, js: true do
     expect(activate_mail.body.encoded).to match(alice.email)
 
     # まだログインできない
-    within('nav') { click_link 'ログイン' }
+    click_on 'ログイン'
     fill_in 'user[email]', with: alice.email
     fill_in 'user[password]', with: alice.password
     within('#new_user') { click_on 'ログイン' }
@@ -60,7 +60,7 @@ RSpec.describe 'user_registration', type: :system, js: true do
   scenario '認証メール再送' do
     expect(ActionMailer::Base.deliveries).to be_empty
 
-    within('nav') { click_link 'サインアップ' }
+    click_on 'サインアップ'
 
     input_valid_account_info
     within('#new_user') { click_on 'サインアップ' }
@@ -77,9 +77,9 @@ RSpec.describe 'user_registration', type: :system, js: true do
     expect(ActionMailer::Base.deliveries).to be_empty
 
     # 認証メールを再送
-    within('nav') { click_link 'サインアップ' }
+    click_on 'サインアップ'
     click_link '認証メールが届きませんか?'
-    within('h2') { expect(page).to have_content '認証メール再送' }
+    within('.page-title') { expect(page).to have_content '認証メール再送' }
     fill_in 'user[email]', with: alice.email
     click_on '送信'
 
@@ -95,7 +95,7 @@ RSpec.describe 'user_registration', type: :system, js: true do
 
   describe 'サインアップ失敗' do
     scenario 'アカウント入力情報が不正' do
-      within('nav') { click_link 'サインアップ' }
+      click_on 'サインアップ'
       fill_in 'user[email]', with: ''
       fill_in 'user[password]', with: ''
       fill_in 'user[password_confirmation]', with: ''
@@ -107,7 +107,7 @@ RSpec.describe 'user_registration', type: :system, js: true do
 
     scenario 'アカウント有効化メールが不正' do
       expect(ActionMailer::Base.deliveries).to be_empty
-      within('nav') { click_link 'サインアップ' }
+      click_on 'サインアップ'
       input_valid_account_info
       within('#new_user') { click_on 'サインアップ' }
 
@@ -184,7 +184,8 @@ RSpec.describe 'user_registration', type: :system, js: true do
       expect(page).to have_content 'アカウント情報を変更しました'
 
       # 新しいパスワードでログイン
-      within('nav') { click_link 'ログアウト' }
+      find('.sidenav-trigger').click
+      click_on 'ログアウト'
       expect(page).to have_content 'ログアウトしました。'
       bob.password = new_password
       login(bob)
