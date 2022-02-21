@@ -1,16 +1,15 @@
-
-<div id="media_manages_input_time_modal" class="modal">
-  <div class="modal-content">
-    <h5>
-      視聴時間入力
-    </h5>
+<div id="media_manages_input_time_modal" class="c-modal" style="display:none;">
+  <div class="c-modal--title">
+    視聴時間入力
+  </div>
+  <div class="c-modal--content">
     <%= render "input_time", {prefix: "begin", value: nil} %>
     <div>〜</div>
     <%= render "input_time", {prefix: "end", value: nil} %>
   </div>
-  <div class="modal-footer">
-    <a href="#!" class="modal-close waves-effect waves btn yellow darken-3">キャンセル</a>
-    <button type="button" id="timespan_submit_id" class="waves-effect waves-lite btn">登録</button>
+  <div>
+    <a href="#!" class="c-button modaal_inline_close">キャンセル</a>
+    <button id="timespan_submit_id" class="c-button c-button--confirm">登録</button>
 
     <%= form_with id: 'timespan_form_id', url: add_params_to_url(media_time_span_index_path, playlist_param) do |f| %>
       <input type="hidden" name="media_manage_id" value="<%= media_namage.id %>">

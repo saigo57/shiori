@@ -1,43 +1,38 @@
 <%= form_with url: media_manages_path, method: :get, local: true, id: 'search-form-id' do |f| %>
   <div class="search-bar">
-    <%= f.text_field :keywords, value: keywords_text, placeholder: '空白で区切ってAND検索', autocomplete: 'off' %>
-    <%= f.submit "検索", class: "waves-light btn" %>
+    <%= f.text_field :keywords, value: keywords_text, placeholder: '空白で区切ってAND検索', autocomplete: 'off', class: "c-input" %>
+    <%= f.submit "検索", class: "c-button search-bar__submit" %>
   </div>
   <div class="search-options">
     <div class="search-checkbox-list">
       <div class="search-checkbox">
         <label>
-          <%= f.check_box :nowatch, { checked: search_flags[:nowatch], class: "filled-in" } %>
-          <span>未視聴</span>
+          <%= f.check_box :nowatch, { checked: search_flags[:nowatch], class: "filled-in" } %>未視聴
         </label>
       </div>
       <div class="search-checkbox">
         <label>
-          <%= f.check_box :watching, { checked: search_flags[:watching], class: "filled-in" } %>
-          <span>視聴中</span>
+          <%= f.check_box :watching, { checked: search_flags[:watching], class: "filled-in" } %>視聴中
         </label>
       </div>
       <div class="search-checkbox">
         <label>
-          <%= f.check_box :watched, { checked: search_flags[:watched], class: "filled-in" } %>
-          <span>視聴済み</span>
+          <%= f.check_box :watched, { checked: search_flags[:watched], class: "filled-in" } %>視聴済み
         </label>
       </div>
       <div class="search-checkbox">
         <label>
-          <%= f.check_box :do_not_watch, { checked: search_flags[:do_not_watch], class: "filled-in" } %>
-          <span>今は見ない</span>
+          <%= f.check_box :do_not_watch, { checked: search_flags[:do_not_watch], class: "filled-in" } %>今は見ない
         </label>
       </div>
       <div class="search-checkbox">
         <label>
-          <%= f.check_box :unknown, { checked: search_flags[:unknown], class: "filled-in" } %>
-          <span>不明</span>
+          <%= f.check_box :unknown, { checked: search_flags[:unknown], class: "filled-in" } %>不明
         </label>
       </div>
     </div>
     <div class="sort-form">
-      <%= f.select :sort_target, sort_items, { selected:  sort_target }, { class: "browser-default" } %>
+      <%= f.select :sort_target, sort_items, { selected:  sort_target }, { class: "c-select" } %>
       <i class="material-icons search-sort-order search-icon-frame">
         <% if sort_order == :asc %>
           arrow_upward

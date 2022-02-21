@@ -1,0 +1,39 @@
+@use "../const";
+
+.c-button {
+  display: inline-block;
+  margin: 0;
+  padding: 1px 8px 4px;
+  height: 34px;
+  line-height: 34px;
+  font-size: 14px;
+  border: none;
+  border-radius: 2px;
+  color: const.$main-font-color;
+  background-color: const.$verylight-background-color;
+  cursor: pointer;
+  box-sizing: border-box;
+  text-transform: uppercase;
+  vertical-align: middle;
+  -webkit-tap-highlight-color: transparent;
+
+  &:hover {
+    background-color: const.$verylight-hover-background-color;
+  }
+}
+
+.c-button--warning {
+  background-color: #ee4738;
+  color: white;
+  &:hover {
+    background-color: #ee685c;
+  }
+}
+
+.c-button--confirm {
+  background-color: #00B867;
+  color: white;
+  &:hover {
+    background-color: #59c093;
+  }
+}

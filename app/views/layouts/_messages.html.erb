@@ -1,5 +1,12 @@
 <% flash.each do |message_type, message| %>
   <script>
-    M.toast({html: '<%= message %>'})
+    <% case message_type %>
+    <% when 'alert' then %>
+      toastr.error('<%= message %>')
+    <% when 'success' then %>
+      toastr.success('<%= message %>')
+    <% else %>
+      toastr.info('<%= message %>')
+    <% end %>
   </script>
 <% end %>

@@ -23,12 +23,12 @@ RSpec.describe 'media_manage_span', type: :system, js: true do
     # --A--  --B--
     scenario '2区間が重ならないとき、独立すること' do
       # 区間A
-      click_on '＋時間'
+      click_on '時間追加'
       fill_in_time('end', hour: 1)
       click_on '登録'
 
       # 区間B
-      click_on '＋時間'
+      click_on '時間追加'
       fill_in_time('begin', hour: 2)
       fill_in_time('end', hour: 3)
       click_on '登録'
@@ -45,12 +45,12 @@ RSpec.describe 'media_manage_span', type: :system, js: true do
     #    --B--
     scenario '2区間の一部が重なるとき、一つにマージされること' do
       # 区間A
-      click_on '＋時間'
+      click_on '時間追加'
       fill_in_time('end', hour: 2)
       click_on '登録'
 
       # 区間B
-      click_on '＋時間'
+      click_on '時間追加'
       fill_in_time('begin', hour: 1)
       fill_in_time('end', hour: 3)
       click_on '登録'
@@ -67,12 +67,12 @@ RSpec.describe 'media_manage_span', type: :system, js: true do
     #  --B--
     scenario '既にある区間に収まるような区間が入力された場合、一つにマージされること' do
       # 区間A
-      click_on '＋時間'
+      click_on '時間追加'
       fill_in_time('end', hour: 2)
       click_on '登録'
 
       # 区間B
-      click_on '＋時間'
+      click_on '時間追加'
       fill_in_time('begin', hour: 1)
       fill_in_time('end', hour: 1, min: 30)
       click_on '登録'
@@ -89,13 +89,13 @@ RSpec.describe 'media_manage_span', type: :system, js: true do
     # ---B---
     scenario '既にある区間を覆うような区間が入力された場合、一つにマージされること' do
       # 区間A
-      click_on '＋時間'
+      click_on '時間追加'
       fill_in_time('begin', hour: 1)
       fill_in_time('end', hour: 1, min: 30)
       click_on '登録'
 
       # 区間B
-      click_on '＋時間'
+      click_on '時間追加'
       fill_in_time('end', hour: 2)
       click_on '登録'
 
@@ -111,18 +111,18 @@ RSpec.describe 'media_manage_span', type: :system, js: true do
     #    --C--
     scenario '2区間に跨るように3つ目の区間がある時、全て一つにマージされること' do
       # 区間A
-      click_on '＋時間'
+      click_on '時間追加'
       fill_in_time('end', hour: 1)
       click_on '登録'
 
       # 区間B
-      click_on '＋時間'
+      click_on '時間追加'
       fill_in_time('begin', hour: 2)
       fill_in_time('end', hour: 3)
       click_on '登録'
 
       # 区間C
-      click_on '＋時間'
+      click_on '時間追加'
       fill_in_time('begin', min: 30)
       fill_in_time('end', hour: 2, min: 30)
       click_on '登録'
@@ -139,18 +139,18 @@ RSpec.describe 'media_manage_span', type: :system, js: true do
     #     ----C----
     scenario '既にある1区間と一部が重なり、もう一つの区間を覆うとき、全て一つにマージされること' do
       # 区間A
-      click_on '＋時間'
+      click_on '時間追加'
       fill_in_time('end', hour: 1)
       click_on '登録'
 
       # 区間B
-      click_on '＋時間'
+      click_on '時間追加'
       fill_in_time('begin', hour: 2)
       fill_in_time('end', hour: 3)
       click_on '登録'
 
       # 区間C
-      click_on '＋時間'
+      click_on '時間追加'
       fill_in_time('begin', min: 30)
       fill_in_time('end', hour: 4)
       click_on '登録'
@@ -169,19 +169,19 @@ RSpec.describe 'media_manage_span', type: :system, js: true do
     #  -------C-------
     scenario '既にある2区間をすべて覆うとき、全て一つにマージされること' do
       # 区間A
-      click_on '＋時間'
+      click_on '時間追加'
       fill_in_time('begin', hour: 1)
       fill_in_time('end', hour: 2)
       click_on '登録'
 
       # 区間B
-      click_on '＋時間'
+      click_on '時間追加'
       fill_in_time('begin', hour: 3)
       fill_in_time('end', hour: 4)
       click_on '登録'
 
       # 区間C
-      click_on '＋時間'
+      click_on '時間追加'
       fill_in_time('end', hour: 5)
       click_on '登録'
 
@@ -199,31 +199,31 @@ RSpec.describe 'media_manage_span', type: :system, js: true do
     #  --------E--------
     scenario '既にある4区間をすべて覆うとき、全て一つにマージされること' do
       # 区間A
-      click_on '＋時間'
+      click_on '時間追加'
       fill_in_time('begin', hour: 1)
       fill_in_time('end', hour: 2)
       click_on '登録'
 
       # 区間B
-      click_on '＋時間'
+      click_on '時間追加'
       fill_in_time('begin', hour: 3)
       fill_in_time('end', hour: 4)
       click_on '登録'
 
       # 区間C
-      click_on '＋時間'
+      click_on '時間追加'
       fill_in_time('begin', hour: 5)
       fill_in_time('end', hour: 6)
       click_on '登録'
 
       # 区間C
-      click_on '＋時間'
+      click_on '時間追加'
       fill_in_time('begin', hour: 7)
       fill_in_time('end', hour: 8)
       click_on '登録'
 
       # 区間E
-      click_on '＋時間'
+      click_on '時間追加'
       fill_in_time('end', hour: 9)
       click_on '登録'
 

@@ -1,37 +1,33 @@
 <div class="playlist-title active">
   <span><%= @playlist.name %></span>
-  <a class='dropdown-trigger' href='#' data-target='playlist-show-dropdown'>
-    <i class="material-icons">more_vert</i>
-  </a>
+  <div class="playlist-actions">
+    <a href="#!" class="c-button playlist-title-edit">
+      <i class="fa-solid fa-pen"></i>タイトル変更
+    </a>
+    <a href="#playlist_delete_modal" class="c-button c-button--warning modaal-modal">
+      <i class="fa-solid fa-trash-can"></i>プレイリスト削除
+    </a>
+  </div>
 </div>
 
-<ul id='playlist-show-dropdown' class='dropdown-content'>
-  <li>
-    <a href="#!" class="playlist-title-edit">
-      <i class="material-icons">create</i>タイトル変更
-    </a>
-    <a href="#!" data-target="playlist_delete_modal" class="modal-trigger">
-      <i class="material-icons">delete</i>プレイリスト削除
-    </a>
-  </li>
-</ul>
-
 <%= form_for @playlist do |f| %>
-  <%= f.text_field :name, autocomplete: 'off' %>
-  <a href="#" class="playlist-title-edit-cancel">キャンセル</a>
-  <%= f.submit "更新", class: "waves-light btn" %>
+  <%= f.text_field :name, autocomplete: 'off', class: 'c-input playlist_name' %>
+  <div class="playlist-edit-buttons">
+    <a href="#" class="c-button playlist-edit-button playlist-title-edit-cancel">キャンセル</a>
+    <%= f.submit "更新", class: "c-button c-button--confirm playlist-edit-button" %>
+  </div>
 <% end %>
 
-<div id="playlist_delete_modal" class="modal">
-  <div class="modal-content">
-    <h4>確認</h4>
-    <p><%= @playlist.name %>を削除します。</p>
+<div id="playlist_delete_modal" style="display:none;">
+  <div class="c-modal--title">確認</div>
+  <div class="c-modal--content">
+    <p>プレイリスト[<%= @playlist.name %>]を削除します。</p>
     <p>よろしいですか？</p>
     <p>※この操作は取り消せません</p>
   </div>
-  <div class="modal-footer">
-    <a href="#!" class="modal-close waves-effect waves-green btn">キャンセル</a>
-    <%= link_to '削除', playlist_path(@playlist), method: :delete, class: "waves-effect waves-red btn red" %>
+  <div>
+    <a href="#!" class="c-button modaal_inline_close">キャンセル</a>
+    <%= link_to '削除', playlist_path(@playlist), method: :delete, class: "c-button c-button--warning" %>
   </div>
 </div>
 
