@@ -151,6 +151,21 @@
     }
   }
 }
+.keyboard-input-title {
+  margin-top: 20px;
+  margin-bottom: 10px;
+  font-size: 16px;
+  user-select: none;
+  cursor: pointer;
+}
+.keyboard-input-section {
+  visibility: visible;
+  height: auto;
+  &.hide {
+    visibility: hidden;
+    height: 1px;
+  }
+}
 
 .time-input-parts {
   display: inline-block;
@@ -167,7 +182,7 @@
   height: 2em;
 }
 
-.time-input-text {
+.time-input-text, .time-input-select {
   display: inline-block;
   width: 50px;
   height: 30px;
