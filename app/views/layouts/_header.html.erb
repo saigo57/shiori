@@ -71,7 +71,6 @@
       $("#sidenav-menu").toggleClass('hide');
     });
     $("html").click(function(e) {
-      console.log($(e.target))
       if ( $(e.target).closest('#sidenav-menu').length == 0 && $(e.target).closest('.sidenav-trigger').length == 0 ) {
         $("#sidenav-menu").addClass('hide');
       }

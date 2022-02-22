@@ -18,4 +18,26 @@ $(function() {
   $('.media_manage-edit-thumbnail-field').change(function(){
     $('.edit_media_manage').submit();
   });
+
+  $('.keyboard-input-title').click(function() {
+    $('.keyboard-input-section').toggleClass('hide');
+  });
+  $('#begin-time-input-select_hour').change(function(e) {
+    $('input[name="begin-time-input-hour"]').val($(e.target).val()) 
+  });
+  $('#begin-time-input-select_min').change(function(e) {
+    $('input[name="begin-time-input-min"]').val($(e.target).val()) 
+  });
+  $('#begin-time-input-select_sec').change(function(e) {
+    $('input[name="begin-time-input-sec"]').val($(e.target).val()) 
+  });
+  $('#end-time-input-select_hour').change(function(e) {
+    $('input[name="end-time-input-hour"]').val($(e.target).val()) 
+  });
+  $('#end-time-input-select_min').change(function(e) {
+    $('input[name="end-time-input-min"]').val($(e.target).val()) 
+  });
+  $('#end-time-input-select_sec').change(function(e) {
+    $('input[name="end-time-input-sec"]').val($(e.target).val()) 
+  });
 });
