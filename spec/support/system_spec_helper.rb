@@ -19,8 +19,8 @@ module SystemSpecHelper
   end
 
   def fill_in_time(which, hour: nil, min: nil, sec: nil)
-    fill_in "#{which}-time-input-hour", with: hour unless hour.nil?
-    fill_in "#{which}-time-input-min",  with: min  unless min.nil?
-    fill_in "#{which}-time-input-sec",  with: sec  unless sec.nil?
+    find("##{which}-time-input-select_hour").find("option[value=\"#{hour}\"]").select_option unless hour.nil?
+    find("##{which}-time-input-select_min").find("option[value=\"#{min}\"]").select_option unless min.nil?
+    find("##{which}-time-input-select_sec").find("option[value=\"#{sec}\"]").select_option unless sec.nil?
   end
 end

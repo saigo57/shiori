@@ -3,9 +3,25 @@
     視聴時間入力
   </div>
   <div class="c-modal--content">
-    <%= render "input_time", {prefix: "begin", value: nil} %>
+
+    <%= select 'begin-time-input-select', :hour, 0..100, { prompt: '時' }, { class: "c-select time-input-select" } %>
+    <div class="input-separate">：</div>
+    <%= select 'begin-time-input-select', :min, 0..59, { prompt: '分' }, { class: "c-select time-input-select" } %>
+    <div class="input-separate">：</div>
+    <%= select 'begin-time-input-select', :sec, 0..59, { prompt: '秒' }, { class: "c-select time-input-select" } %>
     <div>〜</div>
-    <%= render "input_time", {prefix: "end", value: nil} %>
+    <%= select 'end-time-input-select', :hour, 0..100, { prompt: '時' }, { class: "c-select time-input-select" } %>
+    <div class="input-separate">：</div>
+    <%= select 'end-time-input-select', :min, 0..59, { prompt: '分' }, { class: "c-select time-input-select" } %>
+    <div class="input-separate">：</div>
+    <%= select 'end-time-input-select', :sec, 0..59, { prompt: '秒' }, { class: "c-select time-input-select" } %>
+
+    <div class="keyboard-input-title">キーボード入力</div>
+    <div class="keyboard-input-section hide">
+      <%= render "input_time", {prefix: "begin", value: nil} %>
+      <div>〜</div>
+      <%= render "input_time", {prefix: "end", value: nil} %>
+    </div>
   </div>
   <div>
     <a href="#!" class="c-button modaal_inline_close">キャンセル</a>
