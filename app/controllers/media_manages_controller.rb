@@ -96,6 +96,10 @@ class MediaManagesController < ApplicationController
     redirect_to_media_manage(@media_manage)
   end
 
+  def check_csrf
+    render json: { status: 'ok' }
+  end
+
   private
 
   def load_playlist

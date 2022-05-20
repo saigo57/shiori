@@ -15,6 +15,7 @@ Rails.application.routes.draw do
     patch 'fetch', on: :member
     patch 'do_not_watch', on: :member
     patch 'cancel_do_not_watch', on: :member
+    patch 'check_csrf', on: :member
   end
   resources :playlists
   resource :playlist_orders, only: :update
