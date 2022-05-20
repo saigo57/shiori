@@ -86,6 +86,25 @@
 <% end %>
 
 <script type="text/javascript">
+  function reload_if_invalid_csrf_token() {
+    $.ajax('<%= check_csrf_media_manage_path %>',
+      {
+        type: 'patch',
+        data: {},
+        dataType: 'json',
+      }
+    ).done(function(data) {
+      // csrfトークンは正常
+    }).fail(function() {
+      window.location.reload();
+    })
+  }
+
+  window.onpageshow = function(event) {
+    // ページを読み込んだときにcsrfが有効かを確認して、無効だったらリロード
+    reload_if_invalid_csrf_token();
+  };
+
   $(function(){
     $('#media_time_image_btn_id').click(function(){
       $('#media_time_image_form_id').children('input').click();
