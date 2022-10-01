@@ -2,16 +2,15 @@ version: '3'
 services:
   db:
     container_name: shiori-db
-    image: postgres:13.5
+    image: mysql:8.0.20
+    command: "--default-authentication-plugin=mysql_native_password"
     environment:
-      POSTGRES_USER: root
-      POSTGRES_PASSWORD: password
-      POSTGRES_INITDB_ARGS: "--encoding=UTF-8"
+      - MYSQL_ROOT_PASSWORD=password
     ports:
-      - '5432:5432'
+      - '3316:3306'
     volumes:
-      - ./db/postgres/data:/var/lib/postgresql/data:delegated
-    user: root
+      - ./db/mysql/volumes:/var/lib/mysql:delegated
+      - ./db/mysql/mysql-conf.d:/etc/mysql/my.cnf
 
   app:
     container_name: shiori-app

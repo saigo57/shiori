@@ -34,13 +34,14 @@ jobs:
           DATABASE_HOST: 127.0.0.1
           DATABASE_USER: 'root'
           DATABASE_PASSWORD: ''
-          DATABASE_PORT: 5432
-      - image: circleci/postgres:13.5
+          DATABASE_PORT: 3306
+      - image: circleci/mysql:8.0.18-ram
+        command: |
+          mysqld --default-authentication-plugin=mysql_native_password
         environment:
-          POSTGRES_DB: shiori_test
-          POSTGRES_USER: root
-          POSTGRES_PASSWORD: password
-          POSTGRES_INITDB_ARGS: "--encoding=UTF-8"
+          MYSQL_DATABASE: shiori_test
+          MYSQL_ALLOW_EMPTY_PASSWORD: true
+          MYSQL_ROOT_HOST: '%'
     working_directory: ~/shiori
     steps:
       - checkout
