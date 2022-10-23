@@ -49,8 +49,7 @@ test:
 #
 production:
   <<: *default
-  adapter: postgresql
-  encoding: unicode
+  encoding: utf8mb4
   database: <%= ENV['DATABASE_NAME'] %>
   username: <%= ENV['DATABASE_USER'] %>
   host: <%= ENV['DATABASE_HOST'] %>
