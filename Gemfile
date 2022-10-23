@@ -8,7 +8,8 @@ ruby '2.7.5'
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '~> 7.0.1'
 # Use mysql as the database for Active Record
-gem 'pg', require: false
+gem 'mysql2', '>= 0.4.4', groups: %w[test development], require: false
+gem 'pg', groups: :production, require: false
 # Use Puma as the app server
 gem 'cssbundling-rails'
 gem 'jbuilder', '~> 2.7'

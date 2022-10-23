@@ -42,7 +42,7 @@ yarn-debug.log*
 
 .DS_Store
 .env
-/db/postgres/*
+/db/mysql/volumes/*
 /coverage
 public/uploads
 

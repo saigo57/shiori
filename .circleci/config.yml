@@ -1,29 +1,7 @@
 version: 2.1
 orbs:
-  heroku: circleci/heroku@1.0.1
-commands:
-  login:
-    steps:
-    - run: heroku container:login
-  push:
-    parameters:
-      app-name:
-        type: string
-      process-types:
-        default: web
-        type: string
-    steps:
-    - run: heroku container:push <<parameters.process-types>> --app <<parameters.app-name>> --arg ARG_RAILS_MASTER_KEY=${ARG_RAILS_MASTER_KEY},ARG_DATABASE_PASSWORD=${ARG_DATABASE_PASSWORD}
-
-  release:
-    parameters:
-      app-name:
-        type: string
-      process-types:
-        default: web
-        type: string
-    steps:
-    - run: heroku container:release <<parameters.process-types>> --app <<parameters.app-name>>
+  aws-ecr: circleci/aws-ecr@8.1.2
+  aws-ecs: circleci/aws-ecs@3.2.0
 
 jobs:
   test:
@@ -34,13 +12,14 @@ jobs:
           DATABASE_HOST: 127.0.0.1
           DATABASE_USER: 'root'
           DATABASE_PASSWORD: ''
-          DATABASE_PORT: 5432
-      - image: circleci/postgres:13.5
+          DATABASE_PORT: 3306
+      - image: circleci/mysql:8.0.18-ram
+        command: |
+          mysqld --default-authentication-plugin=mysql_native_password
         environment:
-          POSTGRES_DB: shiori_test
-          POSTGRES_USER: root
-          POSTGRES_PASSWORD: password
-          POSTGRES_INITDB_ARGS: "--encoding=UTF-8"
+          MYSQL_DATABASE: shiori_test
+          MYSQL_ALLOW_EMPTY_PASSWORD: true
+          MYSQL_ROOT_HOST: '%'
     working_directory: ~/shiori
     steps:
       - checkout
@@ -96,52 +75,50 @@ jobs:
       - store_artifacts:
           path: /tmp/test-results
           destination: test-results
-  push-and-release:
-    executor: heroku/default
-    parameters:
-      app-name:
-        type: string
-    steps:
-    - checkout
-    - heroku/install
-    - setup_remote_docker:
-        version: 18.09.3
-    - login
-    - push:
-        app-name: <<parameters.app-name>>
-        process-types: web
-    - release:
-        app-name: <<parameters.app-name>>
-        process-types: web
 
 workflows:
-  production_release:
-    jobs:
-      - test:
-          filters:
-            branches:
-              only:
-                - main
-      - push-and-release:
-          requires:
-            - test
-          app-name: ${HEROKU_APP_NAME}
-  staging_release:
-    jobs:
-      - test:
-          filters:
-            branches:
-              only:
-                - develop
-      - push-and-release:
-          requires:
-            - test
-          app-name: ${HEROKU_APP_NAME_STAGING}
   test:
     jobs:
       - test:
           filters:
             branches:
-              ignore:
-                - main
-                - develop
+              ignore: main
+
+  build_and_push_image:
+    jobs:
+      - test:
+          filters:
+            branches:
+              only: main
+
+      - aws-ecr/build-and-push-image:
+          name: aws-ecr-build-and-push-image-app
+          requires:
+            - test
+          repo: "${AWS_RESOURCE_NAME_PREFIX}-prod/app"
+          dockerfile: 'Dockerfile'
+          extra-build-args: >-
+            --build-arg ARG_RAILS_MASTER_KEY=${RAILS_MASTER_KEY}
+            --build-arg ARG_MYSQL_PASSWORD=${MY_MYSQL_PASSWORD}
+          path: '.'
+          tag: 'latest,${CIRCLE_SHA1}'
+
+      - aws-ecr/build-and-push-image:
+          name: aws-ecr-build-and-push-image-web
+          requires:
+            - test
+          repo: "${AWS_RESOURCE_NAME_PREFIX}-prod/web"
+          dockerfile: 'Dockerfile'
+          path: './containers/nginx'
+          tag: 'latest,${CIRCLE_SHA1}'
+
+      - aws-ecs/deploy-service-update:
+          requires:
+            - aws-ecr-build-and-push-image-app
+            - aws-ecr-build-and-push-image-web
+          cluster: 'shiori-prod-cluster'
+          service-name: 'shiori-prod-service'
+          family: 'shiori-prod-task'
+          container-image-name-updates: >
+            container=shiori-app,image-and-tag=${AWS_ECR_ACCOUNT_URL}/shiori-prod/app:${CIRCLE_SHA1},
+            container=shiori-web,image-and-tag=${AWS_ECR_ACCOUNT_URL}/shiori-prod/web:${CIRCLE_SHA1}

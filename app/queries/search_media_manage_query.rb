@@ -10,8 +10,8 @@ class SearchMediaManageQuery < Query
     pattern += '.*'
 
     base_list = MediaManage.list
-    base_list.where('media_manages.title ~ ?', pattern)
-             .or(base_list.where('media_manages.media_url ~ ?', pattern))
+    base_list.where('media_manages.title REGEXP ?', pattern)
+             .or(base_list.where('media_manages.media_url REGEXP ?', pattern))
   end
 
   # チェックボックスでフィルタリングする
